@@ -21,7 +21,7 @@
   --divider: color-mix(in srgb, var(--text-2) 30%, transparent); /* dividers inside assistant bubbles (intro + project list) */
   --wide-bubble: 600px; /* intro bubble + project list */
   --cat: #c4b5fd; /* lavender: assistant dot, visitor bubbles, send button */
-  --outline: #8b6fe8;    /* hover/focus outlines: deeper lavender for 3:1 contrast on light backgrounds */
+  --outline: #8a8a92;    /* hover/focus outlines: lightest gray that keeps 3:1 contrast on the light page */
   --spoken: #7c5cdb;     /* word being read aloud (deeper lavender to stay readable on light bubbles) */
 }
 
@@ -36,7 +36,7 @@
   --tag-bg: #33333b;       /* tags: clearly lighter than the dark bubbles */
   --tag-bg-page: var(--tag-bg);
   --tag-ink: #d6d6dc;
-  --outline: var(--cat);
+  --outline: var(--text-2);
   --spoken: var(--cat);
   --text: #f2f2f0;
   --text-2: #a0a0a8;
@@ -101,7 +101,7 @@ button { font: inherit; color: inherit; cursor: pointer; }
   border: 1px solid var(--border); background: var(--surface); color: var(--text-2);
   transition: color .15s, border-color .15s;
 }
-.theme-toggle:hover { color: var(--text); border-color: var(--text); } /* black outline (off-white in dark mode) */
+.theme-toggle:hover { color: var(--text); border-color: var(--outline); } /* gray outline (3:1+ contrast in both modes) */
 .theme-toggle .icon-moon { display: none; }
 :root[data-theme="light"] .theme-toggle .icon-sun { display: none; }
 :root[data-theme="light"] .theme-toggle .icon-moon { display: block; }
@@ -133,7 +133,7 @@ button { font: inherit; color: inherit; cursor: pointer; }
 .topbar__links .btn--ghost { color: var(--text); }
 .btn--sm { padding: 6px 12px; font-size: 13px; color: var(--text); }
 .btn:hover { border-color: var(--text-2); }
-.topbar__links .btn:hover { border-color: var(--text); } /* black outline on Contact (off-white in dark mode) */
+.topbar__links .btn:hover { border-color: var(--outline); } /* gray outline on Contact (3:1+ contrast) */
 .btn--accent { background: var(--cat); color: #2E2266; border-color: transparent; } /* lavender with dark-purple text, like the send button */
 .btn--accent:hover { border-color: transparent; filter: brightness(1.08); }
 
@@ -310,7 +310,7 @@ button { font: inherit; color: inherit; cursor: pointer; }
   animation: rise .3s ease both;
   transition: border-color .15s, background .15s;
 }
-.chip:hover { border-color: var(--text); } /* black outline (off-white in dark mode) */
+.chip:hover { border-color: var(--outline); } /* gray outline (3:1+ contrast in both modes) */
 .chip--empty { color: var(--text-2); cursor: default; border-style: dashed; }
 .chip--empty:hover { border-color: var(--border); }
 
@@ -321,7 +321,7 @@ button { font: inherit; color: inherit; cursor: pointer; }
   border-radius: 999px; box-shadow: var(--shadow);
   transition: border-color .15s;
 }
-.inputbar:hover, .inputbar:focus-within { border-color: var(--text); } /* black outline (off-white in dark mode) */
+.inputbar:hover, .inputbar:focus-within { border-color: var(--outline); } /* gray outline (3:1+ contrast in both modes) */
 .inputbar input {
   flex: 1; min-width: 0; border: 0; outline: 0; background: transparent;
   font: inherit; font-size: 15px; color: var(--text); padding: 8px 0;
@@ -329,7 +329,7 @@ button { font: inherit; color: inherit; cursor: pointer; }
 .inputbar input::placeholder { color: var(--text-2); }
 .send {
   width: 32px; height: 32px; border-radius: 50%; border: 0;
-  background: none; color: var(--text); /* no fill: just the arrow */
+  background: none; color: var(--text-2); /* no fill: just a dark gray arrow */
   display: grid; place-items: center;
 }
 .send:hover { filter: brightness(1.08); }
