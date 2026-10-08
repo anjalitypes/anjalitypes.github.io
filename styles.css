@@ -5,6 +5,8 @@
   --surface-2: #f2f2ee;
   --bubble: #efeee9;       /* assistant bubbles (no outline, so a tinted fill in light mode) */
   --bubble-hover: #e5e4de;
+  --tag-bg: #dcdad3;       /* tags: clearly darker than the light bubbles */
+  --tag-ink: #3d3d45;
   --text: #17171a;
   --text-2: #5d5d66;
   --border: #e6e6e1;
@@ -28,6 +30,8 @@
   --surface-2: #232327;
   --bubble: #1c1c20;
   --bubble-hover: #26262b;
+  --tag-bg: #33333b;       /* tags: clearly lighter than the dark bubbles */
+  --tag-ink: #d6d6dc;
   --spoken: var(--cat);
   --text: #f2f2f0;
   --text-2: #a0a0a8;
@@ -265,7 +269,7 @@ button { font: inherit; color: inherit; cursor: pointer; }
 .tags--lg { margin-top: 2px; }
 .tag {
   font-size: 11.5px; padding: 3px 8px; border-radius: 999px;
-  background: var(--surface-2); color: var(--text-2);
+  background: var(--tag-bg); color: var(--tag-ink); /* stands out from the bubble behind it */
   border: 1px solid transparent;
 }
 .tag--btn { font-size: 13px; padding: 6px 12px; }
