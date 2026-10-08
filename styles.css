@@ -80,6 +80,8 @@ button { font: inherit; color: inherit; cursor: pointer; }
 .topbar__links { display: flex; align-items: center; gap: 20px; font-size: 14px; }
 .topbar__links a { color: var(--text-2); text-decoration: none; }
 .topbar__links a:hover { color: var(--text); }
+.topbar__links { gap: 10px; }
+.topbar__links .topbar__contact { color: var(--text); height: 36px; padding: 0 14px; }
 .theme-toggle {
   width: 36px; height: 36px; border-radius: 50%;
   display: grid; place-items: center;
