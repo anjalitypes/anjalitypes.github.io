@@ -316,14 +316,29 @@
     // Only move when the voice reaches a new line — tiny per-word differences
     // would keep restarting the glide (very noticeable on phones' short lines)
     if (Math.abs(y - (dot._y ?? 0)) < 8) return;
+    glideDot(dot, y);
+  }
+
+  // Animate the dot from wherever it is right now to `y`. Uses the Web
+  // Animations API rather than a CSS transition, which iPhones skip when
+  // Reduce Motion is on — so the glide looks the same on phones as on desktop.
+  function glideDot(dot, y) {
+    const m = getComputedStyle(dot).transform.match(/matrix(?:3d)?\(([^)]+)\)/);
+    const vals = m ? m[1].split(",").map(Number) : [];
+    const from = vals.length === 16 ? vals[13] : vals.length === 6 ? vals[5] : 0;
+    dot._anim?.cancel();
     dot._y = y;
     dot.style.transform = `translate3d(0, ${y}px, 0)`;
+    dot._anim = dot.animate(
+      [{ transform: `translate3d(0, ${from}px, 0)` }, { transform: `translate3d(0, ${y}px, 0)` }],
+      { duration: 700, easing: "cubic-bezier(.45,0,.25,1)" }
+    );
   }
 
   function setTalkingBot(item) {
     talkingBot?.classList.remove("is-talking");
     const dot = talkingBot?.querySelector(".bot-dot");
-    if (dot) { dot.style.transform = ""; dot._y = 0; }
+    if (dot) glideDot(dot, 0); // slide back to the top when playback ends
     talkingBot = item ? item.closest(".msg")?.querySelector(".avatar--bot") || null : null;
     talkingBot?.classList.add("is-talking");
   }
