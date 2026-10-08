@@ -958,7 +958,7 @@
 
   document.addEventListener("keydown", (e) => {
     if (e.key === "Escape") viewer.classList.contains("is-open") ? closeViewer() : closeProject();
-    if (e.key === "/" && document.activeElement !== input) {
+    if (e.key === "/" && !document.activeElement.matches("input, textarea")) {
       e.preventDefault();
       input.focus();
     }
