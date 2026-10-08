@@ -295,6 +295,7 @@ const PRONUNCIATIONS = {
   Patel: "Puh-tell",
   edtech: "ed-tech",
   lead: "leed",
+  converts: "cun-verts",
   SaaS: "sass",
 };
 
