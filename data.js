@@ -9,7 +9,7 @@ const PROFILE = {
   name: "Anjali Patel",
   initials: "AP",
   photo: "images/avatar.jpg", // set to "" to show initials instead
-  role: "Product Design Leader",
+  role: "Product Designer",
   tagline: "Design that ships, converts, and scales",
   taglineSub: "Over 8 years, Anjali has driven $20M+ in revenue as a lead product designer across climate tech, e-commerce, edtech, and healthcare in B2B, B2C, and DTC markets.",
   intro:
