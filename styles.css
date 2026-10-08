@@ -6,6 +6,7 @@
   --bubble: #efeee9;       /* assistant bubbles (no outline, so a tinted fill in light mode) */
   --bubble-hover: #e5e4de;
   --tag-bg: #dcdad3;       /* tags: clearly darker than the light bubbles */
+  --tag-bg-page: #efeee9;  /* tags on the white case-study page: lighter */
   --tag-ink: #3d3d45;
   --text: #17171a;
   --text-2: #5d5d66;
@@ -33,6 +34,7 @@
   --bubble: #1c1c20;
   --bubble-hover: #26262b;
   --tag-bg: #33333b;       /* tags: clearly lighter than the dark bubbles */
+  --tag-bg-page: var(--tag-bg);
   --tag-ink: #d6d6dc;
   --outline: var(--cat);
   --spoken: var(--cat);
@@ -68,10 +70,14 @@ button { font: inherit; color: inherit; cursor: pointer; }
 .topbar {
   display: flex; align-items: center; justify-content: space-between;
   padding: 14px 24px;
-  border-bottom: 1px solid var(--border);
-  background: color-mix(in srgb, var(--bg) 85%, transparent);
-  backdrop-filter: blur(10px);
+  background: var(--bg); /* no bottom line — a fade below it instead, like the input area */
   position: sticky; top: 0; z-index: 5;
+}
+/* Soft fade where the chat scrolls up under the header (mirrors .composer::before) */
+.topbar::after {
+  content: ""; position: absolute; left: 0; right: 0; top: 100%; height: 24px;
+  background: linear-gradient(to bottom, var(--bg), transparent);
+  pointer-events: none;
 }
 .brand { display: flex; align-items: center; gap: 10px; text-decoration: none; color: inherit; }
 .brand__text { display: flex; flex-direction: column; gap: 2px; line-height: 1.25; }
@@ -157,9 +163,9 @@ button { font: inherit; color: inherit; cursor: pointer; }
 .bubble--follow { color: var(--text-2); }
 .bubble--about p + p { margin-top: 10px; }
 .bubble--intro { padding: 18px 20px; width: 100%; max-width: var(--wide-bubble); }
-.intro__title { margin: 0 0 6px; font-size: 20px; line-height: 1.2; letter-spacing: -.02em; font-weight: 700; }
-.intro__sub { margin: 0 0 14px !important; font-size: 16px; line-height: 1.5; color: var(--text); }
-.intro__text { padding-top: 12px; border-top: 1px solid var(--divider); color: var(--text-2); font-size: 14.5px; }
+.intro__title { margin: 0 0 6px; font-size: 18px; line-height: 1.2; letter-spacing: -.02em; font-weight: 700; }
+.intro__sub { margin: 0 0 12px !important; font-size: 15px; line-height: 1.55; color: var(--text); }
+.intro__text { color: var(--text); font-size: 15px; } /* reads like a regular reply: no divider, default color */
 .msg--user .bubble {
   background: var(--user-bubble); color: var(--user-ink); border-color: transparent;
   border-top-left-radius: var(--radius); border-top-right-radius: 6px;
@@ -246,7 +252,7 @@ button { font: inherit; color: inherit; cursor: pointer; }
   display: flex; flex-direction: column;
   width: 100%; max-width: var(--wide-bubble); padding: 6px; /* same width as the intro bubble */
   background: var(--bubble);
-  border-radius: var(--radius); border-top-left-radius: 6px;
+  border-radius: var(--radius); /* all four corners match */
 }
 .card {
   position: relative;
@@ -266,7 +272,7 @@ button { font: inherit; color: inherit; cursor: pointer; }
 .cs__hero img { width: 100%; height: auto; display: block; } /* full image, natural proportions, no cropping */
 .card__body { flex: 1; min-width: 0; }
 .card__meta { font-size: 12px; color: var(--text-2); }
-.card__title { font-weight: 600; font-size: 16px; margin: 2px 0 10px; }
+.card__title { font-weight: 600; font-size: 16px; margin: 4px 0 8px; }
 
 
 .tags { display: flex; flex-wrap: wrap; gap: 6px; }
@@ -426,6 +432,7 @@ button { font: inherit; color: inherit; cursor: pointer; }
 .drawer.is-open { pointer-events: auto; visibility: visible; transition-delay: 0s; }
 .drawer.is-open .drawer__scrim { opacity: 1; }
 .drawer.is-open .drawer__panel { transform: none; }
+.drawer__panel .tag { background: var(--tag-bg-page); }
 /* Sticky header with a line under it: title (fades in once the big title
    scrolls away), "Listen to case study", expand, close */
 .drawer__bar {

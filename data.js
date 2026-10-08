@@ -350,6 +350,15 @@ const SPECIAL_TOPICS = [
     related: "ai",
   },
   {
+    id: "prototyping",
+    // After "ai workflow" so "AI prototyping" still gets the AI workflow reply
+    match: /\b(prototyp(e|es|ed|ing)|animat(e|es|ed|ing|ions?)|(micro[- ]?)?interactions?)\b/i,
+    chip: "Prototyping",
+    body: "Anjali loves prototyping! In the past, she would develop complex prototypes from animations to flows in Figma, but now she uses AI to make prototyping faster giving her time back to raise the craft bar. Below is a prototype she created for CliffsNotes with Figma Make.",
+    image: { src: "images/cliffsnotes-data-viz.webp", alt: "CliffsNotes character page with a chart showing how often Junior appears in each chapter, with a slider to explore prevalence by chapter" },
+    related: "data viz",
+  },
+  {
     id: "dashboard",
     match: /\b(dashboards?|admin( tools?| panels?)?|internal tools?|analytics|cst)\b/i,
     chip: "Dashboard work",
@@ -383,7 +392,6 @@ const STARTER_SUGGESTIONS = [
   { label: "Mobile", ask: "mobile" },
   { label: "Web", ask: "web" },
   { label: "Systems", ask: "systems" },
-  { label: "Research", ask: "research" },
   { label: "About", ask: "Tell me about Anjali Patel" },
   { label: "Testimonials", ask: "What do people say about working with Anjali?" },
   { label: "Contact", ask: "How can I contact Anjali?" },
