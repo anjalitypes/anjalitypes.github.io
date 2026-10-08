@@ -63,8 +63,7 @@ const PROJECTS = [
           heading: "Results",
           body: [
             "The responsive design drew on established AI patterns to feel immediately intuitive, while brand-specific elements made it unmistakably LitCharts.",
-            "It became the top-converting feature in company history, 75% higher than the previous best.",
-            "The component system scaled seamlessly to three teacher AI tools that followed, all shipping on time.",
+            "It became the top-converting feature in company history, 75% higher than the previous best. The component system scaled seamlessly to three teacher AI tools that followed, all shipping on time.",
             "Together they anchored a new Teacher Tier that contributed to 40% YOY revenue growth, with zero change in retention despite price increases.",
           ],
           stats: [
@@ -157,7 +156,7 @@ const PROJECTS = [
         },
         {
           images: [
-            { src: "https://framerusercontent.com/images/FCRSIfAGKhZRDs6nFT91lfErpBc.png?scale-down-to=2048", alt: "Design system components" },
+            { src: "https://framerusercontent.com/images/FCRSIfAGKhZRDs6nFT91lfErpBc.png?scale-down-to=2048", alt: "Design system components", mobile: false },
             { src: "https://framerusercontent.com/images/5crHjirYbcmo0UH50jMrpYtT7Q.gif", alt: "Design system in use, animated" },
           ],
         },
@@ -309,6 +308,10 @@ const VOICE = {
     "Microsoft Guy Online (Natural)", // Edge
     "Microsoft Andrew Online (Natural)", // Edge
     "Google US English", // Chrome
+    // Fallbacks for iPhones without Aaron (a download on iOS) — male voices
+    // that ship preinstalled, so iOS doesn't default to Samantha
+    "Daniel", // iOS / macOS, British
+    "Rishi", // iOS / macOS, Indian English
   ],
 };
 

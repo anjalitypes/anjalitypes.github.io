@@ -12,7 +12,7 @@
   --border: #e6e6e1;
   --accent: #4f46e5;
   --accent-ink: #ffffff;
-  --user-bubble: var(--cat); /* light mode: lavender visitor bubbles with black text */
+  --user-bubble: #b8e5b8; /* light mode: soft green visitor bubbles with black text */
   --user-ink: #111113;
   --shadow: 0 1px 2px rgba(0,0,0,.04), 0 8px 24px rgba(0,0,0,.06);
   --radius: 18px;
@@ -20,6 +20,7 @@
   --divider: color-mix(in srgb, var(--text-2) 30%, transparent); /* dividers inside assistant bubbles (intro + project list) */
   --wide-bubble: 600px; /* intro bubble + project list */
   --cat: #c4b5fd; /* lavender: assistant dot, visitor bubbles, send button */
+  --outline: #8b6fe8;    /* hover/focus outlines: deeper lavender for 3:1 contrast on light backgrounds */
   --spoken: #7c5cdb;     /* word being read aloud (deeper lavender to stay readable on light bubbles) */
 }
 
@@ -33,14 +34,15 @@
   --bubble-hover: #26262b;
   --tag-bg: #33333b;       /* tags: clearly lighter than the dark bubbles */
   --tag-ink: #d6d6dc;
+  --outline: var(--cat);
   --spoken: var(--cat);
   --text: #f2f2f0;
   --text-2: #a0a0a8;
   --border: #2c2c31;
   --accent: #8b85ff;
   --accent-ink: #111113;
-  --user-bubble: #3b2f80;
-  --user-ink: #f3efff;
+  --user-bubble: #2f5a34; /* dark mode: deep green, same hue as the light-mode #b8e5b8 */
+  --user-ink: #e8f6e8;
   --shadow: 0 1px 2px rgba(0,0,0,.3), 0 8px 24px rgba(0,0,0,.35);
 }
 
@@ -93,7 +95,7 @@ button { font: inherit; color: inherit; cursor: pointer; }
   border: 1px solid var(--border); background: var(--surface); color: var(--text-2);
   transition: color .15s, border-color .15s;
 }
-.theme-toggle:hover { color: var(--text); border-color: var(--text-2); }
+.theme-toggle:hover { color: var(--text); border-color: var(--outline); } /* lavender outline */
 .theme-toggle .icon-moon { display: none; }
 :root[data-theme="light"] .theme-toggle .icon-sun { display: none; }
 :root[data-theme="light"] .theme-toggle .icon-moon { display: block; }
@@ -125,6 +127,7 @@ button { font: inherit; color: inherit; cursor: pointer; }
 .topbar__links .btn--ghost { color: var(--text); }
 .btn--sm { padding: 6px 12px; font-size: 13px; color: var(--text); }
 .btn:hover { border-color: var(--text-2); }
+.topbar__links .btn:hover { border-color: var(--outline); } /* lavender outline on Contact */
 .btn--accent { background: var(--cat); color: #2E2266; border-color: transparent; } /* lavender with dark-purple text, like the send button */
 .btn--accent:hover { border-color: transparent; filter: brightness(1.08); }
 
@@ -161,7 +164,7 @@ button { font: inherit; color: inherit; cursor: pointer; }
   background: var(--user-bubble); color: var(--user-ink); border-color: transparent;
   border-top-left-radius: var(--radius); border-top-right-radius: 6px;
 }
-.linkrow { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 12px; }
+.linkrow { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 8px; }
 
 @keyframes rise { from { opacity: 0; transform: translateY(6px); } }
 
@@ -279,7 +282,7 @@ button { font: inherit; color: inherit; cursor: pointer; }
 /* ── Composer ──────────────────────────── */
 .composer {
   position: relative; z-index: 1; /* no background or top line — sits on the page */
-  padding: 12px 16px calc(12px + env(safe-area-inset-bottom));
+  padding: 12px 16px calc(20px + env(safe-area-inset-bottom));
 }
 /* Soft fade where the chat scrolls behind the input area, instead of a hard edge */
 .composer::before {
@@ -301,7 +304,7 @@ button { font: inherit; color: inherit; cursor: pointer; }
   animation: rise .3s ease both;
   transition: border-color .15s, background .15s;
 }
-.chip:hover { border-color: var(--accent); }
+.chip:hover { border-color: var(--outline); } /* lavender outline */
 .chip--empty { color: var(--text-2); cursor: default; border-style: dashed; }
 .chip--empty:hover { border-color: var(--border); }
 
@@ -312,7 +315,7 @@ button { font: inherit; color: inherit; cursor: pointer; }
   border-radius: 999px; box-shadow: var(--shadow);
   transition: border-color .15s;
 }
-.inputbar:focus-within { border-color: var(--accent); }
+.inputbar:hover, .inputbar:focus-within { border-color: var(--outline); } /* lavender outline */
 .inputbar input {
   flex: 1; min-width: 0; border: 0; outline: 0; background: transparent;
   font: inherit; font-size: 15px; color: var(--text); padding: 8px 0;
@@ -320,12 +323,10 @@ button { font: inherit; color: inherit; cursor: pointer; }
 .inputbar input::placeholder { color: var(--text-2); }
 .send {
   width: 32px; height: 32px; border-radius: 50%; border: 0;
-  background: var(--cat); color: #2E2266; /* lavender, dark-purple arrow */
+  background: none; color: var(--text); /* no fill: just the arrow */
   display: grid; place-items: center;
 }
 .send:hover { filter: brightness(1.08); }
-.composer__hint:empty { display: none; } /* only shows while typing (live match count) */
-.composer__hint { margin: 0; text-align: center; font-size: 12px; color: var(--text-2); }
 
 /* Image shown inside a reply (e.g. healthcare work) — same width as the wide bubbles */
 .reply-img { margin: 0; width: 100%; max-width: var(--wide-bubble); }
@@ -341,7 +342,7 @@ button { font: inherit; color: inherit; cursor: pointer; }
   display: flex; flex-direction: column; gap: 12px;
   background: var(--bubble); border-radius: 16px; /* same fill as assistant bubbles */
 }
-.quote__mark { color: var(--cat); font: 700 48px/0.6 Georgia, "Times New Roman", serif; height: 22px; margin-top: 8px; }
+.quote__mark { color: var(--spoken); /* deeper lavender in light mode for contrast */ font: 700 48px/0.6 Georgia, "Times New Roman", serif; height: 22px; margin-top: 8px; }
 .quote blockquote { margin: 0; font-size: 15px; line-height: 1.55; flex: 1; }
 .quote figcaption { display: flex; align-items: center; gap: 10px; margin-top: 4px; }
 .quote figcaption img { width: 38px; height: 38px; border-radius: 50%; object-fit: cover; flex: none; }
@@ -530,7 +531,6 @@ button { font: inherit; color: inherit; cursor: pointer; }
   .card { gap: 12px; padding: 12px; }
   .cs__facts { grid-template-columns: 1fr 1fr; }
   .cs__stats { grid-template-columns: 1fr; }
-  .composer__hint { display: none; }
 }
 
 @media (prefers-reduced-motion: reduce) {

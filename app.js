@@ -402,7 +402,7 @@
     const u = new SpeechSynthesisUtterance(text);
     const voice = pickVoice();
     if (voice) u.voice = voice;
-    u.lang = VOICE.lang;
+    u.lang = voice ? voice.lang : VOICE.lang; // iOS Safari drops the voice if lang differs
     u.rate = VOICE.rate;
     u.pitch = VOICE.pitch;
     u.onstart = startWordTimer;
@@ -436,7 +436,7 @@
       const u = new SpeechSynthesisUtterance(text);
       const voice = pickVoice();
       if (voice) u.voice = voice;
-      u.lang = VOICE.lang;
+      u.lang = voice ? voice.lang : VOICE.lang;
       u.rate = VOICE.rate;
       u.pitch = VOICE.pitch;
       u.onstart = startWordTimer;
@@ -743,9 +743,6 @@
 
   // Live filter: as the visitor types, the latest project grid dims cards
   // that don't match, and the chips become matching tags (with counts).
-  const hint = document.querySelector(".composer__hint");
-  const defaultHint = hint.textContent;
-
   function dimCards(q) {
     const grid = [...thread.querySelectorAll(".cards")].at(-1);
     if (!grid) return null;
@@ -762,7 +759,6 @@
 
   function clearFilter() {
     dimCards("");
-    hint.textContent = defaultHint;
   }
 
   input.addEventListener("input", () => {
@@ -771,10 +767,7 @@
       clearFilter();
       return renderChips(currentSuggestions);
     }
-    const res = dimCards(q);
-    hint.textContent = res
-      ? `${res.shown} of ${res.total} projects match “${input.value.trim()}” — press enter to filter`
-      : `Press enter to search “${input.value.trim()}”`;
+    dimCards(q);
 
     const words = queryWords(q);
     const last = words.at(-1) || q;
