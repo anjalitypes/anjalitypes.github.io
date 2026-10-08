@@ -329,6 +329,14 @@ const SPECIAL_TOPICS = [
     image: { src: "images/litcharts-group-landing.webp", alt: "LitCharts group subscription landing page: pricing for student and teacher seats, testimonials, a request-a-quote form, and FAQs" },
     related: "b2b",
   },
+  {
+    id: "data viz",
+    match: /\b(data ?vi[sz]|dataviz|data visuali[sz]ations?|visuali[sz]ations?|charts?|graphs?|diagrams?|infographics?)\b/i,
+    chip: "Data viz work",
+    body: "Anjali is a diagram fiend at heart! Here are an example of a data visualization she developed for CliffsNotes. Prototype was developed using Figma Make:",
+    image: { src: "images/cliffsnotes-data-viz.webp", alt: "CliffsNotes character page with a chart showing how often Junior appears in each chapter, with a slider to explore prevalence by chapter" },
+    related: "data viz",
+  },
 ];
 
 // Quotes from people Anjali has worked with (from anjali-patel.com).
