@@ -11,7 +11,7 @@ const PROFILE = {
   photo: "images/avatar.jpg", // set to "" to show initials instead
   role: "Product Design Leader",
   tagline: "Design that ships, converts, and scales",
-  taglineSub: "Anjali is a Senior Product Designer whose work has driven $20M+ in revenue across edtech, e-commerce, climate tech, and healthcare. Over 8 years designing B2C and B2B products, including 3+ years managing teams, she's learned to use AI to move faster so she can spend more time on craft.",
+  taglineSub: "Over 8 years, Anjali has driven $20M+ in revenue as a lead product designer across climate tech, e-commerce, edtech, and healthcare in B2B, B2C, and DTC markets.",
   intro:
     "I'm Anjali Patel's portfolio assistant. Tap a project, or type a tag below to filter.",
   // Each string is a paragraph in the About bubble.
