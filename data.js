@@ -76,7 +76,7 @@ const PROJECTS = [
         {
           images: [
             { src: "https://framerusercontent.com/images/dZmiwVr3LyDaawlqpZRuYibXA.gif", alt: "Ask LitCharts AI on a phone: a question is asked and the answer animates in" }, // animated GIF from anjali-patel.com
-            { src: "images/litcharts-ai-competitive-analysis.png", alt: "Competitive analysis of AI tools: entity names, tool names, and logo styles across 19 products" },
+            { src: "images/litcharts-ai-competitive-analysis.png", alt: "Competitive analysis of AI tools: entity names, tool names, and logo styles across 19 products", mobile: false },
           ],
         },
         {

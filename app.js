@@ -773,7 +773,9 @@
   // numbered steps and stat tiles, a pull quote, or a row of images
   function caseSectionHTML(s) {
     if (s.images) {
-      return `<div class="cs__gallery">${s.images.map((img) => `<img src="${esc(img.src)}" alt="${esc(img.alt || "")}" loading="lazy" />`).join("")}</div>`;
+      // Load right away (lazy-loading big GIFs inside the scrolling panel can fail on iPhones);
+      // `mobile: false` hides an image on phones
+      return `<div class="cs__gallery">${s.images.map((img) => `<img src="${esc(img.src)}" alt="${esc(img.alt || "")}"${img.mobile === false ? ' class="hide-mobile"' : ""} />`).join("")}</div>`;
     }
     if (s.quote) {
       return `<figure class="cs__quote">

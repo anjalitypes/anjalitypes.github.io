@@ -475,6 +475,7 @@ button { font: inherit; color: inherit; cursor: pointer; }
 @media (max-width: 520px) {
   .cs__gallery { flex-direction: column; }
   .cs__gallery img { flex: none !important; }
+  .cs__gallery img.hide-mobile { display: none; }
 }
 /* Pull quote */
 .cs__quote { margin: 40px 0 0; padding: 4px 0 4px 20px; border-left: 3px solid var(--cat); }
