@@ -277,7 +277,7 @@ const PROJECTS = [
 
 // Work history for the About timeline, newest first. `tags` show on each row.
 const EXPERIENCE = [
-  { company: "Everyday Electric", role: "Senior Product Designer (Contract)", start: "2026", end: "Present", summary: "Clean tech company founded by leaders from Google Nest and Google AI Labs.", tags: ["climate tech", "b2c", "b2b", "growth"] },
+  { company: "Everyday Electric", role: "Senior Product Designer (Contract)", start: "2026", end: "Present", summary: "Growth designer at a clean tech startup founded by leaders from Google Nest and Google AI Labs.", tags: ["climate tech", "b2c", "b2b", "growth"] },
   { company: "Freelance", role: "UX Design Consultant", start: "2026", end: "2026", summary: "Branding, and onboarding for VibrantLifeMD, a stealth startup, and a vet hospital.", tags: ["healthcare", "vet tech", "branding", "b2c", "b2b"] },
   { company: "Learneo", role: "Lead Product Designer, Manager II", start: "2022", end: "2025", summary: "Led the design team and functioned as a player-coach for two platforms. Shipped four AI tools and the highest-converting feature in company history.", tags: ["ai", "edtech", "leadership", "b2b", "b2c", "growth"] },
   { company: "Course Hero", role: "Product Designer", start: "2021", end: "2022", summary: "0-to-1 designs for LitCharts and CliffsNotes. Led the Sketch → Figma migration and built design systems from scratch.", tags: ["edtech", "0→1", "design systems", "b2c", "b2b"] },
