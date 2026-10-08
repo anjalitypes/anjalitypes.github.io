@@ -312,14 +312,18 @@
     if (!dot || !wordEl) return;
     const home = talkingBot.getBoundingClientRect();
     const word = wordEl.getBoundingClientRect();
-    const offset = word.top + word.height / 2 - (home.top + home.height / 2);
-    dot.style.translate = `0 ${Math.max(0, Math.round(offset))}px`;
+    const y = Math.max(0, Math.round(word.top + word.height / 2 - (home.top + home.height / 2)));
+    // Only move when the voice reaches a new line — tiny per-word differences
+    // would keep restarting the glide (very noticeable on phones' short lines)
+    if (Math.abs(y - (dot._y ?? 0)) < 8) return;
+    dot._y = y;
+    dot.style.transform = `translate3d(0, ${y}px, 0)`;
   }
 
   function setTalkingBot(item) {
     talkingBot?.classList.remove("is-talking");
     const dot = talkingBot?.querySelector(".bot-dot");
-    if (dot) dot.style.translate = "";
+    if (dot) { dot.style.transform = ""; dot._y = 0; }
     talkingBot = item ? item.closest(".msg")?.querySelector(".avatar--bot") || null : null;
     talkingBot?.classList.add("is-talking");
   }
