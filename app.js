@@ -231,7 +231,19 @@
       });
     };
 
-    if (item.classList.contains("cards")) {
+    if (item.classList.contains("timeline")) {
+      // Heading, then each role: dates, company · role, and the one-line summary (tags skipped)
+      words(item.querySelector(".timeline__head"));
+      say(". ");
+      for (const row of item.querySelectorAll(".tl")) {
+        words(row.querySelector(".tl__dates"));
+        say(", ");
+        words(row.querySelector(".tl__role"));
+        say(". ");
+        words(row.querySelector(".tl__summary"));
+        say(" ");
+      }
+    } else if (item.classList.contains("cards")) {
       for (const card of item.querySelectorAll(".card")) {
         words(card.querySelector(".card__title"));
         say(", at ");
@@ -443,11 +455,11 @@
     next();
   }
 
-  // One Listen button under each bubble, project list, and testimonial card; it reads only that item.
+  // One Listen button under each bubble, project list, timeline, and testimonial card; it reads only that item.
   function attachAudio(el) {
     if (!tts) return;
     const body = el.querySelector(".msg__body");
-    for (const bubble of body.querySelectorAll(":scope > .bubble, :scope > .cards, .quote")) {
+    for (const bubble of body.querySelectorAll(":scope > .bubble, :scope > .cards, :scope > .timeline, .quote")) {
 
       const btn = document.createElement("button");
       btn.type = "button";
