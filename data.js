@@ -338,6 +338,14 @@ const SPECIAL_TOPICS = [
     related: "data viz",
   },
   {
+    id: "ai workflow",
+    // AI tools and AI-assisted ways of working (a bare "AI" still searches projects)
+    match: /\b(claude( code)?|anthropic|codex|open ?ai|chat ?gpt|gpt(-?\d+)?|copilot|cursor|lovable|figma make|v0|bolt|gemini|llms?|vibe[- ]?cod(e|ing)|prompt(s|ing)?|ai[- ]?(assisted|powered|first|native)|ai (workflows?|tools?|coding|prototyping)|(workflows?|coding|prototyping|building) with ai|using ai|how (was|is) this (built|made)|who built this|built this)\b/i,
+    chip: "AI workflow",
+    body: "Anjali built this chat bot portfolio experience with Claude Code. Beyond this use case she enjoys using AI to make building prototypes faster. The biggest benefit she sees is that it gives designers more time to experiment which raises the craft bar.",
+    related: "ai",
+  },
+  {
     id: "dashboard",
     match: /\b(dashboards?|admin( tools?| panels?)?|internal tools?|analytics|cst)\b/i,
     chip: "Dashboard work",
