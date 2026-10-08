@@ -359,7 +359,10 @@ button { font: inherit; color: inherit; cursor: pointer; }
 .file__actions .btn { flex: 1; justify-content: center; }
 
 /* ── Resume viewer ─────────────────────── */
-.viewer { position: fixed; inset: 0; z-index: 30; pointer-events: none; display: grid; place-items: center; }
+/* Closed overlays are fully hidden (not just click-through): iPhone Safari lets
+   invisible layers — especially ones holding an iframe — swallow touch scrolling.
+   visibility waits for the close animation to finish before hiding. */
+.viewer { position: fixed; inset: 0; z-index: 30; pointer-events: none; display: grid; place-items: center; visibility: hidden; transition: visibility 0s linear .3s; }
 .viewer__scrim { position: absolute; inset: 0; background: rgba(0,0,0,.55); opacity: 0; transition: opacity .25s; }
 .viewer__panel {
   position: relative;
@@ -370,7 +373,7 @@ button { font: inherit; color: inherit; cursor: pointer; }
   opacity: 0; transform: scale(.96) translateY(10px);
   transition: opacity .25s ease, transform .3s cubic-bezier(.2,.8,.2,1);
 }
-.viewer.is-open { pointer-events: auto; }
+.viewer.is-open { pointer-events: auto; visibility: visible; transition-delay: 0s; }
 .viewer.is-open .viewer__scrim { opacity: 1; }
 .viewer.is-open .viewer__panel { opacity: 1; transform: none; }
 .viewer__bar {
@@ -387,7 +390,7 @@ button { font: inherit; color: inherit; cursor: pointer; }
 }
 
 /* ── Case study drawer ─────────────────── */
-.drawer { position: fixed; inset: 0; z-index: 20; pointer-events: none; }
+.drawer { position: fixed; inset: 0; z-index: 20; pointer-events: none; visibility: hidden; transition: visibility 0s linear .4s; }
 .drawer__scrim { position: absolute; inset: 0; background: rgba(0,0,0,.35); opacity: 0; transition: opacity .25s; }
 .drawer__panel {
   position: absolute; top: 0; right: 0; bottom: 0;
@@ -397,7 +400,7 @@ button { font: inherit; color: inherit; cursor: pointer; }
   transition: transform .35s cubic-bezier(.2,.8,.2,1), width .35s cubic-bezier(.2,.8,.2,1);
   box-shadow: -12px 0 40px rgba(0,0,0,.15);
 }
-.drawer.is-open { pointer-events: auto; }
+.drawer.is-open { pointer-events: auto; visibility: visible; transition-delay: 0s; }
 .drawer.is-open .drawer__scrim { opacity: 1; }
 .drawer.is-open .drawer__panel { transform: none; }
 /* Sticky header with a line under it: title (fades in once the big title
