@@ -577,9 +577,12 @@
       if (PROFILE.resume) {
         await addBot(`<div class="bubble">Here's Anjali's resume — open it up for a closer look or download a copy.</div>${resumeCardHTML()}`);
       } else {
+        // No résumé posted: show her work history, then how to get in touch
         const linkedin = PROFILE.links.find((l) => /linkedin/i.test(l.label));
-        await addBot(`<div class="bubble"><p>Anjali's resume isn't posted here, but she's happy to share it — reach her at <a href="mailto:${esc(PROFILE.email)}">${esc(PROFILE.email)}</a>.</p>
-          ${linkedin ? `<div class="linkrow"><a class="btn btn--ghost btn--sm" href="${esc(linkedin.href)}" target="_blank" rel="noopener">LinkedIn ↗</a></div>` : ""}</div>`);
+        await addBot(`<div class="bubble">Here's where Anjali has worked:</div>
+          ${timelineHTML()}
+          <div class="bubble"><p>For her full resume, reach out at <a href="mailto:${esc(PROFILE.email)}">${esc(PROFILE.email)}</a> and she'll send it over.</p>
+            ${linkedin ? `<div class="linkrow"><a class="btn btn--ghost btn--sm" href="${esc(linkedin.href)}" target="_blank" rel="noopener">LinkedIn ↗</a></div>` : ""}</div>`);
       }
       return setSuggestions(followUps(raw));
     }
