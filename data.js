@@ -294,6 +294,7 @@ const PRONUNCIATIONS = {
   Anjali: "Un-juh-lee",
   Patel: "Puh-tell",
   edtech: "ed-tech",
+  lead: "leed",
   SaaS: "sass",
 };
 
