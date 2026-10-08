@@ -17,6 +17,7 @@
   --shadow: 0 1px 2px rgba(0,0,0,.04), 0 8px 24px rgba(0,0,0,.06);
   --radius: 18px;
   --max: 760px;
+  --divider: color-mix(in srgb, var(--text-2) 30%, transparent); /* dividers inside assistant bubbles (intro + project list) */
   --wide-bubble: 600px; /* intro bubble + project list */
   --cat: #c4b5fd; /* lavender: assistant dot, visitor bubbles, send button */
   --spoken: #7c5cdb;     /* word being read aloud (deeper lavender to stay readable on light bubbles) */
@@ -155,7 +156,7 @@ button { font: inherit; color: inherit; cursor: pointer; }
 .bubble--intro { padding: 18px 20px; width: 100%; max-width: var(--wide-bubble); }
 .intro__title { margin: 0 0 6px; font-size: 20px; line-height: 1.2; letter-spacing: -.02em; font-weight: 700; }
 .intro__sub { margin: 0 0 14px !important; font-size: 16px; line-height: 1.5; color: var(--text); }
-.intro__text { padding-top: 12px; border-top: 1px solid var(--border); color: var(--text-2); font-size: 14.5px; }
+.intro__text { padding-top: 12px; border-top: 1px solid var(--divider); color: var(--text-2); font-size: 14.5px; }
 .msg--user .bubble {
   background: var(--user-bubble); color: var(--user-ink); border-color: transparent;
   border-top-left-radius: var(--radius); border-top-right-radius: 6px;
@@ -253,7 +254,7 @@ button { font: inherit; color: inherit; cursor: pointer; }
 }
 .card + .card::before {
   content: ""; position: absolute; left: 14px; right: 14px; top: 0;
-  border-top: 1px solid color-mix(in srgb, var(--text-2) 30%, transparent); /* line separator between projects */
+  border-top: 1px solid var(--divider); /* line separator between projects */
 }
 .card:hover { background: var(--bubble-hover); }
 .card:hover::before, .card:hover + .card::before { opacity: 0; }
