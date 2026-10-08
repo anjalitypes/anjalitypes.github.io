@@ -599,6 +599,18 @@
       return setSuggestions(STARTER_SUGGESTIONS);
     }
 
+    // Topics with no case study yet (e.g. healthcare): their own copy + visual,
+    // then an offer to see the case studies
+    const topic = SPECIAL_TOPICS.find((t) => t.match.test(q));
+    if (topic) {
+      await addBot(`<div class="bubble"><p>${esc(topic.body)}</p></div>
+        ${topic.image ? `<figure class="reply-img"><img src="${esc(topic.image.src)}" alt="${esc(topic.image.alt || "")}" /></figure>` : ""}
+        <div class="bubble bubble--follow">Would you like to see her case studies?
+          <div class="linkrow"><button type="button" class="btn btn--accent btn--sm" data-ask="Yes, show me!" data-once>Yes</button></div>
+        </div>`, { delay: 800 });
+      return setSuggestions(followUps(raw));
+    }
+
     if (/^(yes|yeah|yep|sure|ok|okay)\b/.test(q)) {
       await addBot(`<div class="bubble">Here's what she's been working on — ${PROJECTS.length} projects:</div>${cardsHTML(PROJECTS)}`, { delay: 900 });
       return setSuggestions(followUps(raw));
@@ -728,7 +740,9 @@
       .map((t) => ({ label: `# ${t} · ${TAG_COUNT[t]}`, ask: t }));
     const projHits = PROJECTS.filter((p) => p.title.toLowerCase().includes(q) || p.company.toLowerCase().includes(q))
       .map((p) => ({ label: `↗ ${p.title}`, ask: `open:${p.id}` }));
-    const hits = [...projHits, ...tagHits].slice(0, 8);
+    const topicHits = SPECIAL_TOPICS.filter((t) => t.match.test(q) || t.id.startsWith(last))
+      .map((t) => ({ label: t.chip, ask: t.id }));
+    const hits = [...topicHits, ...projHits, ...tagHits].slice(0, 8);
     hits.length ? renderChips(hits) : (suggestions.innerHTML = `<span class="chip chip--empty">No projects tagged “${esc(input.value.trim())}” — press enter for her career overview</span>`);
   });
 

@@ -311,6 +311,18 @@ const VOICE = {
   ],
 };
 
+// Topics without a case study yet: when someone asks about one of these, the
+// assistant answers with this copy and visual, then offers the case studies.
+const SPECIAL_TOPICS = [
+  {
+    id: "healthcare",
+    match: /\b(health ?care|health ?tech|healthtech|health|medical|medicine|telehealth|telemedicine|wellness|clinic|vibrantlife(md)?)\b/i,
+    chip: "Healthcare work",
+    body: "There isn't a case study for healthcare at the moment, but Anjali has freelanced and developed onboarding flows and landing pages for different healthcare companies. One was developed for VibrantLifeMD. She not only developed the UX strategy, but also made a brand kit for the business to use across the platform as well as social media.",
+    image: { src: "images/vibrantlife.webp", alt: "VibrantLifeMD landing page: the hero, Meet Dr. Shetal Stewart, Our Services, and the consultation sign-up form" },
+  },
+];
+
 // Quotes from people Anjali has worked with (from anjali-patel.com).
 const TESTIMONIALS = [
   {
