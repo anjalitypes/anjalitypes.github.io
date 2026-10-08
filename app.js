@@ -674,7 +674,11 @@
     const results = search(q);
     if (results.length) {
       const n = results.length;
-      await addBot(`<div class="bubble">I found ${n} project${n > 1 ? "s" : ""} related to <strong>“${esc(raw.trim())}”</strong>:</div>${cardsHTML(results)}`, { delay: 900 });
+      // A plain "AI" search also gets the AI-workflow answer after the projects,
+      // in case they meant how she works with AI
+      const aiWorkflow = /^(ai|a\.i\.?|artificial intelligence)$/.test(q) && SPECIAL_TOPICS.find((t) => t.id === "ai workflow");
+      await addBot(`<div class="bubble">I found ${n} project${n > 1 ? "s" : ""} related to <strong>“${esc(raw.trim())}”</strong>:</div>${cardsHTML(results)}
+        ${aiWorkflow ? `<div class="bubble"><p>${esc(aiWorkflow.body)}</p></div>` : ""}`, { delay: 900 });
       return setSuggestions(followUps(raw));
     }
 
