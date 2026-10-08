@@ -906,6 +906,23 @@
     }
   });
 
+  // ── Phone viewport ────────────────────────────────────────
+  // Keep the pinned page exactly the size and position of the visible screen.
+  // Phone browsers change it when the keyboard opens or the address bar hides;
+  // without this, iPhones scroll the whole page instead of the chat.
+  function fitViewport() {
+    const vv = window.visualViewport;
+    const root = document.documentElement.style;
+    root.setProperty("--app-h", `${Math.round(vv ? vv.height : window.innerHeight)}px`);
+    root.setProperty("--app-top", `${Math.round(vv ? vv.offsetTop : 0)}px`);
+    if (window.scrollY) window.scrollTo(0, 0);
+  }
+  fitViewport();
+  window.visualViewport?.addEventListener("resize", fitViewport);
+  window.visualViewport?.addEventListener("scroll", fitViewport);
+  window.addEventListener("resize", fitViewport);
+  window.addEventListener("orientationchange", fitViewport);
+
   // ── Boot ──────────────────────────────────────────────────
   async function start() {
     stopSpeaking();

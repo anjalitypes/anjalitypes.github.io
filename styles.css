@@ -39,10 +39,13 @@
 }
 
 * { box-sizing: border-box; }
-/* The page itself never scrolls — only the chat area does (no rubber-banding on phones) */
+/* The page itself never scrolls — only the chat area does. The body is pinned
+   to the visible screen (sized/positioned by fitViewport in app.js), so phone
+   browsers have nothing to scroll except the chat, even with the keyboard open. */
 html, body { height: 100%; margin: 0; overflow: hidden; overscroll-behavior: none; }
+body { position: fixed; left: 0; right: 0; top: var(--app-top, 0px); }
 body {
-  height: 100dvh; /* matches the visible screen as phone browser bars show/hide */
+  height: var(--app-h, 100dvh); /* the visible screen height, kept in sync by fitViewport */
   font-family: "Nunito Sans", system-ui, -apple-system, sans-serif;
   background: var(--bg);
   color: var(--text);
