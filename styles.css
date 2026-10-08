@@ -223,9 +223,9 @@ button { font: inherit; color: inherit; cursor: pointer; }
   width: 12px; height: 12px; border-radius: 50%;
   background: var(--surface); border: 2px solid var(--text-2);
 }
-.tl--current .tl__dot { background: var(--accent); border-color: var(--accent); box-shadow: 0 0 0 4px color-mix(in srgb, var(--accent) 22%, transparent); }
+.tl--current .tl__dot { background: var(--cat); border-color: var(--cat); box-shadow: 0 0 0 4px color-mix(in srgb, var(--cat) 25%, transparent); } /* lavender current-role dot */
 .tl__dates { font-size: 12px; color: var(--text-2); font-variant-numeric: tabular-nums; margin-bottom: 4px; }
-.tl--current .tl__dates { color: var(--accent); font-weight: 500; }
+.tl--current .tl__dates { color: var(--spoken); font-weight: 500; } /* lavender "2026 – Present" */
 .tl__role { font-size: 14.5px; margin: 0 0 2px; }
 .tl__tags { margin-top: 8px; }
 .tl__summary { margin: 0; font-size: 13px; line-height: 1.5; color: var(--text-2); }
