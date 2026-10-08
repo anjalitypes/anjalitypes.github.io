@@ -615,7 +615,8 @@
     const topic = SPECIAL_TOPICS.find((t) => t.match.test(q));
     if (topic) {
       await addBot(`<div class="bubble"><p>${esc(topic.body)}</p></div>
-        ${topic.image ? `<figure class="reply-img"><img src="${esc(topic.image.src)}" alt="${esc(topic.image.alt || "")}" /></figure>` : ""}
+        ${[topic.image, ...(topic.images || [])].filter(Boolean)
+          .map((img) => `<figure class="reply-img"><img src="${esc(img.src)}" alt="${esc(img.alt || "")}" /></figure>`).join("")}
         ${relatedHTML(topic)}`, { delay: 800 });
       return setSuggestions(followUps(raw));
     }

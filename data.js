@@ -337,6 +337,16 @@ const SPECIAL_TOPICS = [
     image: { src: "images/cliffsnotes-data-viz.webp", alt: "CliffsNotes character page with a chart showing how often Junior appears in each chapter, with a slider to explore prevalence by chapter" },
     related: "data viz",
   },
+  {
+    id: "dashboard",
+    match: /\b(dashboards?|admin( tools?| panels?)?|internal tools?|analytics|cst)\b/i,
+    chip: "Dashboard work",
+    body: "Though there are no case studies around dashboards, Anjali has worked on a CST dashboard in the past for LitCharts which was more about functionality than UI. She also has dabbled in dashboard concepts, see images below.",
+    images: [
+      { src: "images/litcharts-cst-dashboard.webp", alt: "LitCharts Customer Service dashboard: search with filters and a transactions table with an expanded payment row" },
+      { src: "images/dashboard-concept.webp", alt: "EduTracker dashboard concept: user and revenue stats, subscription trend chart, page views by category, top features, and recent activity" },
+    ],
+  },
 ];
 
 // Quotes from people Anjali has worked with (from anjali-patel.com).
