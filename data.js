@@ -121,7 +121,7 @@ const PROJECTS = [
     year: "",
     role: "Product Designer",
     summary: "CliffsNotes' design system was built from the ground up by leveraging the LitCharts system as a foundation and scaling it to meet tight timelines.",
-    tags: ["design systems", "edtech", "web", "tablet", "mobile", "accessibility", "wcag", "scale", "strategy", "tokens", "figma", "data visualizations", "cro", "information hierarchy", "github", "leadership", "0 to 1", "react", "b2c", "data viz", "responsive"],
+    tags: ["design systems", "edtech", "web", "tablet", "mobile", "accessibility", "wcag", "scale", "strategy", "tokens", "figma", "data visualizations", "cro", "information hierarchy", "github", "leadership", "0 to 1", "react", "b2c", "data viz", "responsive", "components", "variants"],
     showTags: ["Design Systems", "Data Viz", "Responsive"],
     image: "images/cliffsnotes-design-system.webp",
     stats: [["20%", "Time savings"], ["20+", "Adoption"]],
