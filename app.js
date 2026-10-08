@@ -955,6 +955,22 @@
     }
   });
 
+  // ── Light / dark toggle ───────────────────────────────────
+  // Dark by default; the choice is remembered for next visit
+  const themeBtn = document.getElementById("theme-toggle");
+  function syncThemeButton() {
+    const next = document.documentElement.dataset.theme === "dark" ? "light" : "dark";
+    themeBtn.setAttribute("aria-label", `Switch to ${next} mode`);
+    themeBtn.title = `Switch to ${next} mode`;
+  }
+  themeBtn.addEventListener("click", () => {
+    const theme = document.documentElement.dataset.theme === "dark" ? "light" : "dark";
+    document.documentElement.dataset.theme = theme;
+    try { localStorage.setItem("theme", theme); } catch {}
+    syncThemeButton();
+  });
+  syncThemeButton();
+
   // ── Phone viewport ────────────────────────────────────────
   // Keep the pinned page exactly the size and position of the visible screen.
   // Phone browsers change it when the keyboard opens or the address bar hides;
