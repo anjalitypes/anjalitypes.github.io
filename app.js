@@ -510,6 +510,17 @@
       </figure></div>`).join("")}</div>`;
   }
 
+  // After a topic reply: its related projects, or an offer to see all case studies
+  function relatedHTML(topic) {
+    const list = topic.related ? PROJECTS.filter((p) => p.tags.includes(topic.related)) : [];
+    if (list.length) {
+      return `<div class="bubble">${list.length > 1 ? "Related case studies:" : "Related case study:"}</div>${cardsHTML(list)}`;
+    }
+    return `<div class="bubble bubble--follow">Would you like to see her case studies?
+      <div class="linkrow"><button type="button" class="btn btn--accent btn--sm" data-ask="Yes, show me!" data-once>Yes</button></div>
+    </div>`;
+  }
+
   const cardsHTML = (list) => `<div class="cards">${list.map(cardHTML).join("")}</div>`;
 
   // ── Search ────────────────────────────────────────────────
@@ -599,15 +610,13 @@
       return setSuggestions(STARTER_SUGGESTIONS);
     }
 
-    // Topics with no case study yet (e.g. healthcare): their own copy + visual,
-    // then an offer to see the case studies
+    // Topics with their own reply (e.g. healthcare, B2B): copy + visual, then
+    // related case studies, or an offer to see them
     const topic = SPECIAL_TOPICS.find((t) => t.match.test(q));
     if (topic) {
       await addBot(`<div class="bubble"><p>${esc(topic.body)}</p></div>
         ${topic.image ? `<figure class="reply-img"><img src="${esc(topic.image.src)}" alt="${esc(topic.image.alt || "")}" /></figure>` : ""}
-        <div class="bubble bubble--follow">Would you like to see her case studies?
-          <div class="linkrow"><button type="button" class="btn btn--accent btn--sm" data-ask="Yes, show me!" data-once>Yes</button></div>
-        </div>`, { delay: 800 });
+        ${relatedHTML(topic)}`, { delay: 800 });
       return setSuggestions(followUps(raw));
     }
 

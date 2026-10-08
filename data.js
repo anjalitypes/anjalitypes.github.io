@@ -311,8 +311,8 @@ const VOICE = {
   ],
 };
 
-// Topics without a case study yet: when someone asks about one of these, the
-// assistant answers with this copy and visual, then offers the case studies.
+// Topics with their own reply: copy + visual. `related` lists projects with that
+// tag underneath; otherwise the reply offers to show the case studies.
 const SPECIAL_TOPICS = [
   {
     id: "healthcare",
@@ -320,6 +320,14 @@ const SPECIAL_TOPICS = [
     chip: "Healthcare work",
     body: "There isn't a case study for healthcare at the moment, but Anjali has freelanced and developed onboarding flows and landing pages for different healthcare companies. One was developed for VibrantLifeMD. She not only developed the UX strategy, but also made a brand kit for the business to use across the platform as well as social media.",
     image: { src: "images/vibrantlife.webp", alt: "VibrantLifeMD landing page: the hero, Meet Dr. Shetal Stewart, Our Services, and the consultation sign-up form" },
+  },
+  {
+    id: "b2b",
+    match: /\b(b2b|b2b saas|business[- ]to[- ]business|enterprise|institutions?|group subscriptions?)\b/i,
+    chip: "B2B work",
+    body: "During her time working on LitCharts, a main part of the business was the B2B side where we marketed to schools and institutions. This was the group landing page redesign she developed to capture more institutions. Once this launched the company received 2x more inquiries for the group subscriptions.",
+    image: { src: "images/litcharts-group-landing.webp", alt: "LitCharts group subscription landing page: pricing for student and teacher seats, testimonials, a request-a-quote form, and FAQs" },
+    related: "b2b",
   },
 ];
 
