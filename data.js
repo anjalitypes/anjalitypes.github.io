@@ -298,16 +298,15 @@ const PRONUNCIATIONS = {
 };
 
 const VOICE = {
-  lang: "en-GB",
-  rate: 0.94, // a touch slower reads smoother
+  lang: "en-US",
+  rate: 0.92, // a touch slower reads smoother
   pitch: 1,
-  // British male voices, best first
+  // American male voices, best first
   preferredVoices: [
-    "Arthur", // macOS (Siri-quality British male)
-    "Microsoft Ryan Online (Natural)", // Edge
-    "Microsoft Thomas Online (Natural)", // Edge
-    "Daniel", // macOS / iOS
-    "Google UK English Male", // Chrome
+    "Aaron", // macOS / iOS
+    "Microsoft Guy Online (Natural)", // Edge
+    "Microsoft Andrew Online (Natural)", // Edge
+    "Google US English", // Chrome
   ],
 };
 
