@@ -11,7 +11,7 @@ const PROFILE = {
   photo: "images/avatar.jpg", // set to "" to show initials instead
   role: "Product Designer",
   tagline: "Design that ships, converts, and scales",
-  taglineSub: "Over 8 years, Anjali has driven $20M+ in revenue as a lead product designer across climate tech, e-commerce, edtech, and healthcare in B2B, B2C, and DTC markets. Currently, she's a Senior Product Designer at Everyday Electric.",
+  taglineSub: "Over 8 years, Anjali has driven $20M+ in revenue as a lead product designer across climate tech, e-commerce, edtech, and healthcare in B2B, B2C, and DTC markets.",
   intro:
     "I'm Anjali Patel's portfolio assistant. Tap a project, or type a tag below to filter.",
   // Each string is a paragraph in the About bubble.
