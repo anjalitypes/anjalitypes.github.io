@@ -577,7 +577,7 @@
 
   // ── Intent routing ────────────────────────────────────────
   async function respond(raw) {
-    const q = raw.trim().toLowerCase();
+    const q = raw.trim().toLowerCase().replace(/[’‘]/g, "'"); // phones type curly apostrophes
 
     if (/\b(thanks?|thank you|thx|ty|cheers|appreciate it|much appreciated)\b/.test(q)) {
       const linkedin = PROFILE.links.find((l) => /linkedin/i.test(l.label));
@@ -589,7 +589,9 @@
       return setSuggestions(followUps(raw));
     }
 
-    if (/\b(testimonials?|reviews?|recommendations?|references?|feedback|what do (people|others|colleagues|coworkers) say|working with)\b/.test(q)) {
+    // Testimonials: recs, references, reviews, or anything like "what do people say/think about her"
+    const TESTIMONIAL_RE = /\b(testimonials?|reviews?|recs?|recommend(ations?|ed|s)?|references?|referrals?|endorse(ments?|d)?|vouch(es)?|feedback|kudos|praise|quotes about|word of mouth|working with)\b|\b(what|how) (do|does|did|would|will) (her )?(people|others|colleagues|coworkers|co-workers|teammates|managers|clients|engineers|pms|designers|her team|anyone)\b.*\b(say|think|feel|describe)\b|\b(say|said|think|thinks|speak|spoke) (about|of|highly of) (her|anjali)\b|\blike (to )?work(ing)? with( her| anjali)?\b|\bwhat(s|'s| is) (she|anjali) like\b/;
+    if (TESTIMONIAL_RE.test(q)) {
       await addBot(`<div class="bubble">Here's what people who've worked with Anjali have to say:</div>${quotesHTML()}`, { delay: 800 });
       return setSuggestions(followUps(raw));
     }
@@ -767,6 +769,8 @@
       .map((p) => ({ label: `↗ ${p.title}`, ask: `open:${p.id}` }));
     const topicHits = SPECIAL_TOPICS.filter((t) => t.match.test(q) || t.id.startsWith(last))
       .map((t) => ({ label: t.chip, ask: t.id }));
+    if (/^(rec|test|revi|ref|endor|kudo|vouch)/.test(last) || /\b(say|think)\b/.test(q))
+      topicHits.unshift({ label: "Testimonials", ask: "What do people say about working with Anjali?" });
     const hits = [...topicHits, ...projHits, ...tagHits].slice(0, 8);
     hits.length ? renderChips(hits) : (suggestions.innerHTML = `<span class="chip chip--empty">No projects tagged “${esc(input.value.trim())}” — press enter for her career overview</span>`);
   });
