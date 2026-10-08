@@ -95,7 +95,7 @@ button { font: inherit; color: inherit; cursor: pointer; }
   border: 1px solid var(--border); background: var(--surface); color: var(--text-2);
   transition: color .15s, border-color .15s;
 }
-.theme-toggle:hover { color: var(--text); border-color: var(--outline); } /* lavender outline */
+.theme-toggle:hover { color: var(--text); border-color: var(--text); } /* black outline (off-white in dark mode) */
 .theme-toggle .icon-moon { display: none; }
 :root[data-theme="light"] .theme-toggle .icon-sun { display: none; }
 :root[data-theme="light"] .theme-toggle .icon-moon { display: block; }
@@ -127,7 +127,7 @@ button { font: inherit; color: inherit; cursor: pointer; }
 .topbar__links .btn--ghost { color: var(--text); }
 .btn--sm { padding: 6px 12px; font-size: 13px; color: var(--text); }
 .btn:hover { border-color: var(--text-2); }
-.topbar__links .btn:hover { border-color: var(--outline); } /* lavender outline on Contact */
+.topbar__links .btn:hover { border-color: var(--text); } /* black outline on Contact (off-white in dark mode) */
 .btn--accent { background: var(--cat); color: #2E2266; border-color: transparent; } /* lavender with dark-purple text, like the send button */
 .btn--accent:hover { border-color: transparent; filter: brightness(1.08); }
 
@@ -304,7 +304,7 @@ button { font: inherit; color: inherit; cursor: pointer; }
   animation: rise .3s ease both;
   transition: border-color .15s, background .15s;
 }
-.chip:hover { border-color: var(--outline); } /* lavender outline */
+.chip:hover { border-color: var(--text); } /* black outline (off-white in dark mode) */
 .chip--empty { color: var(--text-2); cursor: default; border-style: dashed; }
 .chip--empty:hover { border-color: var(--border); }
 
@@ -315,7 +315,7 @@ button { font: inherit; color: inherit; cursor: pointer; }
   border-radius: 999px; box-shadow: var(--shadow);
   transition: border-color .15s;
 }
-.inputbar:hover, .inputbar:focus-within { border-color: var(--outline); } /* lavender outline */
+.inputbar:hover, .inputbar:focus-within { border-color: var(--text); } /* black outline (off-white in dark mode) */
 .inputbar input {
   flex: 1; min-width: 0; border: 0; outline: 0; background: transparent;
   font: inherit; font-size: 15px; color: var(--text); padding: 8px 0;
