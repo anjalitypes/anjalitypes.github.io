@@ -11,7 +11,7 @@ const PROFILE = {
   photo: "images/avatar.jpg", // set to "" to show initials instead
   role: "Product Designer",
   tagline: "Design that ships, converts, and scales",
-  taglineSub: "Over 8 years, Anjali has driven $20M+ in revenue across climate tech, e-commerce, edtech, and healthcare in B2B, B2C, and DTC markets. Currently, she’s a Senior Product Designer at Everyday Electric.",
+  taglineSub: "Anjali has driven $20M+ in revenue over the past 8 years across climate tech, edtech, e-commerce, and healthcare. Currently, she’s a Senior Product Designer at Everyday Electric.",
   intro:
     "I'm Anjali Patel's portfolio assistant. Tap a project, or type a tag below to filter.",
   // Each string is a paragraph in the About bubble.
@@ -391,6 +391,45 @@ const TESTIMONIALS = [
 ];
 
 // Chips shown under the input. `ask` is sent as if the visitor typed it.
+// Fun, personal questions: a quick casual answer (no project cards)
+const FUN_ANSWERS = [
+  {
+    match: /\b(favou?rite (song|songs|music|artist|band|album|track)|listening to|what (music|songs?)|playlist|on repeat)\b/,
+    body: "Currently, she's been obsessed with Sunny Daze by Lord Apex, give it a listen!",
+  },
+  {
+    match: /\b(favou?rite (food|foods|dish|meal|snack|restaurant|cuisine)|(like|love)s? to eat|what does she eat)\b/,
+    body: "It really depends on her mood, but lately she's been enjoying Caribbean patties in her neighborhood in Brooklyn.",
+  },
+  {
+    match: /\bfavou?rite colou?rs?\b/,
+    body: "Lavender",
+  },
+];
+
+// Recruiter keywords mapped to exactly which projects to show (checked before
+// the general tag search, which can match loosely). "all" = every case study.
+const LIT = "litcharts-ai", CLIFFS = "cliffsnotes-design-system", ABC = "abc-product-page";
+const KEYWORD_PROJECTS = [
+  { match: /\b(portfolio|case ?stud(y|ies)|impact|metrics?|kpis?|roi|results|outcomes?)\b/, projects: "all" },
+  { match: /\bdesign process\b/, projects: [LIT, ABC] },
+  { match: /\b(conversions?|growth)\b/, projects: [LIT, ABC] },
+  { match: /\b(accessib(le|ility)|a11y|wcag)\b/, projects: "all" },
+  { match: /\bresponsive\b/, projects: "all" },
+  { match: /\binformation architecture\b/, projects: "all" },
+  { match: /\bwire ?fram(e|es|ing)\b/, projects: [LIT, ABC] },
+  { match: /\bstorybook\b/, projects: [CLIFFS] },
+  { match: /\bhand ?offs?\b/, projects: "all" },
+  { match: /\bonboarding\b/, projects: [LIT] },
+  { match: /\bb2c\b/, projects: [LIT, ABC] },
+  { match: /\bstart ?ups?\b/, projects: [LIT, CLIFFS] },
+  { match: /\bdesign manag(er|ers|ement)\b/, projects: [LIT, CLIFFS] },
+  { match: /\b(design )?critiques?\b/, projects: [LIT, ABC] },
+  { match: /\bmentor(s|ed|ing|ship)?\b/, projects: [LIT] },
+  { match: /\bplayer[- ]?coach\b/, projects: [LIT] },
+  { match: /\bstakeholders?\b/, projects: "all" },
+];
+
 const STARTER_SUGGESTIONS = [
   { label: "AI", ask: "AI" },
   { label: "Mobile", ask: "mobile" },

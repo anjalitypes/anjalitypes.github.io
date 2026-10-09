@@ -607,10 +607,24 @@
       return setSuggestions(followUps(raw));
     }
 
+    // Fun personal questions (favorite song, food, color): a quick casual answer
+    const fun = FUN_ANSWERS.find((f) => f.match.test(q));
+    if (fun) {
+      await addBot(`<div class="bubble"><p>${esc(fun.body)}</p></div>`);
+      return setSuggestions(followUps(raw));
+    }
+
     // Testimonials: recs, references, reviews, or anything like "what do people say/think about her"
     const TESTIMONIAL_RE = /\b(testimonials?|reviews?|recs?|recommend(ations?|ed|s)?|references?|referrals?|endorse(ments?|d)?|vouch(es)?|feedback|kudos|praise|quotes about|word of mouth|working with)\b|\b(what|how) (do|does|did|would|will) (her )?(people|others|colleagues|coworkers|co-workers|teammates|managers|clients|engineers|pms|designers|her team|anyone)\b.*\b(say|think|feel|describe)\b|\b(say|said|think|thinks|speak|spoke) (about|of|highly of) (her|anjali)\b|\blike (to )?work(ing)? with( her| anjali)?\b|\bwhat(s|'s| is) (she|anjali) like\b/;
     if (TESTIMONIAL_RE.test(q)) {
       await addBot(`<div class="bubble">Here's what people who've worked with Anjali have to say:</div>${quotesHTML()}`, { delay: 800 });
+      return setSuggestions(followUps(raw));
+    }
+
+    // Availability: her work history, then how to reach her
+    if (/\b(open to (work|new (roles|opportunities)|opportunities)|availab(le|ility)|looking for (a )?(new )?(role|job|work))\b/.test(q)) {
+      await addBot(`${timelineHTML()}
+        <div class="bubble"><p>Reach out to Anjali to learn more: <a href="mailto:${esc(PROFILE.email)}">${esc(PROFILE.email)}</a></p></div>`);
       return setSuggestions(followUps(raw));
     }
 
@@ -623,7 +637,7 @@
       return setSuggestions(followUps(raw));
     }
 
-    if (/\b(resume|résumé|cv)\b/.test(q)) {
+    if (/\b(resume|résumé|cv)\b|\bcurrent(ly)? (role|job|position|title|company|employer)\b/.test(q)) {
       if (PROFILE.resume) {
         await addBot(`<div class="bubble">Here's Anjali's resume — open it up for a closer look or download a copy.</div>${resumeCardHTML()}`);
       } else {
@@ -675,6 +689,17 @@
     if (/^(hi|hello|hey|yo|sup)\b/.test(q)) {
       await addBot(`<div class="bubble">Hey there 👋 What kind of work are you curious about?</div>`);
       return setSuggestions(STARTER_SUGGESTIONS);
+    }
+
+    // Recruiter keywords with a hand-picked set of projects (see KEYWORD_PROJECTS)
+    const keyword = KEYWORD_PROJECTS.find((k) => k.match.test(q));
+    if (keyword) {
+      const list = keyword.projects === "all" ? PROJECTS : PROJECTS.filter((p) => keyword.projects.includes(p.id));
+      const intro = keyword.projects === "all"
+        ? `Here are all ${list.length} case studies:`
+        : `I found ${list.length} project${list.length > 1 ? "s" : ""} related to <strong>“${esc(raw.trim())}”</strong>:`;
+      await addBot(`<div class="bubble">${intro}</div>${cardsHTML(list)}`, { delay: 900 });
+      return setSuggestions(followUps(raw));
     }
 
     const results = search(q);
