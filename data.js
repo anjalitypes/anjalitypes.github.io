@@ -42,6 +42,7 @@ const PROJECTS = [
     tags: ["ai", "edtech", "chatbot", "systems", "scale", "growth", "cro", "conversion", "branding", "strategy", "ux", "ui", "responsive", "web", "tablet", "mobile", "figma", "codepen", "coding", "html", "css", "leadership", "kano survey", "0 to 1", "product strategy", "roadmap planning", "amplitude", "hotjar", "b2b", "b2c", "research"],
     showTags: ["Edtech", "AI", "Growth"],
     image: "images/litcharts-ai.webp",
+    heroSquareOnMobile: true, // crop the hero to a square on phones
     stats: [["↑ 75%", "Conversion rate"], ["↑ 40%", "YOY revenue"]],
     // Full case study shown in the project panel (projects without one show placeholders)
     caseStudy: {

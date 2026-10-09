@@ -873,7 +873,7 @@
             .map(([k, v]) => `<div><dt>${esc(k)}</dt><dd>${esc(v)}</dd></div>`).join("")}
         </dl>
         <div class="tags">${shownTags(p).map((t) => `<span class="tag">${esc(t)}</span>`).join("")}</div>
-        ${p.image ? `<div class="cs__hero"><img src="${esc(p.image)}" alt="${esc(p.title)}" /></div>` : ""}
+        ${p.image ? `<div class="cs__hero${p.heroSquareOnMobile ? " cs__hero--square" : ""}"><img src="${esc(p.image)}" alt="${esc(p.title)}" /></div>` : ""}
         ${cs ? cs.sections.map(caseSectionHTML).join("") : CASE_STUDY_SECTIONS.map((s) => `
           <section class="cs__section">
             <h2>${esc(s.heading)}</h2>
