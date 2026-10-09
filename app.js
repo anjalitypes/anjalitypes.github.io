@@ -15,6 +15,12 @@
   const ALL_TAGS = [...new Set(PROJECTS.flatMap((p) => p.tags))];
   const TAG_COUNT = Object.fromEntries(ALL_TAGS.map((t) => [t, PROJECTS.filter((p) => p.tags.includes(t)).length]));
   const shownTags = (p) => (p.showTags && p.showTags.length ? p.showTags : p.tags.slice(0, 3));
+  // Case study tag row: the card's tags plus any extras, A–Z with number tags (like "0 → 1") last
+  const caseStudyTagList = (p) =>
+    [...shownTags(p), ...(p.caseStudyTags || [])].sort((a, b) => {
+      const an = /^\d/.test(a), bn = /^\d/.test(b);
+      return an !== bn ? (an ? 1 : -1) : a.localeCompare(b, undefined, { sensitivity: "base" });
+    });
 
   const avatarHTML = (cls = "avatar") =>
     PROFILE.photo
@@ -872,7 +878,7 @@
           ${(cs?.facts || [["Role", p.role], ["Timeline", "X months"], ["Team", "PM, Eng ×3, Research"]])
             .map(([k, v]) => `<div><dt>${esc(k)}</dt><dd>${esc(v)}</dd></div>`).join("")}
         </dl>
-        <div class="tags">${shownTags(p).map((t) => `<span class="tag">${esc(t)}</span>`).join("")}</div>
+        <div class="tags">${caseStudyTagList(p).map((t) => `<span class="tag">${esc(t)}</span>`).join("")}</div>
         ${p.image ? `<div class="cs__hero${p.heroSquareOnMobile ? " cs__hero--square" : ""}"><img src="${esc(p.image)}" alt="${esc(p.title)}" /></div>` : ""}
         ${cs ? cs.sections.map(caseSectionHTML).join("") : CASE_STUDY_SECTIONS.map((s) => `
           <section class="cs__section">

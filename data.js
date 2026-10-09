@@ -41,6 +41,7 @@ const PROJECTS = [
     // All tags are searchable; only `showTags` appear on the card.
     tags: ["ai", "edtech", "chatbot", "systems", "scale", "growth", "cro", "conversion", "branding", "strategy", "ux", "ui", "responsive", "web", "tablet", "mobile", "figma", "codepen", "coding", "html", "css", "leadership", "kano survey", "0 to 1", "product strategy", "roadmap planning", "amplitude", "hotjar", "b2b", "b2c", "research"],
     showTags: ["Edtech", "AI", "Growth"],
+    caseStudyTags: ["B2C", "B2B", "0 → 1", "Branding"], // extra tags shown only in the case study
     image: "images/litcharts-ai.webp",
     heroSquareOnMobile: true, // crop the hero to a square on phones
     stats: [["↑ 75%", "Conversion rate"], ["↑ 40%", "YOY revenue"]],
@@ -121,8 +122,9 @@ const PROJECTS = [
     year: "",
     role: "Product Designer",
     summary: "CliffsNotes' design system was built from the ground up by leveraging the LitCharts system as a foundation and scaling it to meet tight timelines.",
-    tags: ["design systems", "edtech", "web", "tablet", "mobile", "accessibility", "wcag", "scale", "strategy", "tokens", "figma", "data visualizations", "cro", "information hierarchy", "github", "leadership", "0 to 1", "react", "b2c", "data viz", "responsive", "components", "variants"],
+    tags: ["design systems", "edtech", "web", "tablet", "mobile", "accessibility", "wcag", "scale", "strategy", "tokens", "figma", "data visualizations", "cro", "information hierarchy", "github", "leadership", "0 to 1", "react", "b2c", "data viz", "responsive", "components", "variants", "branding"],
     showTags: ["Design Systems", "Data Viz", "Responsive"],
+    caseStudyTags: ["EdTech", "Branding"], // extra tags shown only in the case study
     image: "images/cliffsnotes-design-system.webp",
     stats: [["20%", "Time savings"], ["20+", "Adoption"]],
     // Full case study shown in the project panel (from anjali-patel.com/cases/design-systems)
@@ -202,8 +204,9 @@ const PROJECTS = [
     year: "",
     role: "Lead Product Designer",
     summary: "abc carpet & home shoppers needed reassurance to feel confident buying online, so the team set out to redesign the product detail page.",
-    tags: ["e-commerce", "figma", "full story", "0 to 1", "miro", "a/b testing", "google analytics", "react", "cro", "dtc", "research", "web", "mobile"],
-    showTags: ["E-commerce", "CRO", "0 to 1"],
+    tags: ["e-commerce", "figma", "full story", "0 to 1", "miro", "a/b testing", "google analytics", "react", "cro", "dtc", "research", "web", "mobile", "branding"],
+    showTags: ["E-commerce", "CRO", "0 → 1"],
+    caseStudyTags: ["A/B Testing", "Branding", "DTC"], // extra tags shown only in the case study
     image: "images/abc-product-page.webp",
     stats: [["↑ 81%", "Revenue"], ["↑ 55%", "Avg order value"]],
     // Full case study shown in the project panel (from anjali-patel.com/cases/abc)
