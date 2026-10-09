@@ -405,6 +405,10 @@ const FUN_ANSWERS = [
     match: /\bfavou?rite colou?rs?\b/,
     body: "Lavender",
   },
+  {
+    match: /\b(travel(s|ed|ing|led|ling)?|trips?|vacations?|countries|been to|visited|wanderlust)\b/,
+    body: "She loves to travel, she's been to 30 countries so far, that's 12% of the world! A life goal of hers is to visit every country in the world one day.",
+  },
 ];
 
 // Recruiter keywords mapped to exactly which projects to show (checked before
