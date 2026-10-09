@@ -1,6 +1,7 @@
 :root {
   color-scheme: light;
   --bg: #fafaf8;
+  --quote-mark: #9c7a22; /* mustard: warm complement to the lavender and sage */
   --surface: #ffffff;
   --surface-2: #f2f2ee;
   --bubble: #efeee9;       /* assistant bubbles (no outline, so a tinted fill in light mode) */
@@ -29,6 +30,7 @@
 :root[data-theme="dark"] {
   color-scheme: dark;
   --bg: #111113;
+  --quote-mark: #b89a52; /* muted mustard for dark mode */
   --surface: #1a1a1d;
   --surface-2: #232327;
   --bubble: #1c1c20;
@@ -348,8 +350,8 @@ button { font: inherit; color: inherit; cursor: pointer; }
   display: flex; flex-direction: column; gap: 12px;
   background: var(--bubble); border-radius: 16px; /* same fill as assistant bubbles */
 }
-.quote__mark { color: var(--spoken); /* deeper lavender in light mode for contrast */ font: 700 48px/0.6 Georgia, "Times New Roman", serif; height: 22px; margin-top: 8px; }
-.quote blockquote { margin: 0; font-size: 15px; line-height: 1.55; flex: 1; }
+.quote__mark { color: var(--quote-mark); /* mustard, 3:1+ on the cards in both modes */ font: 700 48px/38.7px Georgia, "Times New Roman", serif; height: 16.5px; margin: 3px 0 7.2px; } /* box hugs the mark's ink; + 12px gap + text's line spacing = 24px visible gap below */
+.quote blockquote { margin: 0; font-size: 15px; line-height: 1.4; flex: 1; }
 .quote figcaption { display: flex; align-items: center; gap: 10px; margin-top: 4px; }
 .quote figcaption img { width: 38px; height: 38px; border-radius: 50%; object-fit: cover; flex: none; }
 .quote figcaption > span { display: flex; flex-direction: column; line-height: 1.3; }
