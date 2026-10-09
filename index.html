@@ -12,12 +12,53 @@
   <link rel="stylesheet" href="styles.css" />
   <script>
     // Before the page paints: use the visitor's saved light/dark choice (set by
-    // the toggle); otherwise go by their local time — light 7am–7pm, dark at night
+    // the toggle); otherwise dark from sunset to sunrise where they are.
+    // Location is estimated from their time zone (no permission prompt).
     (function () {
       let t = null;
       try { t = localStorage.getItem("theme"); } catch {}
-      if (t !== "light" && t !== "dark") { const h = new Date().getHours(); t = h >= 7 && h < 19 ? "light" : "dark"; }
+      if (t !== "light" && t !== "dark") t = isNight(new Date()) ? "dark" : "light";
       document.documentElement.dataset.theme = t;
+
+      function isNight(now) {
+        // Approximate [latitude, longitude] for common time zones
+        const ZONES = {
+          "America/New_York": [40.7, -74], "America/Chicago": [41.9, -87.6], "America/Denver": [39.7, -105],
+          "America/Phoenix": [33.4, -112], "America/Los_Angeles": [34.1, -118.2], "America/Anchorage": [61.2, -149.9],
+          "Pacific/Honolulu": [21.3, -157.9], "America/Toronto": [43.7, -79.4], "America/Vancouver": [49.3, -123.1],
+          "America/Mexico_City": [19.4, -99.1], "America/Sao_Paulo": [-23.5, -46.6], "America/Argentina/Buenos_Aires": [-34.6, -58.4],
+          "Europe/London": [51.5, -0.1], "Europe/Dublin": [53.3, -6.3], "Europe/Paris": [48.9, 2.4], "Europe/Berlin": [52.5, 13.4],
+          "Europe/Madrid": [40.4, -3.7], "Europe/Rome": [41.9, 12.5], "Europe/Amsterdam": [52.4, 4.9], "Europe/Stockholm": [59.3, 18.1],
+          "Europe/Moscow": [55.8, 37.6], "Europe/Istanbul": [41, 29], "Africa/Cairo": [30, 31.2], "Africa/Lagos": [6.5, 3.4],
+          "Africa/Johannesburg": [-26.2, 28], "Africa/Nairobi": [-1.3, 36.8], "Asia/Dubai": [25.2, 55.3], "Asia/Karachi": [24.9, 67],
+          "Asia/Kolkata": [22.6, 88.4], "Asia/Calcutta": [22.6, 88.4], "Asia/Dhaka": [23.8, 90.4], "Asia/Bangkok": [13.8, 100.5],
+          "Asia/Singapore": [1.35, 103.8], "Asia/Shanghai": [31.2, 121.5], "Asia/Hong_Kong": [22.3, 114.2], "Asia/Manila": [14.6, 121],
+          "Asia/Jakarta": [-6.2, 106.8], "Asia/Seoul": [37.6, 127], "Asia/Tokyo": [35.7, 139.7], "Australia/Perth": [-32, 115.9],
+          "Australia/Brisbane": [-27.5, 153], "Australia/Sydney": [-33.9, 151.2], "Australia/Melbourne": [-37.8, 145], "Pacific/Auckland": [-36.8, 174.8],
+        };
+        let zone = "";
+        try { zone = Intl.DateTimeFormat().resolvedOptions().timeZone; } catch {}
+        // Unknown zone: longitude from the standard UTC offset, a mid-northern latitude
+        const y = now.getFullYear();
+        const stdOffset = Math.max(new Date(y, 0, 1).getTimezoneOffset(), new Date(y, 6, 1).getTimezoneOffset());
+        const [lat, lon] = ZONES[zone] || [40, -stdOffset / 4];
+
+        // Sunrise/sunset (NOAA approximation), in minutes after local midnight
+        const rad = Math.PI / 180;
+        const day = Math.floor((now - new Date(y, 0, 0)) / 864e5);
+        const g = (2 * Math.PI / 365) * (day - 1);
+        const eqTime = 229.18 * (0.000075 + 0.001868 * Math.cos(g) - 0.032077 * Math.sin(g) - 0.014615 * Math.cos(2 * g) - 0.040849 * Math.sin(2 * g));
+        const decl = 0.006918 - 0.399912 * Math.cos(g) + 0.070257 * Math.sin(g) - 0.006758 * Math.cos(2 * g) + 0.000907 * Math.sin(2 * g) - 0.002697 * Math.cos(3 * g) + 0.00148 * Math.sin(3 * g);
+        const cosHa = Math.cos(90.833 * rad) / (Math.cos(lat * rad) * Math.cos(decl)) - Math.tan(lat * rad) * Math.tan(decl);
+        if (cosHa > 1) return true;   // polar night: the sun doesn't rise
+        if (cosHa < -1) return false; // midnight sun: it doesn't set
+        const ha = Math.acos(cosHa) / rad;
+        const local = -now.getTimezoneOffset();
+        const sunrise = 720 - 4 * (lon + ha) - eqTime + local;
+        const sunset = 720 - 4 * (lon - ha) - eqTime + local;
+        const mins = now.getHours() * 60 + now.getMinutes();
+        return mins < sunrise || mins >= sunset;
+      }
     })();
   </script>
 </head>
