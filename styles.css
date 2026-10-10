@@ -202,7 +202,7 @@ button { font: inherit; color: inherit; cursor: pointer; }
   .lightbox__scroll img { max-width: none; width: 1200px; }
 }
 .bubble--intro { padding: 18px 20px; width: 100%; max-width: var(--wide-bubble); }
-.intro__title { margin: 0 0 6px; font-size: 18px; line-height: 1.2; letter-spacing: -.02em; font-weight: 700; }
+.intro__title { margin: 0 0 6px; font-size: 18px; line-height: 1.2; letter-spacing: -.02em; font-weight: 600; }
 .intro__sub { margin: 0 0 12px !important; font-size: 15px; line-height: 1.55; color: var(--text); }
 .intro__text { color: var(--text); font-size: 15px; } /* reads like a regular reply: no divider, default color */
 .msg--user .bubble {
