@@ -356,7 +356,7 @@ const SPECIAL_TOPICS = [
     // AI tools and AI-assisted ways of working (a bare "AI" still searches projects)
     match: /\b(claude( code)?|anthropic|codex|open ?ai|chat ?gpt|gpt(-?\d+)?|copilot|cursor|lovable|figma make|v0|bolt|gemini|llms?|vibe[- ]?cod(e|ing)|prompt(s|ing)?|ai[- ]?(assisted|powered|first|native)|ai (workflows?|tools?|coding|prototyping)|(workflows?|coding|prototyping|building) with ai|using ai|how (was|is) this (built|made)|who built this|built this)\b/i,
     chip: "AI workflow",
-    body: "Anjali built this portfolio with Claude Code. Beyond this, her favorite AI-assisted workflow is building complex prototypes faster. It gives designers more time back to experiment, raising the craft bar.",
+    body: "Anjali built this portfolio with Claude Code. Beyond this, her favorite AI-assisted workflow is using it to build complex prototypes faster. It gives designers more time back to experiment, raising the craft bar.",
     related: "ai",
   },
   {
@@ -399,6 +399,18 @@ const TESTIMONIALS = [
 // Chips shown under the input. `ask` is sent as if the visitor typed it.
 // Fun, personal questions: a quick casual answer (no project cards)
 const FUN_ANSWERS = [
+  {
+    // "Fun facts": everything personal in one list
+    match: /\b(fun facts?|something fun|hobbies|interests|personal facts?|get to know (her|anjali))\b/,
+    body: "Here are a few fun facts about Anjali:",
+    list: [
+      "Favorite song right now: Sunny Daze by Lord Apex",
+      "Favorite food: Caribbean patties from her neighborhood in Brooklyn",
+      "Favorite color: Lavender",
+      "She loves traveling and has been to 30 countries so far",
+      "She fosters cats with a local rescue; her last foster was Zoe",
+    ],
+  },
   {
     match: /\b(favou?rite (song|songs|music|artist|band|album|track)|listening to|what (music|songs?)|playlist|on repeat)\b/,
     body: "Currently, she's been obsessed with Sunny Daze by Lord Apex, give it a listen!",
@@ -447,17 +459,15 @@ const KEYWORD_PROJECTS = [
   { match: /\bplayer[- ]?coach\b/, projects: [LIT], after: LEADERSHIP_REPLY },
   { match: /\bstakeholders?\b/, projects: "all" },
   // Leadership (after "stakeholders" so "stakeholder management" keeps its own answer)
-  { match: /\b(leadership|leader|leading|lead(ing)? (a |the )?(design )?teams?|manag(er|ers|ing|ement)|team size|direct reports?)\b/, projects: [LIT, CLIFFS], after: LEADERSHIP_REPLY },
+  { match: /\b(leadership|leader|leading|lead(ing)? (a |the )?(design )?teams?|manag(er|ers|ing|ement)|team size|direct reports?)\b/, projects: [LIT, CLIFFS], after: LEADERSHIP_REPLY, intro: "Here are the projects where she led design:" },
 ];
 
 const STARTER_SUGGESTIONS = [
+  { label: "Work", ask: "Show me her case studies" },
+  { label: "Leadership", ask: "What's her leadership experience?" },
   { label: "AI", ask: "AI" },
-  { label: "Mobile", ask: "mobile" },
-  { label: "Web", ask: "web" },
-  { label: "Systems", ask: "systems" },
   { label: "About", ask: "Tell me about Anjali Patel" },
   { label: "Testimonials", ask: "What do people say about working with Anjali?" },
-  { label: "Contact", ask: "How can I contact Anjali?" },
 ];
 
 // Filler case-study sections used in the drawer for every project.

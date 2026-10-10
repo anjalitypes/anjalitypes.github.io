@@ -615,7 +615,7 @@
     // Fun personal questions (favorite song, food, color): a quick casual answer
     const fun = FUN_ANSWERS.find((f) => f.match.test(q));
     if (fun) {
-      await addBot(`<div class="bubble"><p>${esc(fun.body)}</p></div>`);
+      await addBot(`<div class="bubble"><p>${esc(fun.body)}</p>${fun.list ? `<ul class="bubble__list">${fun.list.map((t) => `<li>${esc(t)}</li>`).join("")}</ul>` : ""}</div>`);
       return setSuggestions(followUps(raw));
     }
 
@@ -700,7 +700,7 @@
     const keyword = KEYWORD_PROJECTS.find((k) => k.match.test(q));
     if (keyword) {
       const list = keyword.projects === "all" ? PROJECTS : PROJECTS.filter((p) => keyword.projects.includes(p.id));
-      const intro = keyword.projects === "all"
+      const intro = keyword.intro ? esc(keyword.intro) : keyword.projects === "all"
         ? `Here are all ${list.length} case studies:`
         : `I found ${list.length} project${list.length > 1 ? "s" : ""} related to <strong>“${esc(raw.trim())}”</strong>:`;
       await addBot(`<div class="bubble">${intro}</div>${cardsHTML(list)}${keyword.after ? `<div class="bubble bubble--wide bubble--about">${[].concat(keyword.after.body).map((t) => `<p>${esc(t)}</p>`).join("")}</div>${keyword.after.image ? `<div class="bubble bubble--wide bubble--media">${zoomableImg(keyword.after.image)}</div>` : ""}` : ""}`, { delay: 900 });
