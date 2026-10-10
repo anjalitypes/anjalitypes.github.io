@@ -10,15 +10,18 @@ const PROFILE = {
   initials: "AP",
   photo: "images/avatar.jpg", // set to "" to show initials instead
   role: "Product Designer",
-  tagline: "Design that ships, converts, and scales",
-  taglineSub: "Anjali has driven $20M+ in revenue over the past 8 years across climate tech, edtech, e-commerce, and healthcare. Currently, she’s a Senior Product Designer at Everyday Electric.",
+  tagline: "Thoughtful design, measurable results",
+  taglineSub: "Over 8 years, Anjali has designed across climate tech, edtech, e-commerce, healthcare, and nonprofits driving $20M+ in revenue. Currently, she’s a Senior Product Designer at Everyday Electric.",
   intro:
-    "I'm Anjali Patel's portfolio assistant. Tap a project, or type a tag below to filter.",
+    "I'm Anjali Patel's portfolio assistant. Tap a project or type below to learn more.",
   // Each string is a paragraph in the About bubble.
   about: [
-    "Anjali Patel is a product designer with 8+ years of experience building mobile-first B2C and B2B SaaS products. She also spent 3+ years leading design teams. She specializes in AI-powered features, design systems, and 0-to-1 product work.",
-    "Currently she is a Senior Product Designer at Everyday Electric, a clean tech company founded by leaders from Google Nest and Google AI Labs.",
+    "Anjali Patel is a Brooklyn-based product designer with 8+ years building B2C and B2B SaaS products, including 3+ years leading teams. She specializes in AI, design systems, and 0-to-1 product work.",
+    "At Learneo, she led design as a player-coach for LitCharts and CliffsNotes, delivering a roadmap strategy that drove 40% YOY revenue growth. Before that, she was the first product design hire at abc carpet & home, where her product page redesign drove an 81% revenue lift.",
+    "Currently she is a Senior Product Designer at Everyday Electric, a climate tech startup founded by leaders from Google Nest and Google AI Labs. When she’s not designing, she’s planning her next trip, learning a new skill or fostering with a local rescue!",
   ],
+  // Photo shown at the end of the About bubble
+  aboutImage: { src: "images/about-rescue-cat.webp", alt: "Anjali smiling and holding a tabby cat she’s fostering" },
   email: "ap@anjali-patel.com",
   // Résumé is hidden for now. To bring it back, put the PDF in files/, a
   // page-one image in images/, and restore this (the viewer code is still there):
@@ -206,7 +209,7 @@ const PROJECTS = [
     summary: "abc carpet & home shoppers needed reassurance to feel confident buying online, so the team set out to redesign the product detail page.",
     tags: ["e-commerce", "figma", "full story", "0 to 1", "miro", "a/b testing", "google analytics", "react", "cro", "dtc", "research", "web", "mobile", "branding"],
     showTags: ["E-commerce", "CRO", "0 → 1"],
-    caseStudyTags: ["A/B Testing", "Branding", "DTC"], // extra tags shown only in the case study
+    caseStudyTags: ["Branding", "DTC"], // extra tags shown only in the case study
     image: "images/abc-product-page.webp",
     stats: [["↑ 81%", "Revenue"], ["↑ 55%", "Avg order value"]],
     // Full case study shown in the project panel (from anjali-patel.com/cases/abc)
@@ -280,11 +283,11 @@ const PROJECTS = [
 
 // Work history for the About timeline, newest first. `tags` show on each row.
 const EXPERIENCE = [
-  { company: "Everyday Electric", role: "Senior Product Designer (Contract)", start: "2026", end: "Present", summary: "Growth designer at startup founded by leaders from Google Nest and Google AI Labs.", tags: ["climate tech", "b2c", "b2b", "growth"] },
+  { company: "Everyday Electric", role: "Senior Product Designer (Contract)", start: "2026", end: "Present", summary: "Growth design for the largest residential virtual power plant in the US.", tags: ["climate tech", "b2c", "b2b", "growth"] },
   { company: "Freelance", role: "UX Design Consultant", start: "2026", end: "2026", summary: "Branding, and onboarding for VibrantLifeMD, a stealth startup, and a vet hospital.", tags: ["healthcare", "vet tech", "branding", "b2c", "b2b"] },
-  { company: "Learneo", role: "Lead Product Designer, Manager II", start: "2022", end: "2025", summary: "Led the design team and functioned as a player-coach for two platforms.", tags: ["ai", "edtech", "leadership", "b2b", "b2c", "growth"] },
-  { company: "Course Hero", role: "Product Designer", start: "2021", end: "2022", summary: "0-to-1 designs and design systems for LitCharts and CliffsNotes.", tags: ["edtech", "0→1", "design systems", "b2c", "b2b", "growth"] },
-  { company: "abc carpet & home", role: "Product Designer", start: "2020", end: "2021", summary: "First product design hire developing 0 to 1 builds and abc design system.", tags: ["e-commerce", "design systems", "dtc", "cro", "growth"] },
+  { company: "Learneo", role: "Lead Product Designer, Manager II", start: "2022", end: "2025", summary: "Led the design team and research, functioned as a player-coach for two platforms.", tags: ["ai", "edtech", "leadership", "b2b", "b2c", "growth"] },
+  { company: "Course Hero", role: "Product Designer", start: "2021", end: "2022", summary: "0-to-1 designs, design systems, and research for LitCharts and CliffsNotes.", tags: ["edtech", "0→1", "design systems", "b2c", "b2b", "growth"] },
+  { company: "abc carpet & home", role: "Product Designer", start: "2020", end: "2021", summary: "First product design hire developing 0-to-1 builds and the abc design system.", tags: ["e-commerce", "design systems", "dtc", "cro", "growth"] },
 ];
 
 // Text-to-speech settings. `preferredVoices` are tried in order (a name

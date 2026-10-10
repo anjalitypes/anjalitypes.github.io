@@ -629,7 +629,7 @@
     }
 
     if (/\b(about|yourself|who are you|bio|background)\b/.test(q)) {
-      await addBot(`<div class="bubble bubble--about">${PROFILE.about.map((t) => `<p>${esc(t)}</p>`).join("")}</div>
+      await addBot(`<div class="bubble bubble--about">${PROFILE.about.map((t) => `<p>${esc(t)}</p>`).join("")}${PROFILE.aboutImage ? `<img class="about__img" src="${esc(PROFILE.aboutImage.src)}" alt="${esc(PROFILE.aboutImage.alt)}" />` : ""}</div>
         ${timelineHTML()}
         <div class="bubble bubble--follow">Want to see what she's been working on?
           <div class="linkrow"><button type="button" class="btn btn--accent btn--sm" data-ask="Yes, show me!" data-once>Yes, show me</button></div>
