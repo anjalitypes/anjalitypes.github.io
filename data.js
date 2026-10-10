@@ -16,7 +16,7 @@ const PROFILE = {
     "I'm Anjali Patel's portfolio assistant. Tap a project or type below to learn more.",
   // Each string is a paragraph in the About bubble.
   about: [
-    "Anjali Patel is a Brooklyn-based product designer with 8+ years building B2C and B2B SaaS products, including 3+ years leading teams. She specializes in AI, design systems, and 0-to-1 product work.",
+    "Anjali Patel is a Brooklyn-based product designer with 8+ years of experience building B2C and B2B SaaS products, including 3+ years leading teams. She specializes in AI, design systems, and 0-to-1 product work.",
     "At Learneo, she led design as a player-coach for LitCharts and CliffsNotes, delivering a roadmap strategy that drove 40% YOY revenue growth. Before that, she was the first product design hire at abc carpet & home, where her product page redesign drove an 81% revenue lift.",
     "Currently she is a Senior Product Designer at Everyday Electric, a climate tech startup founded by leaders from Google Nest and Google AI Labs. When she’s not designing, she’s planning her next trip, learning a new skill or fostering with a local rescue!",
   ],
@@ -353,7 +353,7 @@ const SPECIAL_TOPICS = [
     // AI tools and AI-assisted ways of working (a bare "AI" still searches projects)
     match: /\b(claude( code)?|anthropic|codex|open ?ai|chat ?gpt|gpt(-?\d+)?|copilot|cursor|lovable|figma make|v0|bolt|gemini|llms?|vibe[- ]?cod(e|ing)|prompt(s|ing)?|ai[- ]?(assisted|powered|first|native)|ai (workflows?|tools?|coding|prototyping)|(workflows?|coding|prototyping|building) with ai|using ai|how (was|is) this (built|made)|who built this|built this)\b/i,
     chip: "AI workflow",
-    body: "Anjali built this chat bot portfolio experience with Claude Code. Beyond this use case she enjoys using AI to make building prototypes faster. The biggest benefit she sees is that it gives designers more time to experiment which raises the craft bar.",
+    body: "Anjali built this portfolio with Claude Code. Beyond this, her favorite AI-assisted workflow is building complex prototypes faster. It gives designers more time back to experiment, raising the craft bar.",
     related: "ai",
   },
   {
