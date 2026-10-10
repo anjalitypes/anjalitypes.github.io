@@ -853,11 +853,6 @@
       send(ask.dataset.ask);
       return;
     }
-    const zoom = e.target.closest("[data-zoom]");
-    if (zoom) {
-      const img = zoom.closest(".zoomable").querySelector("img");
-      return openZoom(img.src, img.alt);
-    }
     const card = e.target.closest("[data-project]");
     if (card) openProject(card.dataset.project);
     if (e.target.closest("[data-close]")) closeProject();
@@ -866,13 +861,11 @@
   });
 
   // ── Image zoom ────────────────────────────────────────────
-  // An image with a magnifying-glass button; tapping it opens the image
-  // full screen (scrollable on phones so small details are readable)
+  // Every content image can be enlarged with a magnifying-glass button that
+  // appears in its top-right corner on hover. Desktop only: no zoom on touch screens.
+  // The enlarged view is scrollable on phones so small details are readable.
   const ZOOM_ICON = `<svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5M11 8v6M8 11h6"/></svg>`;
-  const zoomableImg = (img) => `<figure class="zoomable">
-      <img class="bubble__img" src="${esc(img.src)}" alt="${esc(img.alt || "")}" />
-      <button type="button" class="zoomable__btn" data-zoom aria-label="Enlarge image" title="Enlarge">${ZOOM_ICON}</button>
-    </figure>`;
+  const zoomableImg = (img) => `<img class="bubble__img" src="${esc(img.src)}"${img.full ? ` data-full="${esc(img.full)}"` : ""} alt="${esc(img.alt || "")}" />`;
 
   const lightbox = document.createElement("div");
   lightbox.className = "lightbox";
@@ -882,11 +875,25 @@
   lightbox.innerHTML = `<button type="button" class="lightbox__close" aria-label="Close" title="Close">✕</button><div class="lightbox__scroll"><img alt="" /></div>`;
   document.body.appendChild(lightbox);
   let zoomReturnFocus = null;
-  function openZoom(src, alt) {
+  // Highest-quality version of an image: an explicit full-size file, or the
+  // original from Framer without its "scale-down" size limit
+  const fullSrc = (el) => {
+    if (el.dataset.full) return el.dataset.full;
+    const src = el.currentSrc || el.src;
+    return /framerusercontent\.com/.test(src) ? src.split("?")[0] : src;
+  };
+  function openZoom(el) {
     zoomReturnFocus = document.activeElement;
     const img = lightbox.querySelector("img");
-    img.src = src;
-    img.alt = alt;
+    // Show the page's copy right away, then swap in the full-quality one once it loads
+    img.src = el.currentSrc || el.src;
+    img.alt = el.alt;
+    const full = fullSrc(el);
+    if (full !== img.src) {
+      const hi = new Image();
+      hi.onload = () => { if (lightbox.classList.contains("is-open") && img.alt === el.alt) img.src = full; };
+      hi.src = full;
+    }
     lightbox.classList.add("is-open");
     lightbox.querySelector(".lightbox__scroll").scrollTo(0, 0);
     lightbox.querySelector(".lightbox__close").focus();
@@ -898,6 +905,37 @@
   lightbox.addEventListener("click", (e) => {
     // Close on the ✕ or on the backdrop (not when tapping the image itself)
     if (e.target.closest(".lightbox__close") || !e.target.closest("img")) closeZoom();
+  });
+
+  const ZOOMABLE = ".bubble__img, .reply-img img, .cs__hero img, .cs__gallery img"; // not the About photo
+  const zoomBtn = document.createElement("button");
+  zoomBtn.type = "button";
+  zoomBtn.className = "zoom-btn";
+  zoomBtn.setAttribute("aria-label", "Enlarge image");
+  zoomBtn.title = "Enlarge";
+  zoomBtn.innerHTML = ZOOM_ICON;
+  document.body.appendChild(zoomBtn);
+  let zoomTarget = null;
+  const placeZoomBtn = () => {
+    if (!zoomTarget) return;
+    const r = zoomTarget.getBoundingClientRect();
+    zoomBtn.style.top = `${r.top + 10}px`;
+    zoomBtn.style.left = `${r.right - 46}px`;
+  };
+  const hideZoomBtn = () => { zoomTarget = null; zoomBtn.classList.remove("is-visible"); };
+  document.addEventListener("mouseover", (e) => {
+    if (e.target === zoomBtn || zoomBtn.contains(e.target)) return;
+    const img = e.target.closest(ZOOMABLE);
+    if (img && !lightbox.contains(img)) {
+      zoomTarget = img;
+      placeZoomBtn();
+      zoomBtn.classList.add("is-visible");
+    } else if (zoomTarget) hideZoomBtn();
+  });
+  document.addEventListener("scroll", hideZoomBtn, true); // images move; the button reappears on the next hover
+  zoomBtn.addEventListener("click", () => {
+    if (zoomTarget) openZoom(zoomTarget);
+    hideZoomBtn();
   });
 
   // ── Case study drawer ─────────────────────────────────────

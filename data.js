@@ -438,7 +438,7 @@ const LEADERSHIP_REPLY = {
     "Beyond these case studies, Anjali has 3+ years of design leadership experience. At Learneo, she led design and research as a player-coach for LitCharts and CliffsNotes, mentoring a direct report while staying hands-on in the work.",
     "She sat on the leadership team alongside the founders, lead product manager, and engineering director, shaping product and business strategy beyond design. Below is a high-level view of her impact there.",
   ],
-  image: { src: "images/leadership-overview.webp", alt: "Overview of Anjali’s leadership work at Learneo: personas, onboarding documentation, career development matrix, design system upkeep, delivery team and process documentation, interview documentation, strategy, growth reporting, and team morale and education" },
+  image: { src: "images/leadership-overview.webp", full: "images/leadership-overview-full.webp", alt: "Overview of Anjali’s leadership work at Learneo: personas, onboarding documentation, career development matrix, design system upkeep, delivery team and process documentation, interview documentation, strategy, growth reporting, and team morale and education" },
 };
 const KEYWORD_PROJECTS = [
   { match: /\b(portfolio|case ?stud(y|ies)|impact|metrics?|kpis?|roi|results|outcomes?)\b/, projects: "all" },
