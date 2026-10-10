@@ -305,6 +305,9 @@ const PRONUNCIATIONS = {
   SaaS: "sass",
 };
 
+// How fast replies appear: 1 = original pace, 2 = twice as fast
+const REPLY_SPEED = 1.25;
+
 const VOICE = {
   lang: "en-US",
   rate: 0.92, // a touch slower reads smoother
@@ -417,6 +420,14 @@ const FUN_ANSWERS = [
 // Recruiter keywords mapped to exactly which projects to show (checked before
 // the general tag search, which can match loosely). "all" = every case study.
 const LIT = "litcharts-ai", CLIFFS = "cliffsnotes-design-system", ABC = "abc-product-page";
+// Shown after the projects for leadership/manager questions
+const LEADERSHIP_REPLY = {
+  body: [
+    "Beyond these case studies, Anjali has 3+ years of design leadership experience. At Learneo, she led design and research as a player-coach for LitCharts and CliffsNotes, mentoring a direct report while staying hands-on in the work.",
+    "She sat on the leadership team alongside the founders, lead product manager, and engineering director, shaping product and business strategy beyond design. Below is a high-level view of her impact there.",
+  ],
+  image: { src: "images/leadership-overview.webp", alt: "Overview of Anjali’s leadership work at Learneo: personas, onboarding documentation, career development matrix, design system upkeep, delivery team and process documentation, interview documentation, strategy, growth reporting, and team morale and education" },
+};
 const KEYWORD_PROJECTS = [
   { match: /\b(portfolio|case ?stud(y|ies)|impact|metrics?|kpis?|roi|results|outcomes?)\b/, projects: "all" },
   { match: /\bdesign process\b/, projects: [LIT, ABC] },
@@ -430,11 +441,13 @@ const KEYWORD_PROJECTS = [
   { match: /\bonboarding\b/, projects: [LIT] },
   { match: /\bb2c\b/, projects: [LIT, ABC] },
   { match: /\bstart ?ups?\b/, projects: [LIT, CLIFFS] },
-  { match: /\bdesign manag(er|ers|ement)\b/, projects: [LIT, CLIFFS] },
+  { match: /\bdesign manag(er|ers|ement)\b/, projects: [LIT, CLIFFS], after: LEADERSHIP_REPLY },
   { match: /\b(design )?critiques?\b/, projects: [LIT, ABC] },
-  { match: /\bmentor(s|ed|ing|ship)?\b/, projects: [LIT] },
-  { match: /\bplayer[- ]?coach\b/, projects: [LIT] },
+  { match: /\bmentor(s|ed|ing|ship)?\b/, projects: [LIT], after: LEADERSHIP_REPLY },
+  { match: /\bplayer[- ]?coach\b/, projects: [LIT], after: LEADERSHIP_REPLY },
   { match: /\bstakeholders?\b/, projects: "all" },
+  // Leadership (after "stakeholders" so "stakeholder management" keeps its own answer)
+  { match: /\b(leadership|leader|leading|lead(ing)? (a |the )?(design )?teams?|manag(er|ers|ing|ement)|team size|direct reports?)\b/, projects: [LIT, CLIFFS], after: LEADERSHIP_REPLY },
 ];
 
 const STARTER_SUGGESTIONS = [

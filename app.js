@@ -42,6 +42,9 @@
     scrollDown();
   }
 
+  // Reply speed from data.js: 1 = original pace, 2 = twice as fast
+  const replySpeed = typeof REPLY_SPEED === "number" ? REPLY_SPEED : 1;
+
   async function addBot(html, { delay = 650 } = {}) {
     const el = document.createElement("div");
     el.className = "msg msg--bot";
@@ -49,7 +52,7 @@
       <div class="msg__body"><div class="bubble typing"><span></span><span></span><span></span></div></div>`;
     thread.appendChild(el);
     scrollDown();
-    await wait(delay);
+    await wait(delay / replySpeed);
     const body = el.querySelector(".msg__body");
     body.innerHTML = html;
     attachAudio(el);
@@ -108,7 +111,7 @@
     }
 
     // Short replies type at a natural pace; long ones speed up to finish in ~2.4s
-    const step = Math.min(34, 2400 / Math.max(words.length, 1));
+    const step = Math.min(34, 2400 / Math.max(words.length, 1)) / replySpeed;
 
     // Play the reply in order: each bubble types out, then its Listen button,
     // then whatever follows (project list, timeline, next bubble…)
@@ -125,23 +128,25 @@
         child.style.animationDelay = `${Math.round(t)}ms`;
         own.forEach((w, i) => (w.style.transitionDelay = `${Math.round(t + i * step)}ms`));
         t += own.length * step;
-        for (const row of child.querySelectorAll(".linkrow")) show(row, t + 80);
-        t += 150;
+        // Images inside a bubble (e.g. the About photo) fade in after its last word
+        for (const img of child.querySelectorAll(":scope > img, :scope > figure")) { show(img, t + 80 / replySpeed); t += 200 / replySpeed; }
+        for (const row of child.querySelectorAll(".linkrow")) show(row, t + 80 / replySpeed);
+        t += 150 / replySpeed;
       } else if (child.classList.contains("cards") || child.classList.contains("timeline")) {
         show(child, t);
-        for (const row of child.querySelectorAll(".card, .tl")) show(row, (t += 80));
-        t += 200;
+        for (const row of child.querySelectorAll(".card, .tl")) show(row, (t += 80 / replySpeed));
+        t += 200 / replySpeed;
       } else if (child.classList.contains("quotes")) {
         for (const item of child.children) {
           show(item.querySelector(".quote") || item, t);
           const listen = item.querySelector(".speak");
-          if (listen) show(listen, t + 250);
-          t += 100;
+          if (listen) show(listen, t + 250 / replySpeed);
+          t += 100 / replySpeed;
         }
-        t += 300;
+        t += 300 / replySpeed;
       } else {
         show(child, t); // Listen buttons, résumé card, etc.
-        t += child.classList.contains("speak") ? 60 : 150;
+        t += (child.classList.contains("speak") ? 60 : 150) / replySpeed;
       }
     }
 
@@ -465,7 +470,7 @@
   function attachAudio(el) {
     if (!tts) return;
     const body = el.querySelector(".msg__body");
-    for (const bubble of body.querySelectorAll(":scope > .bubble, :scope > .cards, :scope > .timeline, .quote")) {
+    for (const bubble of body.querySelectorAll(":scope > .bubble:not(.bubble--media), :scope > .cards, :scope > .timeline, .quote")) {
 
       const btn = document.createElement("button");
       btn.type = "button";
@@ -698,7 +703,7 @@
       const intro = keyword.projects === "all"
         ? `Here are all ${list.length} case studies:`
         : `I found ${list.length} project${list.length > 1 ? "s" : ""} related to <strong>“${esc(raw.trim())}”</strong>:`;
-      await addBot(`<div class="bubble">${intro}</div>${cardsHTML(list)}`, { delay: 900 });
+      await addBot(`<div class="bubble">${intro}</div>${cardsHTML(list)}${keyword.after ? `<div class="bubble bubble--wide bubble--about">${[].concat(keyword.after.body).map((t) => `<p>${esc(t)}</p>`).join("")}</div>${keyword.after.image ? `<div class="bubble bubble--wide bubble--media">${zoomableImg(keyword.after.image)}</div>` : ""}` : ""}`, { delay: 900 });
       return setSuggestions(followUps(raw));
     }
 
@@ -848,11 +853,51 @@
       send(ask.dataset.ask);
       return;
     }
+    const zoom = e.target.closest("[data-zoom]");
+    if (zoom) {
+      const img = zoom.closest(".zoomable").querySelector("img");
+      return openZoom(img.src, img.alt);
+    }
     const card = e.target.closest("[data-project]");
     if (card) openProject(card.dataset.project);
     if (e.target.closest("[data-close]")) closeProject();
     if (e.target.closest("[data-view-resume]")) openViewer();
     if (e.target.closest("[data-close-viewer]")) closeViewer();
+  });
+
+  // ── Image zoom ────────────────────────────────────────────
+  // An image with a magnifying-glass button; tapping it opens the image
+  // full screen (scrollable on phones so small details are readable)
+  const ZOOM_ICON = `<svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5M11 8v6M8 11h6"/></svg>`;
+  const zoomableImg = (img) => `<figure class="zoomable">
+      <img class="bubble__img" src="${esc(img.src)}" alt="${esc(img.alt || "")}" />
+      <button type="button" class="zoomable__btn" data-zoom aria-label="Enlarge image" title="Enlarge">${ZOOM_ICON}</button>
+    </figure>`;
+
+  const lightbox = document.createElement("div");
+  lightbox.className = "lightbox";
+  lightbox.setAttribute("role", "dialog");
+  lightbox.setAttribute("aria-modal", "true");
+  lightbox.setAttribute("aria-label", "Enlarged image");
+  lightbox.innerHTML = `<button type="button" class="lightbox__close" aria-label="Close" title="Close">✕</button><div class="lightbox__scroll"><img alt="" /></div>`;
+  document.body.appendChild(lightbox);
+  let zoomReturnFocus = null;
+  function openZoom(src, alt) {
+    zoomReturnFocus = document.activeElement;
+    const img = lightbox.querySelector("img");
+    img.src = src;
+    img.alt = alt;
+    lightbox.classList.add("is-open");
+    lightbox.querySelector(".lightbox__scroll").scrollTo(0, 0);
+    lightbox.querySelector(".lightbox__close").focus();
+  }
+  function closeZoom() {
+    lightbox.classList.remove("is-open");
+    zoomReturnFocus?.focus();
+  }
+  lightbox.addEventListener("click", (e) => {
+    // Close on the ✕ or on the backdrop (not when tapping the image itself)
+    if (e.target.closest(".lightbox__close") || !e.target.closest("img")) closeZoom();
   });
 
   // ── Case study drawer ─────────────────────────────────────
@@ -988,7 +1033,7 @@
   }
 
   document.addEventListener("keydown", (e) => {
-    if (e.key === "Escape") viewer.classList.contains("is-open") ? closeViewer() : closeProject();
+    if (e.key === "Escape") lightbox.classList.contains("is-open") ? closeZoom() : viewer.classList.contains("is-open") ? closeViewer() : closeProject();
     if (e.key === "/" && !document.activeElement.matches("input, textarea")) {
       e.preventDefault();
       input.focus();
