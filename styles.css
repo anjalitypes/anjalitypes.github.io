@@ -477,7 +477,7 @@ button { font: inherit; color: inherit; cursor: pointer; }
 .drawer__bar {
   position: sticky; top: 0; z-index: 3;
   display: flex; align-items: center; gap: 8px;
-  padding: 10px 14px 10px clamp(16px, 5vw, 48px);
+  padding: 10px 16px 10px 20px;
   background: var(--surface); border-bottom: 1px solid var(--border);
 }
 .drawer__bar-title {
@@ -512,7 +512,7 @@ button { font: inherit; color: inherit; cursor: pointer; }
 /* Project image sits under the tags, above Overview, at its natural proportions */
 .cs__hero { margin-top: 28px; border-radius: 14px; overflow: hidden; }
 .cs__content { padding: 28px clamp(16px, 5vw, 48px) 48px; }
-.cs__content h1 { font-size: clamp(28px, 5vw, 40px); letter-spacing: -.02em; margin: 4px 0 8px; }
+.cs__content h1 { font: 600 clamp(30px, 5.5vw, 40px)/1.12 "Newsreader", Georgia, serif; font-optical-sizing: auto; letter-spacing: -.015em; margin: 8px 0 8px; } /* serif case study titles */
 .cs__lede { font-size: 18px; color: var(--text-2); line-height: 1.5; margin: 0 0 20px; }
 .cs__facts {
   display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 16px;

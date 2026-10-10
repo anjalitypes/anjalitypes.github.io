@@ -459,7 +459,7 @@ const KEYWORD_PROJECTS = [
   { match: /\bplayer[- ]?coach\b/, projects: [LIT], after: LEADERSHIP_REPLY },
   { match: /\bstakeholders?\b/, projects: "all" },
   // Leadership (after "stakeholders" so "stakeholder management" keeps its own answer)
-  { match: /\b(leadership|leader|leading|lead(ing)? (a |the )?(design )?teams?|manag(er|ers|ing|ement)|team size|direct reports?)\b/, projects: [LIT, CLIFFS], after: LEADERSHIP_REPLY, intro: "Here are the projects where she led design:" },
+  { match: /\b(leadership|leader|leading|lead(ing)? (a |the )?(design )?teams?|manag(er|ers|ing|ement)|team size|direct reports?)\b/, projects: "all", after: LEADERSHIP_REPLY, intro: "Here are the projects where she led design:" },
 ];
 
 const STARTER_SUGGESTIONS = [
