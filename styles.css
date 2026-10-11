@@ -205,6 +205,8 @@ button { font: inherit; color: inherit; cursor: pointer; }
 }
 .bubble--intro { padding: 18px 20px; width: 100%; max-width: var(--wide-bubble); }
 .intro__title { margin: 0 0 6px; font-size: 17px; line-height: 1.2; font-weight: 600; }
+/* Keep each phrase together so a wrap breaks after the comma */
+.intro__title .nowrap { white-space: nowrap; }
 .intro__sub { margin: 0 0 12px !important; font-size: 15px; line-height: 1.55; color: var(--text); }
 .intro__text { color: var(--text); font-size: 15px; } /* reads like a regular reply: no divider, default color */
 .msg--user .bubble {

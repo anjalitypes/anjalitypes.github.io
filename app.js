@@ -1135,7 +1135,7 @@
     setSuggestions([]);
     const ordered = [...PROJECTS.filter((p) => p.featured), ...PROJECTS.filter((p) => !p.featured)];
     await addBot(`<div class="bubble bubble--intro">
-        <h1 class="intro__title">${esc(PROFILE.tagline)}</h1>
+        <h1 class="intro__title">${PROFILE.tagline.split(/(?<=,) /).map((part) => `<span class="nowrap">${esc(part)}</span>`).join(" ")}</h1>
         <p class="intro__sub">${esc(PROFILE.taglineSub)}</p>
         <p class="intro__text">${esc(PROFILE.intro)}</p>
       </div>${cardsHTML(ordered)}`, { delay: 500 });

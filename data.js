@@ -400,6 +400,11 @@ const TESTIMONIALS = [
 // Fun, personal questions: a quick casual answer (no project cards)
 const FUN_ANSWERS = [
   {
+    // How this site was made (checked before the AI workflow reply)
+    match: /\b(how|what)\b.*\b(built|build|made|make|created|create|coded|code|designed)\b.*\b(this|your|her|the|anjali'?s?) (site|portfolio|website|chat ?bot|chat|page)\b|\b(who|how) (built|made|designed|coded|created) (this|the (site|portfolio|website))\b|\bhow (was|is) (this|the)( (site|portfolio|website|chat ?bot|page))? (built|made|created|designed|coded)\b|\bhow (did )?(you|she|anjali) (build|make|create|code|design) (this|it)\s*\??$|\b(tech stack|built with|made with|vibe[- ]?cod(e|ed|ing))\b/,
+    body: "Anjali designed and vibe-coded this portfolio with Claude Code. She mapped the questions recruiters ask most, tested 67 real phrasings, and iterated on typography, color, motion, and read-aloud in a live preview, checking contrast and mobile behavior along the way. The result is an accessible portfolio you can talk to.",
+  },
+  {
     // "Fun facts": everything personal in one list
     match: /\b(fun facts?|something fun|hobbies|interests|personal facts?|get to know (her|anjali))\b/,
     body: "Here are a few fun facts about Anjali:",
@@ -441,6 +446,8 @@ const LEADERSHIP_REPLY = {
   image: { src: "images/leadership-overview.webp", full: "images/leadership-overview-full.webp", alt: "Overview of Anjali’s leadership work at Learneo: personas, onboarding documentation, career development matrix, design system upkeep, delivery team and process documentation, interview documentation, strategy, growth reporting, and team morale and education" },
 };
 const KEYWORD_PROJECTS = [
+  // Companies: LitCharts and CliffsNotes are Learneo products (Course Hero was Learneo's earlier name)
+  { match: /\b(learneo|course ?hero)\b/, projects: [LIT, CLIFFS] },
   { match: /\b(portfolio|case ?stud(y|ies)|impact|metrics?|kpis?|roi|results|outcomes?)\b/, projects: "all" },
   { match: /\bdesign process\b/, projects: [LIT, ABC] },
   { match: /\b(conversions?|growth)\b/, projects: [LIT, ABC] },
