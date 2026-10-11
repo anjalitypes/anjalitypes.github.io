@@ -998,8 +998,15 @@
         <div class="cs__next">${nextProjectHTML(p)}</div>
       </div>`;
     drawerBody.querySelectorAll(".cs__gallery img").forEach(sizeGallery);
+    const wasOpen = drawer.classList.contains("is-open");
     drawer.classList.add("is-open");
     drawer.setAttribute("aria-hidden", "false");
+    // Slide in from the right. Done with the Web Animations API so it still runs
+    // when iOS "Reduce Motion" switches off CSS transitions (as with the talking dot).
+    if (!wasOpen) {
+      drawer.querySelector(".drawer__panel").animate([{ transform: "translateX(100%)" }, { transform: "translateX(0)" }], DRAWER_EASE);
+      drawer.querySelector(".drawer__scrim").animate([{ opacity: 0 }, { opacity: 1 }], { duration: 250 });
+    }
     drawer.querySelector(".drawer__panel").scrollTop = 0;
     document.body.style.overflow = "hidden";
   }
@@ -1063,11 +1070,23 @@
     document.body.style.overflow = "";
   }
 
+  const DRAWER_EASE = { duration: 350, easing: "cubic-bezier(.2,.8,.2,1)" };
+  let drawerClosing = false;
   function closeProject() {
+    if (!drawer.classList.contains("is-open") || drawerClosing) return;
     if (speakingBtn === readPageBtn) stopSpeaking();
-    drawer.classList.remove("is-open", "has-scrolled");
     drawer.setAttribute("aria-hidden", "true");
     document.body.style.overflow = "";
+    // Slide out to the right, then hide (kept open until the slide finishes)
+    drawerClosing = true;
+    const slide = drawer.querySelector(".drawer__panel").animate([{ transform: "translateX(0)" }, { transform: "translateX(100%)" }], { ...DRAWER_EASE, duration: 280, fill: "forwards" });
+    const fade = drawer.querySelector(".drawer__scrim").animate([{ opacity: 1 }, { opacity: 0 }], { duration: 250, fill: "forwards" });
+    slide.onfinish = () => {
+      drawer.classList.remove("is-open", "has-scrolled");
+      slide.cancel();
+      fade.cancel();
+      drawerClosing = false;
+    };
   }
 
   document.addEventListener("keydown", (e) => {

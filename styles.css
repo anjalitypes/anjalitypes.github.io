@@ -461,13 +461,13 @@ button { font: inherit; color: inherit; cursor: pointer; }
 
 /* ── Case study drawer ─────────────────── */
 .drawer { position: fixed; inset: 0; z-index: 20; pointer-events: none; visibility: hidden; transition: visibility 0s linear .4s; }
-.drawer__scrim { position: absolute; inset: 0; background: rgba(0,0,0,.35); opacity: 0; transition: opacity .25s; }
+.drawer__scrim { position: absolute; inset: 0; background: rgba(0,0,0,.35); opacity: 0; } /* fades in/out from app.js */
 .drawer__panel {
   position: absolute; top: 0; right: 0; bottom: 0;
   width: min(720px, 100%);
   background: var(--surface); overflow-y: auto; overscroll-behavior: contain;
   transform: translateX(100%);
-  transition: transform .35s cubic-bezier(.2,.8,.2,1), width .35s cubic-bezier(.2,.8,.2,1);
+  transition: width .35s cubic-bezier(.2,.8,.2,1); /* the slide in/out runs in app.js (works with Reduce Motion) */
   box-shadow: -12px 0 40px rgba(0,0,0,.15);
 }
 .drawer.is-open { pointer-events: auto; visibility: visible; transition-delay: 0s; }
