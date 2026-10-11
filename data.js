@@ -50,7 +50,7 @@ const PROJECTS = [
     stats: [["↑ 75%", "Conversion rate"], ["↑ 40%", "YOY revenue"]],
     // Full case study shown in the project panel (projects without one show placeholders)
     caseStudy: {
-      overview: "LitCharts is an edtech SaaS platform that helps students analyze literature and gives teachers the tools to teach it. With AI study tools flooding the market and our own users requesting AI features, LitCharts set out to create their first AI tool, Ask LitCharts AI.",
+      overview: "LitCharts is an edtech SaaS platform that helps students analyze literature and gives teachers the tools to teach it. With AI study tools flooding the market and their own users requesting AI features, LitCharts set out to create their first AI tool, Ask LitCharts AI.",
       facts: [
         ["Role", "Lead Product Designer, Manager"],
         ["Team", "Direct report, engineers, product managers, CEO"],
@@ -61,15 +61,14 @@ const PROJECTS = [
         {
           heading: "Challenge",
           body: [
-            "AI-powered study tools were saturating the market. A Kano survey confirmed our users wanted AI features too. Ask LitCharts AI was the first of four SaaS tools on the year's roadmap. Its design needed to scale so all four could ship before the start of the school year and launch a new subscription tier.",
+            "AI-powered study tools were saturating the market. A Kano survey confirmed their users wanted AI features too. Ask LitCharts AI was the first of four SaaS tools on the year's roadmap. Its design needed to scale so all four could ship before the start of the school year and launch a new subscription tier.",
           ],
         },
         {
           heading: "Results",
           body: [
-            "The responsive design drew on established AI patterns to feel immediately intuitive, while brand-specific elements made it unmistakably LitCharts.",
-            "It became the top-converting feature in company history, 75% higher than the previous best. The component system scaled seamlessly to three teacher AI tools that followed, all shipping on time.",
-            "Together they anchored a new Teacher Tier that contributed to 40% YOY revenue growth, with zero change in retention despite price increases.",
+            "The responsive design became the top-converting feature in company history, 75% higher than the previous best. The component system scaled seamlessly to three teacher AI tools that followed, all shipping on time.",
+            "Together they anchored a new Teacher subscription that contributed to 40% YOY revenue growth, with zero change in retention despite price increases.",
           ],
           stats: [
             ["75%", "Increase in conversion over prior top feature"],
@@ -191,7 +190,7 @@ const PROJECTS = [
         {
           heading: "Takeaways",
           body: [
-            "These design systems didn't just improve our products, it changed how the org worked together. Designers, PMs, and engineers shared a common vocabulary, handoff became seamless, and the system proved it could scale when it mattered most.",
+            "These design systems didn't just improve their products, it changed how the org worked together. Designers, PMs, and engineers shared a common vocabulary, handoff became seamless, and the system proved it could scale when it mattered most.",
             "If she had more time, even though the fast adaptation was the right call, she would have developed CliffsNotes' foundational elements further to differentiate its brand identity at the foundational level. One of the biggest things she learned along the way was to keep up with every major Figma release. Each one was an opportunity to rethink the system.",
           ],
         },
@@ -252,7 +251,7 @@ const PROJECTS = [
           ],
           steps: [
             ["Research & Analysis", "She proactively created a research tracker to keep in-house and external teams aligned. FullStory, personas, and competitor analysis surfaced two findings: elevate high-value content above the fold and reduce flow friction."],
-            ["UX Strategy", "She defined the ideal page structure across four zones: Hero, Inspiration, Storytelling, and Discovery, but scoped down the sections for MVP to keep the team focused on validating the core experience before adding complexity. In presenting to stakeholders, Anjali's team aligned on an MVP that best supported our brand and users."],
+            ["UX Strategy", "She defined the ideal page structure across four zones: Hero, Inspiration, Storytelling, and Discovery, but scoped down the sections for MVP to keep the team focused on validating the core experience before adding complexity. In presenting to stakeholders, Anjali's team aligned on an MVP that best supported their brand and users."],
             ["UI & Agency Collaboration", "She worked hand-in-hand with the external design technologist: whiteboarding, pairing, and leading design direction throughout to ensure the vision didn't get lost in translation. As the founding designer at abc, she advocated for an A/B test to quantify UX impact for the company."],
             ["Handoff & QA", "Once design, data, and content were fully approved, she led handoff and partnered with the agency through an extensive QA process to bring the vision to life."],
           ],
@@ -303,6 +302,8 @@ const PRONUNCIATIONS = {
   lead: "leed",
   converts: "cun-verts",
   SaaS: "sass",
+  Claude: "clawed",
+  YOY: "year over year",
 };
 
 // How fast replies appear: 1 = original pace, 2 = twice as fast
