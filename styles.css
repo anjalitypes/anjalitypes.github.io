@@ -465,7 +465,7 @@ button { font: inherit; color: inherit; cursor: pointer; }
 .drawer__panel {
   position: absolute; top: 0; right: 0; bottom: 0;
   width: min(720px, 100%);
-  background: var(--surface); overflow-y: auto; overscroll-behavior: contain;
+  background: var(--surface); overflow-y: auto; overflow-x: clip; overscroll-behavior: contain; /* clip: no sideways scrollbar while the next project slides in */
   transform: translateX(100%);
   transition: width .35s cubic-bezier(.2,.8,.2,1); /* the slide in/out runs in app.js (works with Reduce Motion) */
   box-shadow: -12px 0 40px rgba(0,0,0,.15);
@@ -488,6 +488,7 @@ button { font: inherit; color: inherit; cursor: pointer; }
   opacity: 0; transform: translateY(4px); transition: opacity .2s ease, transform .2s ease;
 }
 .drawer.has-scrolled .drawer__bar-title { opacity: 1; transform: none; }
+.drawer.is-swapping .drawer__bar-title { transform: none; } /* "Next project": the old title fades out without moving */
 .drawer__bar .drawer__btn { box-shadow: none; }
 .speak--page { margin: 0; padding: 7px 14px 7px 11px; border: 1px solid var(--border); font-size: 13px; color: var(--text); }
 .speak--page[hidden] { display: none; }

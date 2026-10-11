@@ -947,10 +947,22 @@
     img.complete ? apply() : img.addEventListener("load", apply, { once: true });
   }
 
-  function openProject(id) {
+  let switching = false;
+  async function openProject(id) {
     const p = PROJECTS.find((x) => x.id === id);
-    if (!p) return;
+    if (!p || switching) return;
     const cs = p.caseStudy;
+    // Already open (e.g. "Next project"): the current case study slides out to
+    // the left, then the next one slides in from the right
+    const swap = drawer.classList.contains("is-open") && drawerBody.firstElementChild;
+    if (swap) {
+      switching = true;
+      // The old title in the header just fades out in place (no drop)
+      drawer.classList.add("is-swapping");
+      drawer.classList.remove("has-scrolled");
+      await drawerBody.animate([{ transform: "translateX(0)", opacity: 1 }, { transform: "translateX(-40%)", opacity: 0 }],
+        { duration: 180, easing: "cubic-bezier(.4,0,1,1)", fill: "forwards" }).finished;
+    }
     if (speakingBtn === readPageBtn) stopSpeaking();
     document.getElementById("drawer-bar-title").textContent = p.title;
     drawer.classList.remove("has-scrolled");
@@ -986,6 +998,12 @@
     }
     drawer.querySelector(".drawer__panel").scrollTop = 0;
     document.body.style.overflow = "hidden";
+    if (swap) {
+      drawerBody.getAnimations().forEach((a) => a.cancel());
+      drawer.classList.remove("is-swapping");
+      await drawerBody.animate([{ transform: "translateX(100%)" }, { transform: "translateX(0)" }], DRAWER_EASE).finished;
+      switching = false;
+    }
   }
 
   function nextProjectHTML(p) {
