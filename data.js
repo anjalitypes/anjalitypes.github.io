@@ -352,6 +352,12 @@ const SPECIAL_TOPICS = [
     chip: "Healthcare work",
     body: "There isn't a case study for healthcare at the moment, but Anjali has freelanced and developed onboarding flows and landing pages for different healthcare companies. One was developed for VibrantLifeMD. She not only developed the UX strategy, but also made a brand kit for the business to use across the platform as well as social media.",
     image: { src: "images/vibrantlife.webp", alt: "VibrantLifeMD landing page: the hero, Meet Dr. Shetal Stewart, Our Services, and the consultation sign-up form" },
+    more: {
+      body: "Below is a health diary concept she developed.",
+      images: [
+        { src: "images/health-tracker-exploration.webp", alt: "Health tracking app exploration: a daily journal for anxiety, pain, mood, stress, and hours slept with a recommended guided walk, and a monthly analysis with a mood calendar and sleep tracker" },
+      ],
+    },
   },
   {
     id: "b2b",
