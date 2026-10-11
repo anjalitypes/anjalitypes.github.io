@@ -110,7 +110,7 @@ const PROJECTS = [
           heading: "Takeaways",
           body: [
             "Ask LitCharts AI not only launched on time, but it became the highest converting feature in company history. The feature's component strategy enabled quick iteration of the three AI tools that followed. All elements of the roadmap shipped before the school year, leading to 40% YOY revenue growth and zero change in retention despite price increases. None of it would have been possible without cross-functional collaboration.",
-            "Designing for AI also taught her that the hardest problem isn't the happy path, it's building user confidence when the system behaves unexpectedly. If she were doing it again, she'd have tailored each tool's interaction patterns to its use case, but the shared foundation was the right call under the constraints we had.",
+            "Designing for AI also taught her that the hardest problem isn't the happy path, it's building user confidence when the system behaves unexpectedly. If she were doing it again, she'd have tailored each tool's interaction patterns to its use case, but the shared foundation was the right call under the constraints Anjali's team had.",
           ],
         },
       ],
@@ -214,7 +214,7 @@ const PROJECTS = [
     stats: [["↑ 81%", "Revenue"], ["↑ 55%", "Avg order value"]],
     // Full case study shown in the project panel (from anjali-patel.com/cases/abc)
     caseStudy: {
-      overview: "As a luxury home furnishings retailer, abc carpet & home's products were underperforming online. The product detail page was a critical entry point into the purchase funnel with product types spanning everything from furniture to jewelry. We set out to redesign these pages.",
+      overview: "As a luxury home furnishings retailer, abc carpet & home's products were underperforming online. The product detail page was a critical entry point into the purchase funnel with product types spanning everything from furniture to jewelry. Anjali's team set out to redesign these pages.",
       facts: [
         ["Role", "Founding Product Designer"],
         ["Team", "Product managers, external developers, editorial team"],
@@ -252,7 +252,7 @@ const PROJECTS = [
           ],
           steps: [
             ["Research & Analysis", "She proactively created a research tracker to keep in-house and external teams aligned. FullStory, personas, and competitor analysis surfaced two findings: elevate high-value content above the fold and reduce flow friction."],
-            ["UX Strategy", "She defined the ideal page structure across four zones: Hero, Inspiration, Storytelling, and Discovery, but scoped down the sections for MVP to keep the team focused on validating the core experience before adding complexity. In presenting to stakeholders, we aligned on an MVP that best supported our brand and users."],
+            ["UX Strategy", "She defined the ideal page structure across four zones: Hero, Inspiration, Storytelling, and Discovery, but scoped down the sections for MVP to keep the team focused on validating the core experience before adding complexity. In presenting to stakeholders, Anjali's team aligned on an MVP that best supported our brand and users."],
             ["UI & Agency Collaboration", "She worked hand-in-hand with the external design technologist: whiteboarding, pairing, and leading design direction throughout to ensure the vision didn't get lost in translation. As the founding designer at abc, she advocated for an A/B test to quantify UX impact for the company."],
             ["Handoff & QA", "Once design, data, and content were fully approved, she led handoff and partnered with the agency through an extensive QA process to bring the vision to life."],
           ],
@@ -271,7 +271,7 @@ const PROJECTS = [
           heading: "Takeaways",
           body: [
             "The A/B results were clear: 81% revenue increase, 55% jump in average order value, and per session value nearly doubled. The numbers validated the approach, but the process made them possible. Front-loading alignment saved time at launch. Designing with engineering in mind reduced friction from day one.",
-            "With more runway she would have launched more of the page sections we scoped for phase two from the start. This project taught her that being a founding designer means selling the process as much as the output. The A/B test wasn't just validation, it was how she earned the trust org-wide to keep experimenting.",
+            "With more runway she would have launched more of the page sections Anjali's team scoped for phase two from the start. This project taught her that being a founding designer means selling the process as much as the output. The A/B test wasn't just validation, it was how she earned the trust org-wide to keep experimenting.",
           ],
         },
       ],
