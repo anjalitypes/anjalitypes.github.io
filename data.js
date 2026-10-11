@@ -86,13 +86,13 @@ const PROJECTS = [
         {
           heading: "Process",
           body: [
-            "I led end-to-end design while mentoring a direct report, paired with engineering on feasibility, and partnered with product on feature direction:",
+            "Anjali led end-to-end design while mentoring a direct report, paired with engineering on feasibility, and partnered with product on feature direction:",
           ],
           steps: [
-            ["Research & Analysis", "I conducted a competitive analysis across AI giants and education-specific tools and identified common UX patterns."],
-            ["Ideation", "Through exploration, a running chat interface emerged as the more familiar and scalable UX pattern. I made the case and secured approval to change the specs."],
-            ["Micro-interactions", "I studied these in CodePen, building a motion toolkit that gave engineering the confidence to commit to animation as a quality baseline."],
-            ["Strategy", "When the Product VP raised concerns about trading design quality for speed, I proposed two solutions: CSS rules written directly into design specs, and scalable React components to carry all four AI tools without rebuilding from scratch."],
+            ["Research & Analysis", "She conducted a competitive analysis across AI giants and education-specific tools and identified common UX patterns."],
+            ["Ideation", "Through exploration, a running chat interface emerged as the more familiar and scalable UX pattern. She made the case and secured approval to change the specs."],
+            ["Micro-interactions", "She studied these in CodePen, building a motion toolkit that gave engineering the confidence to commit to animation as a quality baseline."],
+            ["Strategy", "When the Product VP raised concerns about trading design quality for speed, she proposed two solutions: CSS rules written directly into design specs, and scalable React components to carry all four AI tools without rebuilding from scratch."],
             ["Handoff & Delivery", "The CSS-in-specs process gave engineering everything they needed to build quickly. The component system meant subsequent tools required no structural redesign, just new UX on an already-proven foundation."],
           ],
         },
@@ -110,7 +110,7 @@ const PROJECTS = [
           heading: "Takeaways",
           body: [
             "Ask LitCharts AI not only launched on time, but it became the highest converting feature in company history. The feature's component strategy enabled quick iteration of the three AI tools that followed. All elements of the roadmap shipped before the school year, leading to 40% YOY revenue growth and zero change in retention despite price increases. None of it would have been possible without cross-functional collaboration.",
-            "Designing for AI also taught me that the hardest problem isn't the happy path, it's building user confidence when the system behaves unexpectedly. If I were doing it again, I'd have tailored each tool's interaction patterns to its use case, but the shared foundation was the right call under the constraints we had.",
+            "Designing for AI also taught her that the hardest problem isn't the happy path, it's building user confidence when the system behaves unexpectedly. If she were doing it again, she'd have tailored each tool's interaction patterns to its use case, but the shared foundation was the right call under the constraints we had.",
           ],
         },
       ],
@@ -132,7 +132,7 @@ const PROJECTS = [
     stats: [["20%", "Time savings"], ["20+", "Adoption"]],
     // Full case study shown in the project panel (from anjali-patel.com/cases/design-systems)
     caseStudy: {
-      overview: "LitCharts and CliffsNotes are two of EdTech's most recognized SaaS literature platforms. When I joined LitCharts, the design workflow was fragmented: outdated Sketch files, bloated components, and limited visibility across teams. I led the migration to Figma from the ground up and leveraged it to create CliffsNotes' foundational design system.",
+      overview: "LitCharts and CliffsNotes are two of EdTech's most recognized SaaS literature platforms. When Anjali joined LitCharts, the design workflow was fragmented: outdated Sketch files, bloated components, and limited visibility across teams. She led the migration to Figma from the ground up and leveraged it to create CliffsNotes' foundational design system.",
       facts: [
         ["Role", "Lead Product Designer, Manager"],
         ["Team", "Direct report, engineers, product managers, CEO"],
@@ -143,16 +143,16 @@ const PROJECTS = [
         {
           heading: "Challenge",
           body: [
-            "When I joined LitCharts, the design workflow was inefficient and slowing cross-functional collaboration down. I recognized that moving to Figma was a strategic investment in speed, scalability, and alignment; but first I needed buy-in.",
+            "When Anjali joined LitCharts, the design workflow was inefficient and slowing cross-functional collaboration down. She recognized that moving to Figma was a strategic investment in speed, scalability, and alignment; but first she needed buy-in.",
           ],
         },
         {
           heading: "Results",
           body: [
-            "I presented a clear plan to leadership and secured dedicated time to do the Sketch-to-Figma migration.",
+            "She presented a clear plan to leadership and secured dedicated time to do the Sketch-to-Figma migration.",
             "The LitCharts design system became the foundation for how the organization designed and built.",
-            "When CliffsNotes joined the Learneo family, I leveraged LitCharts' system to build foundational system elements saving build time by 20-30%.",
-            "In another step toward tighter design-to-build translation, I paired with a lead engineer on a Storybook integration.",
+            "When CliffsNotes joined the Learneo family, she leveraged LitCharts' system to build foundational system elements saving build time by 20-30%.",
+            "In another step toward tighter design-to-build translation, she paired with a lead engineer on a Storybook integration.",
           ],
           stats: [
             ["2", "Design systems"],
@@ -169,13 +169,13 @@ const PROJECTS = [
         {
           heading: "Process",
           body: [
-            "I led the design systems initiative end-to-end, from securing leadership buy-in to mentoring the cross-functional team on systems thinking.",
+            "Anjali led the design systems initiative end-to-end, from securing leadership buy-in to mentoring the cross-functional team on systems thinking.",
           ],
           steps: [
-            ["Sketch-to-Figma Migration", "I led the Sketch-to-Figma migration, auditing every component, removing redundancies, and establishing a scalable foundation for LitCharts."],
-            ["LitCharts Design System", "I built a design system with tokens, variables, styles, components, and documentation. This created a source of truth for design across the organization."],
+            ["Sketch-to-Figma Migration", "She led the Sketch-to-Figma migration, auditing every component, removing redundancies, and establishing a scalable foundation for LitCharts."],
+            ["LitCharts Design System", "She built a design system with tokens, variables, styles, components, and documentation. This created a source of truth for design across the organization."],
             ["Engineering Partnership", "When the engineering lead wanted to explore a Storybook integration, we paired on this initiative to improve QA and reduce translation gaps for the team."],
-            ["Scaling to CliffsNotes", "After acquiring CliffsNotes, it came without a design system. To hit the ground running, I strategically reused the LitCharts system's foundations by reskinning components for the CliffsNotes design system and developing new ones as needed. What could have been a full rebuild became a fast, focused adaptation."],
+            ["Scaling to CliffsNotes", "After acquiring CliffsNotes, it came without a design system. To hit the ground running, she strategically reused the LitCharts system's foundations by reskinning components for the CliffsNotes design system and developing new ones as needed. What could have been a full rebuild became a fast, focused adaptation."],
           ],
         },
         {
@@ -192,7 +192,7 @@ const PROJECTS = [
           heading: "Takeaways",
           body: [
             "These design systems didn't just improve our products, it changed how the org worked together. Designers, PMs, and engineers shared a common vocabulary, handoff became seamless, and the system proved it could scale when it mattered most.",
-            "If I had more time, even though the fast adaptation was the right call, I would have developed CliffsNotes' foundational elements further to differentiate its brand identity at the foundational level. One of the biggest things I learned along the way was to keep up with every major Figma release. Each one was an opportunity to rethink the system.",
+            "If she had more time, even though the fast adaptation was the right call, she would have developed CliffsNotes' foundational elements further to differentiate its brand identity at the foundational level. One of the biggest things she learned along the way was to keep up with every major Figma release. Each one was an opportunity to rethink the system.",
           ],
         },
       ],
@@ -218,7 +218,7 @@ const PROJECTS = [
       facts: [
         ["Role", "Founding Product Designer"],
         ["Team", "Product managers, external developers, editorial team"],
-        ["Tools", "Figma, FullStory, Adobe, Google Analytics, Sheets, Google Optimize, Miro"],
+        ["Tools", "Figma, FullStory, Adobe, Google Analytics, Miro"],
         ["Timeline", "12 weeks"],
       ],
       sections: [
@@ -248,13 +248,13 @@ const PROJECTS = [
         {
           heading: "Process",
           body: [
-            "I partnered closely with product managers, an external agency, and cross-functional teams to drive the product page redesign from research through launch.",
+            "Anjali partnered closely with product managers, an external agency, and cross-functional teams to drive the product page redesign from research through launch.",
           ],
           steps: [
-            ["Research & Analysis", "I proactively created a research tracker to keep in-house and external teams aligned. FullStory, personas, and competitor analysis surfaced two findings: elevate high-value content above the fold and reduce flow friction."],
-            ["UX Strategy", "I defined the ideal page structure across four zones: Hero, Inspiration, Storytelling, and Discovery, but scoped down the sections for MVP to keep the team focused on validating the core experience before adding complexity. In presenting to stakeholders, we aligned on an MVP that best supported our brand and users."],
-            ["UI & Agency Collaboration", "I worked hand-in-hand with the external design technologist: whiteboarding, pairing, and leading design direction throughout to ensure the vision didn't get lost in translation. As the founding designer at abc, I advocated for an A/B test to quantify UX impact for the company."],
-            ["Handoff & QA", "Once design, data, and content were fully approved, I led handoff and partnered with the agency through an extensive QA process to bring the vision to life."],
+            ["Research & Analysis", "She proactively created a research tracker to keep in-house and external teams aligned. FullStory, personas, and competitor analysis surfaced two findings: elevate high-value content above the fold and reduce flow friction."],
+            ["UX Strategy", "She defined the ideal page structure across four zones: Hero, Inspiration, Storytelling, and Discovery, but scoped down the sections for MVP to keep the team focused on validating the core experience before adding complexity. In presenting to stakeholders, we aligned on an MVP that best supported our brand and users."],
+            ["UI & Agency Collaboration", "She worked hand-in-hand with the external design technologist: whiteboarding, pairing, and leading design direction throughout to ensure the vision didn't get lost in translation. As the founding designer at abc, she advocated for an A/B test to quantify UX impact for the company."],
+            ["Handoff & QA", "Once design, data, and content were fully approved, she led handoff and partnered with the agency through an extensive QA process to bring the vision to life."],
           ],
         },
         {
@@ -271,7 +271,7 @@ const PROJECTS = [
           heading: "Takeaways",
           body: [
             "The A/B results were clear: 81% revenue increase, 55% jump in average order value, and per session value nearly doubled. The numbers validated the approach, but the process made them possible. Front-loading alignment saved time at launch. Designing with engineering in mind reduced friction from day one.",
-            "With more runway I would have launched more of the page sections we scoped for phase two from the start. This project taught me that being a founding designer means selling the process as much as the output. The A/B test wasn't just validation, it was how I earned the trust org-wide to keep experimenting.",
+            "With more runway she would have launched more of the page sections we scoped for phase two from the start. This project taught her that being a founding designer means selling the process as much as the output. The A/B test wasn't just validation, it was how she earned the trust org-wide to keep experimenting.",
           ],
         },
       ],
@@ -327,7 +327,25 @@ const VOICE = {
 
 // Topics with their own reply: copy + visual. `related` lists projects with that
 // tag underneath; otherwise the reply offers to show the case studies.
+const LIT = "litcharts-ai", CLIFFS = "cliffsnotes-design-system", ABC = "abc-product-page";
+
 const SPECIAL_TOPICS = [
+  {
+    id: "fintech",
+    match: /\b(fin ?tech|banks?|banking|finance|financial|payments?|fin ?serv|wallets?|lending|loans?|credit cards?|neo ?banks?)\b/i,
+    chip: "Fintech",
+    body: "There isn't a fintech case study yet, but here's a banking app exploration Anjali designed, covering balances, savings goals, spending, and transactions.",
+    image: { src: "images/banking-exploration.webp", alt: "Banking app exploration: a home screen with a bank card balance, finance goal progress, a recent-transactions spending chart and list, and a menu with Pay Bills, Budget, Stocks, Alerts, and more" },
+    more: {
+      body: "Across LitCharts, CliffsNotes, and abc, Anjali also designed many cross-industry building blocks: pricing, subscriptions, checkout flows, data visualizations, and a transaction dashboard for customer support.",
+      images: [
+        { src: "images/cliffsnotes-data-viz.webp", alt: "CliffsNotes character page with a chart showing how often Junior appears in each chapter" },
+        { src: "images/litcharts-cst-dashboard-cropped.webp", alt: "LitCharts Customer Service dashboard: search with filters and a transactions table with an expanded payment row" },
+        { src: "images/dashboard-concept.webp", alt: "EduTracker dashboard concept: user and revenue stats, subscription trend chart, page views by category, top features, and recent activity" },
+      ],
+    },
+    related: [LIT, CLIFFS, ABC],
+  },
   {
     id: "healthcare",
     match: /\b(health ?care|health ?tech|healthtech|health|medical|medicine|telehealth|telemedicine|wellness|clinic|vibrantlife(md)?)\b/i,
@@ -436,7 +454,6 @@ const FUN_ANSWERS = [
 
 // Recruiter keywords mapped to exactly which projects to show (checked before
 // the general tag search, which can match loosely). "all" = every case study.
-const LIT = "litcharts-ai", CLIFFS = "cliffsnotes-design-system", ABC = "abc-product-page";
 // Shown after the projects for leadership/manager questions
 const LEADERSHIP_REPLY = {
   body: [

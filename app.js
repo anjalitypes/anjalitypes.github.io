@@ -548,7 +548,10 @@
 
   // After a topic reply: its related projects, or an offer to see all case studies
   function relatedHTML(topic) {
-    const list = topic.related ? PROJECTS.filter((p) => p.tags.includes(topic.related)) : [];
+    // related: a tag, or a list of project ids
+    const list = !topic.related ? []
+      : Array.isArray(topic.related) ? PROJECTS.filter((p) => topic.related.includes(p.id))
+      : PROJECTS.filter((p) => p.tags.includes(topic.related));
     if (list.length) {
       return `<div class="bubble">${list.length > 1 ? "Related case studies:" : "Related case study:"}</div>${cardsHTML(list)}`;
     }
@@ -634,7 +637,7 @@
     if (/\b(about|yourself|who are you|bio|background)\b/.test(q)) {
       await addBot(`<div class="bubble bubble--about">${PROFILE.about.map((t) => `<p>${esc(t)}</p>`).join("")}${PROFILE.aboutImage ? `<img class="about__img" src="${esc(PROFILE.aboutImage.src)}" alt="${esc(PROFILE.aboutImage.alt)}" />` : ""}</div>
         ${timelineHTML()}
-        <div class="bubble bubble--follow">Want to see what she's been working on?
+        <div class="bubble bubble--follow">Want to see her case studies?
           <div class="linkrow"><button type="button" class="btn btn--accent btn--sm" data-ask="Yes, show me!" data-once>Yes, show me</button></div>
         </div>`);
       return setSuggestions(followUps(raw));
@@ -666,9 +669,11 @@
     // related case studies, or an offer to see them
     const topic = SPECIAL_TOPICS.find((t) => t.match.test(q));
     if (topic) {
-      await addBot(`<div class="bubble"><p>${esc(topic.body)}</p></div>
-        ${[topic.image, ...(topic.images || [])].filter(Boolean)
-          .map((img) => `<figure class="reply-img"><img src="${esc(img.src)}" alt="${esc(img.alt || "")}" /></figure>`).join("")}
+      const imgs = (t) => [t.image, ...(t.images || [])].filter(Boolean)
+        .map((img) => `<figure class="reply-img"><img src="${esc(img.src)}" alt="${esc(img.alt || "")}" /></figure>`).join("");
+      // Optional second section (more: {body, images}) before the related projects
+      await addBot(`<div class="bubble"><p>${esc(topic.body)}</p></div>${imgs(topic)}
+        ${topic.more ? `<div class="bubble"><p>${esc(topic.more.body)}</p></div>${imgs(topic.more)}` : ""}
         ${relatedHTML(topic)}`, { delay: 800 });
       return setSuggestions(followUps(raw));
     }
