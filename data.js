@@ -42,7 +42,7 @@ const PROJECTS = [
     role: "Lead Product Designer",
     summary: "To meet LitCharts' ambitious roadmap of four AI tools and a new subscription plan, Anjali designed Ask LitCharts AI to scale to every tool that followed.",
     // All tags are searchable; only `showTags` appear on the card.
-    tags: ["ai", "edtech", "chatbot", "systems", "scale", "growth", "cro", "conversion", "branding", "strategy", "ux", "ui", "responsive", "web", "tablet", "mobile", "figma", "codepen", "coding", "html", "css", "leadership", "kano survey", "0 to 1", "product strategy", "roadmap planning", "amplitude", "hotjar", "b2b", "b2c", "research"],
+    tags: ["ai", "edtech", "chatbot", "systems", "scale", "growth", "cro", "conversion", "branding", "strategy", "ux", "ui", "responsive", "web", "tablet", "mobile", "figma", "codepen", "coding", "html", "css", "react", "leadership", "kano survey", "0 to 1", "product strategy", "roadmap planning", "amplitude", "hotjar", "b2b", "b2c", "research"],
     showTags: ["Edtech", "AI", "Growth"],
     caseStudyTags: ["B2C", "B2B", "0 → 1", "Branding"], // extra tags shown only in the case study
     image: "images/litcharts-ai.webp",
@@ -337,7 +337,7 @@ const SPECIAL_TOPICS = [
     body: "There isn't a fintech case study yet, but here's a banking app exploration Anjali designed, covering balances, savings goals, spending, and transactions.",
     image: { src: "images/banking-exploration.webp", alt: "Banking app exploration: a home screen with a bank card balance, finance goal progress, a recent-transactions spending chart and list, and a menu with Pay Bills, Budget, Stocks, Alerts, and more" },
     more: {
-      body: "Across LitCharts, CliffsNotes, and abc, Anjali also designed many cross-industry building blocks: pricing, subscriptions, checkout flows, data visualizations, and a transaction dashboard for customer support.",
+      body: "Also across LitCharts, CliffsNotes, and abc, Anjali designed many cross-industry building blocks: pricing, subscriptions, checkout flows, data visualizations, and a transaction dashboard for customer support.",
       images: [
         { src: "images/cliffsnotes-data-viz.webp", alt: "CliffsNotes character page with a chart showing how often Junior appears in each chapter" },
         { src: "images/litcharts-cst-dashboard-cropped.webp", alt: "LitCharts Customer Service dashboard: search with filters and a transactions table with an expanded payment row" },
@@ -347,13 +347,31 @@ const SPECIAL_TOPICS = [
     related: [LIT, CLIFFS, ABC],
   },
   {
+    id: "climate tech",
+    match: /\b(climate( ?tech)?|clean ?tech|clean energy|energy|renewables?|solar|batter(y|ies)|virtual power plants?|vpps?|sustainab(le|ility)|utilit(y|ies)|power grid|grid|everyday electric)\b/i,
+    chip: "Climate tech",
+    body: "Anjali is currently working as a Senior Product Designer (contract) at Everyday Electric, the largest residential virtual power plant in the US. Reach Anjali at ap@anjali-patel.com to learn more.",
+  },
+  {
+    id: "nonprofit",
+    match: /\b(non-?profits?|non profits?|charit(y|ies|able)|ngos?|nn4y|national network for youth|mission[- ]driven|social impact|donations?|fundrais(e|ing))\b/i,
+    chip: "Nonprofit work",
+    body: "There is no case study for nonprofit work, but Anjali has freelanced for a nonprofit in the past. For National Network for Youth she redesigned their information architecture to make the site easier to navigate.",
+    image: { src: "images/nn4y-navigation.webp", alt: "National Network for Youth website redesign: the About menu organized into Our Story, Contributors, and Collaborations, above cards for membership, health support, and the resource library" },
+    quote: {
+      text: "I cannot recommend Anjali highly enough! She is a delight to work with and is very passionate about her work. As a national nonprofit working to end youth homelessness, we really needed help improving our website in order to increase our effectiveness as an organization. Anjali came with a data driven, creative, and customer-centric approach to our work. She went above and beyond our expectations and we could not be more happy with the results of her work.",
+      name: "Darla Bardine",
+      title: "Executive Director, National Network for Youth",
+    },
+  },
+  {
     id: "healthcare",
     match: /\b(health ?care|health ?tech|healthtech|health|medical|medicine|telehealth|telemedicine|wellness|clinic|vibrantlife(md)?)\b/i,
     chip: "Healthcare work",
     body: "There isn't a case study for healthcare at the moment, but Anjali has freelanced and developed onboarding flows and landing pages for different healthcare companies. One was developed for VibrantLifeMD. She not only developed the UX strategy, but also made a brand kit for the business to use across the platform as well as social media.",
     image: { src: "images/vibrantlife.webp", alt: "VibrantLifeMD landing page: the hero, Meet Dr. Shetal Stewart, Our Services, and the consultation sign-up form" },
     more: {
-      body: "Below is a health diary concept she developed.",
+      body: "In addition to freelance work, she enjoys creating concepts like the health diary exploration below.",
       images: [
         { src: "images/health-tracker-exploration.webp", alt: "Health tracking app exploration: a daily journal for anxiety, pain, mood, stress, and hours slept with a recommended guided walk, and a monthly analysis with a mood calendar and sleep tracker" },
       ],
@@ -454,6 +472,7 @@ const FUN_ANSWERS = [
   },
   {
     match: /\b(travel(s|ed|ing|led|ling)?|trips?|vacations?|countries|been to|visited|wanderlust)\b/,
+    unless: /\b(industry|industries|experience|company|companies|tech|startups?|apps?|platforms?|booking|hospitality|work(ed)?|clients?|projects?|case stud(y|ies))\b/, // "travel industry experience" isn't a fun question
     body: "She loves to travel, she's been to 30 countries so far, that's 12% of the world! A life goal of hers is to visit every country in the world one day.",
   },
 ];
@@ -471,6 +490,8 @@ const LEADERSHIP_REPLY = {
 const KEYWORD_PROJECTS = [
   // Companies: LitCharts and CliffsNotes are Learneo products (Course Hero was Learneo's earlier name)
   { match: /\b(learneo|course ?hero)\b/, projects: [LIT, CLIFFS] },
+  { match: /\bsaas\b/, projects: [LIT, CLIFFS] },
+  { match: /\b(retail|retailers?)\b/, projects: [ABC] },
   { match: /\b(portfolio|case ?stud(y|ies)|impact|metrics?|kpis?|roi|results|outcomes?)\b/, projects: "all" },
   { match: /\bdesign process\b/, projects: [LIT, ABC] },
   { match: /\b(conversions?|growth)\b/, projects: [LIT, ABC] },

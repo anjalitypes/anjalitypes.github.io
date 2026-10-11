@@ -191,7 +191,7 @@ button { font: inherit; color: inherit; cursor: pointer; }
 }
 .lightbox.is-open { visibility: visible; opacity: 1; transition: opacity .2s; }
 .lightbox__scroll { position: absolute; inset: 0; overflow: auto; display: grid; place-items: center; padding: 56px 16px 24px; overscroll-behavior: contain; }
-.lightbox__scroll img { display: block; max-width: 100%; height: auto; border-radius: 10px; } /* full quality, never stretched past its real size */
+.lightbox__scroll img { display: block; max-width: 100%; max-height: calc(100vh - 80px); max-height: calc(100dvh - 80px); width: auto; height: auto; border-radius: 10px; } /* full quality, shrunk to fit the screen, never stretched past its real size */
 .lightbox__close {
   position: absolute; top: 12px; right: 12px; z-index: 1;
   width: 40px; height: 40px; border-radius: 50%; border: 0;
@@ -200,7 +200,7 @@ button { font: inherit; color: inherit; cursor: pointer; }
 /* Phones: show the image wider than the screen so labels are readable; swipe to pan */
 @media (max-width: 600px) {
   .lightbox__scroll { place-items: start; }
-  .lightbox__scroll img { max-width: none; width: 1200px; }
+  .lightbox__scroll img { max-width: none; max-height: none; width: 1200px; }
 }
 .bubble--intro { padding: 18px 20px; width: 100%; max-width: var(--wide-bubble); }
 .intro__title { margin: 0 0 6px; font-size: 17px; line-height: 1.2; font-weight: 600; }
@@ -309,8 +309,6 @@ button { font: inherit; color: inherit; cursor: pointer; }
 }
 .card:hover { background: var(--bubble-hover); }
 .card:hover::before, .card:hover + .card::before { opacity: 0; }
-.card.is-dimmed { opacity: .28; filter: grayscale(1); }
-.card.is-dimmed:hover { background: transparent; }
 .cs__hero img { width: 100%; height: auto; display: block; } /* full image, natural proportions, no cropping */
 .card__body { flex: 1; min-width: 0; }
 .card__meta { font-size: 12px; color: var(--text-2); }
@@ -382,6 +380,7 @@ button { font: inherit; color: inherit; cursor: pointer; }
 
 /* ── Testimonials ──────────────────────── */
 .quotes { display: grid; gap: 12px; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); }
+.quotes--single { width: 100%; max-width: var(--wide-bubble); } /* a quote inside a topic reply matches the image above it */
 .quote-item { display: flex; flex-direction: column; gap: 6px; }
 .quote-item .speak { margin-top: 0; }
 .quote {

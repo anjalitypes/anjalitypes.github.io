@@ -576,20 +576,12 @@
     let s = 0;
     for (const t of p.tags) {
       if (t === ql) s += 10;
-      else if (ql.includes(t)) s += 6;
+      else if (new RegExp(`(^|[^a-z0-9])${t.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")}($|[^a-z0-9])`).test(ql)) s += 6;
       else s += words.filter((w) => tagMatches(t, w)).length * 3;
     }
     const name = `${p.title} ${p.company}`.toLowerCase();
     s += words.filter((w) => name.includes(w)).length * 4;
     return s;
-  }
-
-  // Live filter: every typed word must match a tag, title, or company
-  function liveMatch(p, q) {
-    const words = queryWords(q);
-    if (!words.length) return true;
-    const name = `${p.title} ${p.company}`.toLowerCase();
-    return words.every((w) => name.includes(w) || p.tags.some((t) => tagMatches(t, w)));
   }
 
   function search(q) {
@@ -614,7 +606,7 @@
     }
 
     // Fun personal questions (favorite song, food, color): a quick casual answer
-    const fun = FUN_ANSWERS.find((f) => f.match.test(q));
+    const fun = FUN_ANSWERS.find((f) => f.match.test(q) && !(f.unless && f.unless.test(q)));
     if (fun) {
       await addBot(`<div class="bubble"><p>${esc(fun.body)}</p>${fun.list ? `<ul class="bubble__list">${fun.list.map((t) => `<li>${esc(t)}</li>`).join("")}</ul>` : ""}</div>`);
       return setSuggestions(followUps(raw));
@@ -634,7 +626,8 @@
       return setSuggestions(followUps(raw));
     }
 
-    if (/\b(about|yourself|who are you|bio|background)\b/.test(q)) {
+    const hasTopic = SPECIAL_TOPICS.some((t) => t.match.test(q)) || KEYWORD_PROJECTS.some((k) => k.match.test(q));
+    if (/\b(yourself|who are you|bio|background)\b/.test(q) || (/\babout\b/.test(q) && !hasTopic)) {
       await addBot(`<div class="bubble bubble--about">${PROFILE.about.map((t) => `<p>${esc(t)}</p>`).join("")}${PROFILE.aboutImage ? `<img class="about__img" src="${esc(PROFILE.aboutImage.src)}" alt="${esc(PROFILE.aboutImage.alt)}" />` : ""}</div>
         ${timelineHTML()}
         <div class="bubble bubble--follow">Want to see her case studies?
@@ -672,7 +665,13 @@
       const imgs = (t) => [t.image, ...(t.images || [])].filter(Boolean)
         .map((img) => `<figure class="reply-img"><img src="${esc(img.src)}" alt="${esc(img.alt || "")}" /></figure>`).join("");
       // Optional second section (more: {body, images}) before the related projects
-      await addBot(`<div class="bubble"><p>${esc(topic.body)}</p></div>${imgs(topic)}
+      const linked = (t) => esc(t).replace(esc(PROFILE.email), `<a href="mailto:${esc(PROFILE.email)}">${esc(PROFILE.email)}</a>`);
+      const quote = topic.quote ? `<div class="quotes quotes--single"><div class="quote-item"><figure class="quote">
+        <span class="quote__mark" aria-hidden="true">&rdquo;</span>
+        <blockquote>${esc(topic.quote.text)}</blockquote>
+        <figcaption><span><strong>${esc(topic.quote.name)}</strong><span>${esc(topic.quote.title)}</span></span></figcaption>
+      </figure></div></div>` : "";
+      await addBot(`<div class="bubble"><p>${linked(topic.body)}</p></div>${imgs(topic)}${quote}
         ${topic.more ? `<div class="bubble"><p>${esc(topic.more.body)}</p></div>${imgs(topic.more)}` : ""}
         ${relatedHTML(topic)}`, { delay: 800 });
       return setSuggestions(followUps(raw));
@@ -780,33 +779,10 @@
     suggestions.querySelector(".chip[data-ask]") && !input.value ? morphChips(list) : renderChips(list);
   }
 
-  // Live filter: as the visitor types, the latest project grid dims cards
-  // that don't match, and the chips become matching tags (with counts).
-  function dimCards(q) {
-    const grid = [...thread.querySelectorAll(".cards")].at(-1);
-    if (!grid) return null;
-    let shown = 0;
-    const cards = [...grid.querySelectorAll(".card")];
-    for (const card of cards) {
-      const p = PROJECTS.find((x) => x.id === card.dataset.project);
-      const hit = !q || (p && liveMatch(p, q));
-      card.classList.toggle("is-dimmed", !hit);
-      if (hit) shown++;
-    }
-    return { shown, total: cards.length };
-  }
-
-  function clearFilter() {
-    dimCards("");
-  }
-
+  // As the visitor types, the chips become matching topics, projects, and tags
   input.addEventListener("input", () => {
     const q = input.value.trim().toLowerCase();
-    if (!q) {
-      clearFilter();
-      return renderChips(currentSuggestions);
-    }
-    dimCards(q);
+    if (!q) return renderChips(currentSuggestions);
 
     const words = queryWords(q);
     const last = words.at(-1) || q;
@@ -829,13 +805,11 @@
     if (!text.trim() || busy) return;
     if (text.startsWith("open:")) {
       input.value = "";
-      clearFilter();
       renderChips(currentSuggestions);
       return openProject(text.slice(5));
     }
     busy = true;
     stopSpeaking();
-    clearFilter();
     input.value = "";
     setSuggestions(followUps(text));
     addUser(text);
