@@ -78,10 +78,8 @@
   // one after another; each bubble's Listen button and any lists, cards,
   // or buttons follow in page order.
   // Returns how long the whole reveal takes (ms).
-  const reduceMotion = matchMedia("(prefers-reduced-motion: reduce)").matches;
 
   function reveal(body) {
-    if (reduceMotion) return 0;
 
     // Wrap every word of each bubble in a span (buttons inside bubbles excluded)
     const words = [];
