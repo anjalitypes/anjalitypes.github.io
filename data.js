@@ -148,10 +148,8 @@ const PROJECTS = [
         {
           heading: "Results",
           body: [
-            "She presented a clear plan to leadership and secured dedicated time to do the Sketch-to-Figma migration.",
-            "The LitCharts design system became the foundation for how the organization designed and built.",
-            "When CliffsNotes joined the Learneo family, she leveraged LitCharts' system to build foundational system elements saving build time by 20-30%.",
-            "In another step toward tighter design-to-build translation, she paired with a lead engineer on a Storybook integration.",
+            "She presented a clear plan to leadership and secured dedicated time to do the Sketch-to-Figma migration. The LitCharts design system became the foundation for how the organization designed and built.",
+            "When CliffsNotes joined the Learneo family, she leveraged LitCharts' system to build foundational system elements saving build time by 20-30%. In another step toward tighter design-to-build translation, she paired with a lead engineer on a Storybook integration.",
           ],
           stats: [
             ["2", "Design systems"],
