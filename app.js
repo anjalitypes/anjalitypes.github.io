@@ -666,7 +666,7 @@
         .map((img) => `<figure class="reply-img"><img src="${esc(img.src)}" alt="${esc(img.alt || "")}" /></figure>`).join("");
       // Optional second section (more: {body, images}) before the related projects
       const linked = (t) => esc(t).replace(esc(PROFILE.email), `<a href="mailto:${esc(PROFILE.email)}">${esc(PROFILE.email)}</a>`);
-      const quote = topic.quote ? `<div class="quotes quotes--single"><div class="quote-item"><figure class="quote">
+      const quote = topic.quote ? `<div class="quotes"><div class="quote-item"><figure class="quote">
         <span class="quote__mark" aria-hidden="true">&rdquo;</span>
         <blockquote>${esc(topic.quote.text)}</blockquote>
         <figcaption><span><strong>${esc(topic.quote.name)}</strong><span>${esc(topic.quote.title)}</span></span></figcaption>

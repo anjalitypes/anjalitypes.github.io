@@ -397,7 +397,7 @@ const SPECIAL_TOPICS = [
     // AI tools and AI-assisted ways of working (a bare "AI" still searches projects)
     match: /\b(claude( code)?|anthropic|codex|open ?ai|chat ?gpt|gpt(-?\d+)?|copilot|cursor|lovable|figma make|v0|bolt|gemini|llms?|vibe[- ]?cod(e|ing)|prompt(s|ing)?|ai[- ]?(assisted|powered|first|native)|ai (workflows?|tools?|coding|prototyping)|(workflows?|coding|prototyping|building) with ai|using ai|how (was|is) this (built|made)|who built this|built this)\b/i,
     chip: "AI workflow",
-    body: "Anjali built this portfolio with Claude Code. Beyond this, her favorite AI-assisted workflow is using it to build complex prototypes faster. It gives designers more time back to experiment, raising the craft bar.",
+    body: "Anjali built this portfolio with Claude Code. Beyond this, her favorite AI-assisted workflow is using it to build complex prototypes faster. It gives her more time back to experiment with details, raising the craft bar for the final product.",
     related: "ai",
   },
   {
@@ -430,7 +430,7 @@ const TESTIMONIALS = [
     photo: "https://framerusercontent.com/images/NckHgvP7qtq6FEJjjyV3TD97WQ.png?width=340&height=340",
   },
   {
-    quote: "Anjali has helped me grow as a designer. Her outstanding leadership shows in how seamlessly she collaborates with everyone, and her remarkable attention to detail has helped us produce high quality designs.",
+    quote: "Anjali has helped me grow as a designer. Her outstanding leadership shows in how seamlessly she collaborates with everyone, and her remarkable attention-to-detail sets a high bar for every design.",
     name: "Zainab Hasan",
     title: "Product Designer, Learneo",
     photo: "https://framerusercontent.com/images/q7Hy8p6ErOgXh1axkRRE8WSTNf8.png?scale-down-to=512",

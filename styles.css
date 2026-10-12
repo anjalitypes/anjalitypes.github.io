@@ -379,8 +379,7 @@ button { font: inherit; color: inherit; cursor: pointer; }
 .reply-img img { width: 100%; height: auto; display: block; border-radius: var(--radius); }
 
 /* ── Testimonials ──────────────────────── */
-.quotes { display: grid; gap: 12px; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); }
-.quotes--single { width: 100%; max-width: var(--wide-bubble); } /* a quote inside a topic reply matches the image above it */
+.quotes { display: grid; gap: 12px; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); width: 100%; max-width: var(--wide-bubble); } /* no wider than the widest chat bubble */
 .quote-item { display: flex; flex-direction: column; gap: 6px; }
 .quote-item .speak { margin-top: 0; }
 .quote {
