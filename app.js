@@ -947,6 +947,10 @@
     img.complete ? apply() : img.addEventListener("load", apply, { once: true });
   }
 
+  // Wait for an animation without trusting it to finish: a tab that was in the
+  // background can stall the animation clock, so give up after its duration
+  const settle = (anim, ms) => Promise.race([anim.finished.catch(() => {}), new Promise((r) => setTimeout(r, ms + 150))]);
+
   let switching = false;
   async function openProject(id) {
     const p = PROJECTS.find((x) => x.id === id);
@@ -960,49 +964,59 @@
       // The old title in the header just fades out in place (no drop)
       drawer.classList.add("is-swapping");
       drawer.classList.remove("has-scrolled");
-      await drawerBody.animate([{ transform: "translateX(0)", opacity: 1 }, { transform: "translateX(-40%)", opacity: 0 }],
-        { duration: 180, easing: "cubic-bezier(.4,0,1,1)", fill: "forwards" }).finished;
+      await settle(drawerBody.animate([{ transform: "translateX(0)", opacity: 1 }, { transform: "translateX(-40%)", opacity: 0 }],
+        { duration: 180, easing: "cubic-bezier(.4,0,1,1)", fill: "forwards" }), 180);
     }
-    if (speakingBtn === readPageBtn) stopSpeaking();
-    document.getElementById("drawer-bar-title").textContent = p.title;
-    drawer.classList.remove("has-scrolled");
-    drawerBody.innerHTML = `
-      <div class="cs__content">
-        <div class="card__meta">${metaHTML(p)}</div>
-        <h1 id="drawer-title">${esc(p.title)}</h1>
-        <p class="cs__lede">${esc(cs?.overview || p.summary)}</p>
-        <dl class="cs__facts">
-          ${(cs?.facts || [["Role", p.role], ["Timeline", "X months"], ["Team", "PM, Eng ×3, Research"]])
-            .map(([k, v]) => `<div><dt>${esc(k)}</dt><dd>${esc(v)}</dd></div>`).join("")}
-        </dl>
-        <div class="tags">${caseStudyTagList(p).map((t) => `<span class="tag">${esc(t)}</span>`).join("")}</div>
-        ${p.image ? `<div class="cs__hero${p.heroSquareOnMobile ? " cs__hero--square" : ""}"><img src="${esc(p.image)}" alt="${esc(p.title)}" /></div>` : ""}
-        ${cs ? cs.sections.map(caseSectionHTML).join("") : CASE_STUDY_SECTIONS.map((s) => `
-          <section class="cs__section">
-            <h2>${esc(s.heading)}</h2>
-            ${s.body ? `<p>${esc(s.body)}</p>` : ""}
-            ${s.image ? `<div class="cs__img"><span>Image placeholder</span></div>` : ""}
-            ${s.stats ? `<div class="cs__stats">${(p.stats || s.stats).map(([v, l]) => `<div><strong>${esc(v)}</strong><span>${esc(l)}</span></div>`).join("")}</div>` : ""}
-          </section>`).join("")}
-        <div class="cs__next">${nextProjectHTML(p)}</div>
-      </div>`;
-    drawerBody.querySelectorAll(".cs__gallery img").forEach(sizeGallery);
-    const wasOpen = drawer.classList.contains("is-open");
-    drawer.classList.add("is-open");
-    drawer.setAttribute("aria-hidden", "false");
-    // Slide in from the right. Done with the Web Animations API so it still runs
-    // when iOS "Reduce Motion" switches off CSS transitions (as with the talking dot).
-    if (!wasOpen) {
-      drawer.querySelector(".drawer__panel").animate([{ transform: "translateX(100%)" }, { transform: "translateX(0)" }], DRAWER_EASE);
-      drawer.querySelector(".drawer__scrim").animate([{ opacity: 0 }, { opacity: 1 }], { duration: 250 });
-    }
-    drawer.querySelector(".drawer__panel").scrollTop = 0;
-    document.body.style.overflow = "hidden";
-    if (swap) {
-      drawerBody.getAnimations().forEach((a) => a.cancel());
-      drawer.classList.remove("is-swapping");
-      await drawerBody.animate([{ transform: "translateX(100%)" }, { transform: "translateX(0)" }], DRAWER_EASE).finished;
-      switching = false;
+    try {
+      if (speakingBtn === readPageBtn) stopSpeaking();
+      document.getElementById("drawer-bar-title").textContent = p.title;
+      drawer.classList.remove("has-scrolled");
+      drawerBody.innerHTML = `
+        <div class="cs__content">
+          <div class="card__meta">${metaHTML(p)}</div>
+          <h1 id="drawer-title">${esc(p.title)}</h1>
+          <p class="cs__lede">${esc(cs?.overview || p.summary)}</p>
+          <dl class="cs__facts">
+            ${(cs?.facts || [["Role", p.role], ["Timeline", "X months"], ["Team", "PM, Eng ×3, Research"]])
+              .map(([k, v]) => `<div><dt>${esc(k)}</dt><dd>${esc(v)}</dd></div>`).join("")}
+          </dl>
+          <div class="tags">${caseStudyTagList(p).map((t) => `<span class="tag">${esc(t)}</span>`).join("")}</div>
+          ${p.image ? `<div class="cs__hero${p.heroSquareOnMobile ? " cs__hero--square" : ""}"><img src="${esc(p.image)}" alt="${esc(p.title)}" /></div>` : ""}
+          ${cs ? cs.sections.map(caseSectionHTML).join("") : CASE_STUDY_SECTIONS.map((s) => `
+            <section class="cs__section">
+              <h2>${esc(s.heading)}</h2>
+              ${s.body ? `<p>${esc(s.body)}</p>` : ""}
+              ${s.image ? `<div class="cs__img"><span>Image placeholder</span></div>` : ""}
+              ${s.stats ? `<div class="cs__stats">${(p.stats || s.stats).map(([v, l]) => `<div><strong>${esc(v)}</strong><span>${esc(l)}</span></div>`).join("")}</div>` : ""}
+            </section>`).join("")}
+          <div class="cs__next">${nextProjectHTML(p)}</div>
+        </div>`;
+      drawerBody.querySelectorAll(".cs__gallery img").forEach(sizeGallery);
+      const wasOpen = drawer.classList.contains("is-open");
+      drawer.classList.add("is-open");
+      drawer.setAttribute("aria-hidden", "false");
+      // Slide in from the right. Done with the Web Animations API so it still runs
+      // when iOS "Reduce Motion" switches off CSS transitions (as with the talking dot).
+      if (!wasOpen) {
+        drawer.querySelector(".drawer__panel").animate([{ transform: "translateX(100%)" }, { transform: "translateX(0)" }], DRAWER_EASE);
+        drawer.querySelector(".drawer__scrim").animate([{ opacity: 0 }, { opacity: 1 }], { duration: 250 });
+      }
+      drawer.querySelector(".drawer__panel").scrollTop = 0;
+      document.body.style.overflow = "hidden";
+      if (swap) {
+        drawerBody.getAnimations().forEach((a) => a.cancel()); // drop the faded-out state
+        drawer.classList.remove("is-swapping");
+        const slideIn = drawerBody.animate([{ transform: "translateX(100%)" }, { transform: "translateX(0)" }], DRAWER_EASE);
+        await settle(slideIn, DRAWER_EASE.duration);
+        slideIn.cancel(); // never leave the next project parked off-screen
+      }
+    } finally {
+      // Whatever happened above, the pane ends up visible and clickable
+      if (swap) {
+        drawerBody.getAnimations().forEach((a) => a.cancel());
+        drawer.classList.remove("is-swapping");
+        switching = false;
+      }
     }
   }
 
@@ -1076,12 +1090,12 @@
     drawerClosing = true;
     const slide = drawer.querySelector(".drawer__panel").animate([{ transform: "translateX(0)" }, { transform: "translateX(100%)" }], { ...DRAWER_EASE, duration: 280, fill: "forwards" });
     const fade = drawer.querySelector(".drawer__scrim").animate([{ opacity: 1 }, { opacity: 0 }], { duration: 250, fill: "forwards" });
-    slide.onfinish = () => {
+    settle(slide, 280).then(() => {
       drawer.classList.remove("is-open", "has-scrolled");
       slide.cancel();
       fade.cancel();
       drawerClosing = false;
-    };
+    });
   }
 
   document.addEventListener("keydown", (e) => {
