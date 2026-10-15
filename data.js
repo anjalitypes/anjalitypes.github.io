@@ -304,6 +304,10 @@ const PRONUNCIATIONS = {
   YOY: "year over year",
 };
 
+// Where visitors' questions are saved (the "Portfolio questions" Google Sheet's
+// Apps Script web app URL). Empty = nothing is saved.
+const QUESTION_LOG_URL = "https://script.google.com/macros/s/AKfycbz3IrrcJMrWe10dcyVi0HdvHtvwxrSW0-e1Ia3o_sfjUuCvCCev60F34dUX2c0SZdyBYg/exec";
+
 // How fast replies appear: 1 = original pace, 2 = twice as fast
 const REPLY_SPEED = 1.25;
 

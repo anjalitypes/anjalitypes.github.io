@@ -819,7 +819,30 @@
 
   // ── Send ──────────────────────────────────────────────────
   let busy = false;
-  async function send(text) {
+  // Save each question (and the start of the answer) to the Google Sheet.
+  // Fire-and-forget: a failed save never affects the chat.
+  let logged = 0;
+  function logQuestion(question, source) {
+    if (!QUESTION_LOG_URL || logged >= 60) return; // cap per visit to limit spam
+    logged++;
+    const last = thread.lastElementChild;
+    const reply = last ? [...last.querySelectorAll(".bubble, .card__title")].map((el) => el.innerText.replace(/\s+/g, " ").trim()).join(" · ") : "";
+    try {
+      fetch(QUESTION_LOG_URL, {
+        method: "POST", mode: "no-cors", keepalive: true,
+        headers: { "Content-Type": "text/plain;charset=utf-8" }, // plain text avoids a CORS preflight
+        body: JSON.stringify({
+          question: question.trim().slice(0, 500),
+          source,
+          reply: reply.slice(0, 200),
+          matched: !/^There isn't a project that fits/.test(reply),
+          device: matchMedia("(hover: none)").matches ? "touch" : "desktop",
+        }),
+      }).catch(() => {});
+    } catch {}
+  }
+
+  async function send(text, source = "typed") {
     if (!text.trim() || busy) return;
     if (text.startsWith("open:")) {
       input.value = "";
@@ -833,6 +856,7 @@
     addUser(text);
     await respond(text);
     busy = false;
+    logQuestion(text, source);
   }
 
   form.addEventListener("submit", (e) => {
@@ -845,7 +869,7 @@
     if (ask) {
       e.preventDefault();
       if (ask.hasAttribute("data-once")) ask.closest(".linkrow").remove();
-      send(ask.dataset.ask);
+      send(ask.dataset.ask, "chip");
       return;
     }
     const card = e.target.closest("[data-project]");
