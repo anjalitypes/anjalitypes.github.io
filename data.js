@@ -491,7 +491,7 @@ const KEYWORD_PROJECTS = [
   { match: /\b(learneo|course ?hero)\b/, projects: [LIT, CLIFFS] },
   { match: /\bsaas\b/, projects: [LIT, CLIFFS] },
   { match: /\b(retail|retailers?)\b/, projects: [ABC] },
-  { match: /\b(portfolio|case ?stud(y|ies)|impact|metrics?|kpis?|roi|results|outcomes?)\b/, projects: "all" },
+  { match: /\b(portfolio|case ?stud(y|ies)|impact|metrics?|kpis?|roi|results|outcomes?)\b/, projects: "all", generic: true }, // "…with frogs" skips this
   { match: /\bdesign process\b/, projects: [LIT, ABC] },
   { match: /\b(conversions?|growth)\b/, projects: [LIT, ABC] },
   { match: /\b(accessib(le|ility)|a11y|wcag)\b/, projects: "all" },

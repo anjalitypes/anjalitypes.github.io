@@ -566,6 +566,23 @@
   // Tags drive matching. A query word matches a tag when it's the start of
   // any word in the tag ("res" → "user research"), so partial typing works.
   const STOP = new Set(["show", "me", "your", "her", "the", "and", "for", "with", "work", "projects", "project", "any", "some", "about", "in", "on", "of", "a", "an", "to", "do", "you", "have", "what"]);
+  // Words that just ask to see the work ("show me her case studies"). Anything
+  // left over ("…with frogs") narrows the request, so it shouldn't show everything.
+  const GENERIC = new Set(["case", "cases", "study", "studies", "portfolio", "portfolios", "all", "every", "everything", "see", "view",
+    "can", "could", "i", "please", "she", "has", "does", "did", "is", "are", "was", "anjali", "anjali's", "patel", "hers", "let", "lets",
+    "let's", "look", "at", "give", "list", "more", "other", "examples", "example", "works", "impact", "metrics", "metric", "kpis", "kpi",
+    "roi", "results", "result", "outcomes", "outcome", "best", "recent", "latest", "design", "designs", "designed", "her", "my", "our",
+    "this", "these", "that", "those", "which", "where", "how", "pull", "up", "share", "send", "browse", "check", "out", "through",
+    "tell", "done", "made", "worked", "like", "would", "love", "want", "need", "is", "there", "here"]);
+  const extraWords = (q) => queryWords(q.replace(/[^\w\s'’-]/g, " ")).filter((w) => !GENERIC.has(w));
+  // The projects a narrowed request points to (possibly none), or null when it isn't narrowed
+  // ("what results has she driven?" still means everything; "…with frogs" means nothing)
+  const narrowedBy = (q) => {
+    const extras = extraWords(q);
+    if (!extras.length) return null;
+    const hits = search(extras.join(" "));
+    return hits.length || /\b(with|about|for|involving|using|featuring|around|related to|in|on)\b/.test(q) ? hits : null;
+  };
   const queryWords = (q) => q.toLowerCase().split(/[\s,]+/).filter((w) => w && !STOP.has(w));
   const tagWords = (t) => t.toLowerCase().split(/[\s\-\/]+/);
   const tagMatches = (t, w) => t === w || tagWords(t).some((tw) => tw.startsWith(w));
@@ -688,7 +705,7 @@
       return setSuggestions(followUps(raw));
     }
 
-    if (/\b(all|everything|every project|projects|work)\b/.test(q) && search(q).length === 0) {
+    if (/\b(all|everything|every project|projects|work)\b/.test(q) && search(q).length === 0 && narrowedBy(q) === null) {
       await addBot(`<div class="bubble">Here's everything — ${PROJECTS.length} projects:</div>${cardsHTML(PROJECTS)}`, { delay: 900 });
       return setSuggestions(followUps(raw));
     }
@@ -699,7 +716,7 @@
     }
 
     // Recruiter keywords with a hand-picked set of projects (see KEYWORD_PROJECTS)
-    const keyword = KEYWORD_PROJECTS.find((k) => k.match.test(q));
+    const keyword = KEYWORD_PROJECTS.find((k) => k.match.test(q) && !(k.generic && narrowedBy(q) !== null));
     if (keyword) {
       const list = keyword.projects === "all" ? PROJECTS : PROJECTS.filter((p) => keyword.projects.includes(p.id));
       const intro = keyword.intro ? esc(keyword.intro) : keyword.projects === "all"
@@ -709,7 +726,8 @@
       return setSuggestions(followUps(raw));
     }
 
-    const results = search(q);
+    // "Case studies with AI": search what narrows it, not the words asking for case studies
+    const results = (KEYWORD_PROJECTS.some((k) => k.generic && k.match.test(q)) && narrowedBy(q)) || search(q);
     if (results.length) {
       const n = results.length;
       // A plain "AI" search also gets the AI-workflow answer after the projects,
