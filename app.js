@@ -556,7 +556,7 @@
       return `<div class="bubble">${list.length > 1 ? "Related case studies:" : "Related case study:"}</div>${cardsHTML(list)}`;
     }
     return `<div class="bubble bubble--follow">Would you like to see her case studies?
-      <div class="linkrow"><button type="button" class="btn btn--accent btn--sm" data-ask="Yes, show me!" data-once>Yes</button></div>
+      <div class="linkrow"><button type="button" class="chip" data-ask="Yes, show me!" data-once>Yes</button></div>
     </div>`;
   }
 
@@ -648,7 +648,7 @@
       await addBot(`<div class="bubble bubble--about">${PROFILE.about.map((t) => `<p>${esc(t)}</p>`).join("")}${PROFILE.aboutImage ? `<img class="about__img" src="${esc(PROFILE.aboutImage.src)}" alt="${esc(PROFILE.aboutImage.alt)}" />` : ""}</div>
         ${timelineHTML()}
         <div class="bubble bubble--follow">Want to see her case studies?
-          <div class="linkrow"><button type="button" class="btn btn--accent btn--sm" data-ask="Yes, show me!" data-once>Yes, show me</button></div>
+          <div class="linkrow"><button type="button" class="chip" data-ask="Yes, show me!" data-once>Yes, show me</button></div>
         </div>`);
       return setSuggestions(followUps(raw));
     }

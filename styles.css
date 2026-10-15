@@ -351,6 +351,7 @@ button { font: inherit; color: inherit; cursor: pointer; }
   transition: border-color .15s, background .15s;
 }
 .chip:hover { border-color: var(--outline); } /* gray outline (3:1+ contrast in both modes) */
+.bubble .chip { line-height: normal; } /* "Yes, show me" in a reply: same height as the suggestion chips */
 .chip--empty { color: var(--text-2); cursor: default; border-style: dashed; }
 .chip--empty:hover { border-color: var(--border); }
 
