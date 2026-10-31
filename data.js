@@ -342,8 +342,11 @@ const NEW_INDUSTRY_REPLY = (name) => `${name} would be a new space for Anjali, a
 const HIRE_PITCH = "Anjali pairs 8+ years of hands-on product design with 3+ years of leading teams, and her work has driven $20M+ in revenue. She's as comfortable shaping strategy with founders as she is perfecting details in Figma and code.";
 
 // "Is she open to work?", full-time, contract, remote, hybrid, start date.
-// Update when the current contract ends.
-const LOOKING_FOR = "Anjali's current contract role is expected to wrap up in mid-April, and she'll be open to full-time or contract roles after that. She's looking for remote or hybrid roles in New York, San Francisco, or Los Angeles, and she's drawn to mission-driven companies across a wide range of industries. Reach out to her at ap@anjali-patel.com to learn more.";
+// Switches by itself once the current contract ends (visitor's local date).
+const CONTRACT_ENDS = "2027-04-15";
+const LOOKING_FOR = new Date() < new Date(`${CONTRACT_ENDS}T00:00:00`)
+  ? "Anjali's current contract role is expected to wrap up in mid-April, and she'll be open to full-time or contract roles after that. She's looking for remote or hybrid roles in New York, San Francisco, or Los Angeles, and she's drawn to mission-driven companies across a wide range of industries. Reach out to her at ap@anjali-patel.com to learn more."
+  : "Anjali is open to new roles! She's looking for full-time or contract roles, remote or hybrid, in New York, San Francisco, or Los Angeles, and she's drawn to mission-driven companies across a wide range of industries. Reach out to her at ap@anjali-patel.com to learn more.";
 
 // How fast replies appear: 1 = original pace, 2 = twice as fast
 const REPLY_SPEED = 1.25;
@@ -434,7 +437,7 @@ const SPECIAL_TOPICS = [
   },
   {
     id: "b2b",
-    match: /\b(b2b|b2b saas|business[- ]to[- ]business|enterprise|institutions?|group subscriptions?)\b/i,
+    match: /\b(b2b|b2b saas|business[- ]to[- ]business|enterprise|institutions?|group subscriptions?|landing pages?)\b/i,
     chip: "B2B work",
     body: "During her time working on LitCharts, a main part of the business was the B2B side where we marketed to schools and institutions. This was the group landing page redesign she developed to capture more institutions. Once this launched the company received 2x more inquiries for the group subscriptions.",
     image: { src: "images/litcharts-group-landing.webp", alt: "LitCharts group subscription landing page: pricing for student and teacher seats, testimonials, a request-a-quote form, and FAQs" },
@@ -451,7 +454,7 @@ const SPECIAL_TOPICS = [
   {
     id: "ai workflow",
     // AI tools and AI-assisted ways of working (a bare "AI" still searches projects)
-    match: /\b(claude( code)?|anthropic|codex|open ?ai|chat ?gpt|gpt(-?\d+)?|copilot|cursor|lovable|figma make|v0|bolt|gemini|llms?|vibe[- ]?cod(e|ing)|prompt(s|ing)?|ai[- ]?(assisted|powered|first|native)|ai (workflows?|tools?|coding|prototyping)|(workflows?|coding|prototyping|building) with ai|using ai|how (was|is) this (built|made)|who built this|built this)\b/i,
+    match: /\b(think|thoughts|opinions?|feel|feelings|views?|take)( about| on| of)? ai\b|\bai in design\b|\b(claude( code)?|anthropic|codex|open ?ai|chat ?gpt|gpt(-?\d+)?|copilot|cursor|lovable|figma make|v0|bolt|gemini|llms?|vibe[- ]?cod(e|ing)|prompt(s|ing)?|ai[- ]?(assisted|powered|first|native)|ai (workflows?|tools?|coding|prototyping)|(workflows?|coding|prototyping|building) with ai|using ai|how (was|is) this (built|made)|who built this|built this)\b/i,
     chip: "AI workflow",
     body: "Anjali built this portfolio with Claude Code. Beyond this, her favorite AI-assisted workflow is using it to build complex prototypes faster. It gives her more time back to experiment with details, raising the craft bar for the final product.",
     related: "ai",
@@ -459,7 +462,7 @@ const SPECIAL_TOPICS = [
   {
     id: "prototyping",
     // After "ai workflow" so "AI prototyping" still gets the AI workflow reply
-    match: /\b(prototyp(e|es|ed|ing)|animat(e|es|ed|ing|ions?)|(micro[- ]?)?interactions?)\b/i,
+    match: /\b(prototyp(e|es|ed|ing)|animat(e|es|ed|ing|ions?)|(micro[- ]?)?interactions?|motion( design)?)\b/i,
     chip: "Prototyping",
     body: "Anjali loves prototyping! In the past, she would develop complex prototypes from animations to flows in Figma, but now she uses AI to make prototyping faster giving her time back to raise the craft bar. Below is a prototype she created for CliffsNotes with Figma Make.",
     image: { src: "images/cliffsnotes-data-viz.webp", alt: "CliffsNotes character page with a chart showing how often Junior appears in each chapter, with a slider to explore prevalence by chapter" },
@@ -474,6 +477,20 @@ const SPECIAL_TOPICS = [
       { src: "images/litcharts-cst-dashboard.webp", alt: "LitCharts Customer Service dashboard: search with filters and a transactions table with an expanded payment row" },
       { src: "images/dashboard-concept.webp", alt: "EduTracker dashboard concept: user and revenue stats, subscription trend chart, page views by category, top features, and recent activity" },
     ],
+  },
+  {
+    id: "mobile",
+    match: /\b(mobile|ios|android|iphone|ipad|native apps?|app design|apps? (design|designer)|smart ?home)\b/i,
+    chip: "Mobile work",
+    body: "Anjali designs across platforms. At Everyday Electric, she creates experiences for partner smart home apps, and at LitCharts she designed AI features that work seamlessly on mobile.",
+    cards: [LIT], // shown right after the text, before the concepts
+    more: {
+      body: "Here are a couple of her mobile app concepts too:",
+      images: [
+        { src: "images/banking-exploration.webp", alt: "Banking app exploration: a home screen with a bank card balance, finance goal progress, a recent-transactions spending chart and list, and a menu with Pay Bills, Budget, Stocks, Alerts, and more" },
+        { src: "images/health-tracker-exploration.webp", alt: "Health tracking app exploration: a daily journal for anxiety, pain, mood, stress, and hours slept with a recommended guided walk, and a monthly analysis with a mood calendar and sleep tracker" },
+      ],
+    },
   },
 ];
 
@@ -506,12 +523,12 @@ const GUARD_REPLIES = {
   },
   // Adult content, profanity, insults
   inappropriate: {
-    match: /\b(porn|porno|pornography|nsfw|nudes?|naked|sex|sexy|xxx|onlyfans|horny|fuck\w*|shit\w*|bitch\w*|dick|cock|pussy|cunt|asshole|whore|slut|bastard|retard\w*|kill yourself|kys)\b/,
+    match: /\b(porn|porno|pornography|nsfw|nudes?|naked|sex|sexy|xxx|onlyfans|horny|fuck\w*|shit\w*|bitch\w*|dick|cock|pussy|cunt|asshole|whore|slut|bastard|retard\w*|kill yourself|kys|you suck|sucks|stupid|dumb|idiot\w*|useless|trash|garbage|lame)\b/,
     body: "I'm only here to talk about Anjali's design work. Want to see her case studies?",
   },
   // Weather, jokes, math, trivia
   offTopic: {
-    match: /\b(tell me a joke|jokes?|weather|forecast|meaning of life|what time is it|what's the time|what day is it|recipes?|lottery|horoscope|zodiac|stock price|bitcoin price|who won|capital of|translate|calculate)\b|^\s*(what('s| is) )?\d+\s*[-+*x/]\s*\d+\s*\??\s*$/,
+    match: /\b(tell me a joke|jokes?|weather|forecast|meaning of life|what time is it|what's the time|what day is it|recipes?|lottery|horoscope|zodiac|stock price|bitcoin price|who won|capital of|president|prime minister|politics|poems?|write me|write a story|sing|song lyrics|recommend (a|an|me|some) (good )?(restaurants?|bars?|places?|shows?|food)|restaurants? near|translate|calculate)\b|^\s*(what('s| is) )?\d+\s*[-+*x/]\s*\d+\s*\??\s*$/,
     body: "I'm Anjali's portfolio assistant, so I'm best at questions about her design work. Ask me about her case studies, or what it's like to work with her.",
   },
   // Keyboard mashes and random letters (detected in app.js)
@@ -521,6 +538,56 @@ const GUARD_REPLIES = {
 };
 
 const FUN_ANSWERS = [
+  {
+    // Languages
+    match: /\blanguages?\b|\b(speak|speaks|speaking) (any|other|other languages|spanish|hindi|gujarati|korean|japanese)\b|\bbilingual|multilingual\b/,
+    unless: /\b(design|programming|coding|visual|ui|ux|pattern) languages?\b/,
+    body: "Fluent in English, conversational in Gujarati, getting by in Spanish, understanding Hindi, and armed with some Korean and Japanese!",
+  },
+  {
+    // Personal questions she'd rather not answer here
+    match: /\b(married|single|husband|wife|boyfriend|girlfriend|dating|relationship status|how old|her age|kids|children|religion|religious)\b/,
+    body: "That's personal, but I'm happy to talk about her work! Want to see her case studies?",
+  },
+  {
+    // "What can you do?" / "help"
+    match: /^\s*help[!?.]*\s*$|\bwhat (can|should) (you|i) (do|ask)\b|\bwhat do you know\b|\bhow (does|do) (this|i use this)( work)?\b|\bwhat (is|are) (this|you) for\b/,
+    body: "You can ask me about Anjali's case studies, leadership, AI work, tools, process, or what it's like to work with her. Or tap one of the suggestions below!",
+  },
+  { match: /^\s*good morning\b/, body: "Good morning! What would you like to know about Anjali's work?" },
+  { match: /^\s*good afternoon\b/, body: "Good afternoon! What would you like to know about Anjali's work?" },
+  { match: /^\s*good evening\b/, body: "Good evening! What would you like to know about Anjali's work?" },
+  {
+    match: /\bhow (are|r) (you|u)\b|\bhow('s| is) it going\b|\bhow are things\b|\bhow('s| is) your day\b/,
+    body: "Doing great, thanks for asking! What would you like to know about Anjali?",
+  },
+  {
+    match: /^\s*(bye|goodbye|good bye|see (you|ya)|later|cya|have a good (day|one|night))\b/,
+    body: "Thanks for stopping by! You can reach Anjali anytime at ap@anjali-patel.com.",
+  },
+  {
+    // "Are you a real person?" / "Are you AI?"
+    match: /\bare (you|u) (a )?(real|human|person|bot|robot|ai|an ai|chat ?gpt|claude|anjali)\b|\bis this (a )?(real person|bot|ai|human|anjali)\b|\bam i (talking|chatting) (to|with)\b|\bwho am i (talking|chatting) (to|with)\b|\bwho are you\b|\bwhat are you\b/,
+    body: "I'm Anjali's portfolio assistant, which she designed and built to answer questions about her work. She's a real person, though, and you can reach her at ap@anjali-patel.com!",
+  },
+  {
+    // "Do you store my questions?"
+    match: /\b(store|stores|stored|save|saves|saved|track|tracks|log|logs|logged|record|records|collect|collects)( my| the| your| these)? (questions?|data|info|information|messages?|chats?|conversations?)\b|\bdo you track\b|\bprivacy\b|\bcookies\b/,
+    body: "Questions asked here are saved anonymously to help Anjali improve this site. No names or personal details are collected.",
+  },
+  {
+    // Site help: accessibility, read aloud, dark mode
+    match: /\bis (this|the) (site|website|page|portfolio) accessible\b|\bscreen readers?\b|\b(site|website) accessibility\b/,
+    body: "Yes! Colors are contrast-checked, every image has a description, and each reply has a Listen button to hear it read aloud.",
+  },
+  {
+    match: /\bread (it |this |that |them )?(aloud|out loud)\b|\b(hear|listen to) (this|it|the replies|replies)\b|\btext to speech\b/,
+    body: "Tap Listen under any reply, or 'Listen' inside a case study.",
+  },
+  {
+    match: /\b(dark|light|night) (mode|theme)\b/,
+    body: "Use the moon/sun button in the top right. It also switches automatically at sunset.",
+  },
   {
     // Past freelance work ("Is she open to freelance?" goes to what she's looking for)
     match: /\bfreelanc\w*\b|\bconsult(ing|ant|ancy)\b|\bclient work\b|\bside (projects?|gigs?)\b/,
@@ -627,7 +694,7 @@ const FUN_ANSWERS = [
   },
   {
     // "Fun facts": everything personal in one list
-    match: /\b(fun facts?|something fun|hobbies|interests|personal facts?|get to know (her|anjali))\b/,
+    match: /\b(fun facts?|something fun|hobbies|interests|personal facts?|get to know (her|anjali)|for fun|free time|spare time|outside (of )?work|on (the )?weekends?)\b/,
     body: "Here are a few fun facts about Anjali:",
     list: [
       "Favorite song right now: Sunny Daze by Lord Apex",
@@ -652,7 +719,7 @@ const FUN_ANSWERS = [
   {
     match: /\b(travel(s|ed|ing|led|ling)?|trips?|vacations?|countries|been to|visited|wanderlust)\b/,
     unless: /\b(industry|industries|experience|company|companies|tech|startups?|apps?|platforms?|booking|hospitality|work(ed)?|clients?|projects?|case stud(y|ies))\b/, // "travel industry experience" isn't a fun question
-    body: "She loves to travel, she's been to 30 countries so far, that's 12% of the world! A life goal of hers is to visit every country in the world one day.",
+    body: "She loves to travel, she's been to 30 countries so far, that's 15% of the world! A life goal of hers is to visit every country in the world one day.",
     image: { src: "images/travel-map.svg", darkSrc: "images/travel-map-dark.svg", alt: "World map with lavender pins on the countries Anjali has visited across Asia, Oceania, Africa, Europe, and the Americas" },
   },
 ];
@@ -686,7 +753,8 @@ const KEYWORD_PROJECTS = [
   { match: /\bstorybook\b/, projects: [CLIFFS] },
   { match: /\bhand ?offs?\b/, projects: "all" },
   { match: /\bonboarding\b/, projects: [LIT] },
-  { match: /\bb2c\b/, projects: [LIT, ABC] },
+  { match: /\bb2c\b|\bconsumer (apps?|products?|tech)\b/, projects: [LIT, ABC] },
+  { match: /\bcheck ?outs?( flows?)?\b/, projects: [ABC] },
   { match: /\bstart ?ups?\b/, projects: [LIT, CLIFFS] },
   { match: /\bdesign manag(er|ers|ement)\b/, projects: [LIT, CLIFFS], after: LEADERSHIP_REPLY },
   { match: /\b(design )?critiques?\b/, projects: [LIT, ABC] },

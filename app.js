@@ -633,6 +633,9 @@
   async function respond(raw) {
     const q = raw.trim().toLowerCase().replace(/[’‘]/g, "'"); // phones type curly apostrophes
 
+    // Filler like "lol", "hmm", "123", "test": a friendly nudge instead of a search
+    if (/^(lol+|lmao|haha+|hehe+|hm+|test(ing)?|\d+|idk|meh|wow|cool|nice|neat)[.!?]*$/.test(q)) return guardReply("Happy to help! What would you like to know about Anjali's work?");
+
     // Site-safety worries first, then anything inappropriate
     if (GUARD_REPLIES.safety.match.test(q)) return guardReply(GUARD_REPLIES.safety.body);
     if (GUARD_REPLIES.inappropriate.match.test(q)) return guardReply(GUARD_REPLIES.inappropriate.body);
@@ -726,8 +729,9 @@
         <figcaption><span><strong>${esc(topic.quote.name)}</strong><span>${esc(topic.quote.title)}</span></span></figcaption>
       </figure></div></div>` : "";
       await addBot(`<div class="bubble"><p>${linked(topic.body)}</p></div>${imgs(topic)}${quote}
+        ${topic.cards ? cardsHTML(PROJECTS.filter((p) => topic.cards.includes(p.id))) : ""}
         ${topic.more ? `<div class="bubble"><p>${esc(topic.more.body)}</p></div>${imgs(topic.more)}` : ""}
-        ${relatedHTML(topic)}`, { delay: 800 });
+        ${topic.cards ? "" : relatedHTML(topic)}`, { delay: 800 });
       return setSuggestions(followUps(raw));
     }
 
