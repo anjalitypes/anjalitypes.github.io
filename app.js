@@ -726,7 +726,7 @@
       // Only a yes to "Want to see her case studies?" (or the "Yes, show me" button) shows them
       const lastBot = [...thread.querySelectorAll(".msg--bot")].at(-1);
       if (/^yes,? show me/.test(q) || /see her case studies\?/.test(lastBot?.innerText || "")) {
-        await addBot(`<div class="bubble">Here's what she's been working on — ${PROJECTS.length} projects:</div>${cardsHTML(PROJECTS)}`, { delay: 900 });
+        await addBot(`<div class="bubble">Here's what she's worked on — ${PROJECTS.length} projects:</div>${cardsHTML(PROJECTS)}`, { delay: 900 });
         return setSuggestions(followUps(raw));
       }
       return guardReply("Happy to help! What would you like to know about Anjali's work?");
