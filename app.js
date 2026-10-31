@@ -644,7 +644,9 @@
     }
 
     const hasTopic = SPECIAL_TOPICS.some((t) => t.match.test(q)) || KEYWORD_PROJECTS.some((k) => k.match.test(q));
-    if (/\b(yourself|who are you|bio|background)\b/.test(q) || (/\babout\b/.test(q) && !hasTopic)) {
+    // "Is she a designer?", "What is she good at?", "Who is she?" also get the bio
+    const ABOUT_RE = /\b(is|are) (she|anjali)( really)? (a |an )?([\w-]+ )?designer\b|\bwhat('?s| is| are) (she|anjali)( really)? (good|best|great|strong) at\b|\bwhat (are|is) (her|anjali'?s) (strengths?|skills?|specialt(y|ies)|expertise|superpowers?)\b|\bwhat (does|do) (she|anjali) (do|specialize in)\b|\b(who is|who's) (she|anjali)\b|\bwhat kind of designer\b/;
+    if (/\b(yourself|who are you|bio|background)\b/.test(q) || ((/\babout\b/.test(q) || ABOUT_RE.test(q)) && !hasTopic)) {
       await addBot(`<div class="bubble bubble--about">${PROFILE.about.map((t) => `<p>${esc(t)}</p>`).join("")}${PROFILE.aboutImage ? `<img class="about__img" src="${esc(PROFILE.aboutImage.src)}" alt="${esc(PROFILE.aboutImage.alt)}" />` : ""}</div>
         ${timelineHTML()}
         <div class="bubble bubble--follow">Want to see her case studies?
