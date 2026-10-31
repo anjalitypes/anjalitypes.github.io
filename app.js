@@ -883,6 +883,7 @@
   let logged = 0;
   function logQuestion(question, source) {
     if (!QUESTION_LOG_URL || logged >= 60) return; // cap per visit to limit spam
+    if (/^(localhost|127\.0\.0\.1|\[::1\])$/.test(location.hostname)) return; // local previews and tests aren't real visitors
     logged++;
     const last = thread.lastElementChild;
     const reply = last ? [...last.querySelectorAll(".bubble, .card__title")].map((el) => el.innerText.replace(/\s+/g, " ").trim()).join(" · ") : "";
