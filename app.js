@@ -625,7 +625,7 @@
     // Fun personal questions (favorite song, food, color): a quick casual answer
     const fun = FUN_ANSWERS.find((f) => f.match.test(q) && !(f.unless && f.unless.test(q)));
     if (fun) {
-      await addBot(`<div class="bubble"><p>${esc(fun.body)}</p>${fun.list ? `<ul class="bubble__list">${fun.list.map((t) => `<li>${esc(t)}</li>`).join("")}</ul>` : ""}</div>`);
+      await addBot(`<div class="bubble">${[].concat(fun.body).map((t) => `<p>${esc(t)}</p>`).join("")}${fun.list ? `<ul class="bubble__list">${fun.list.map((t) => `<li>${esc(t)}</li>`).join("")}</ul>` : ""}</div>`);
       return setSuggestions(followUps(raw));
     }
 
