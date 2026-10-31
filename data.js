@@ -334,6 +334,13 @@ const LIT = "litcharts-ai", CLIFFS = "cliffsnotes-design-system", ABC = "abc-pro
 
 const SPECIAL_TOPICS = [
   {
+    id: "why chatbot",
+    match: /\bwhy\b.*\b(chat ?bots?|chat|chatting|conversational|chat[- ]based|bot)\b|\bwhy not (a |an )?(normal|regular|traditional|static|classic) (website|site|portfolio)\b/i,
+    chip: "Why a chatbot?",
+    body: "Recruiters and hiring managers are short on time, and most of them already use AI chat tools at work. So Anjali turned her portfolio into one. Instead of digging through pages, you can ask exactly what you want to know and get relevant work right away.",
+    related: [LIT],
+  },
+  {
     id: "fintech",
     match: /\b(fin ?tech|banks?|banking|finance|financial|payments?|fin ?serv|wallets?|lending|loans?|credit cards?|neo ?banks?)\b/i,
     chip: "Fintech",
@@ -443,6 +450,31 @@ const TESTIMONIALS = [
 
 // Chips shown under the input. `ask` is sent as if the visitor typed it.
 // Fun, personal questions: a quick casual answer (no project cards)
+// Replies for questions that aren't about Anjali's work. Checked before
+// everything else (except off-topic, checked after the fun answers), and
+// they never repeat the visitor's words back.
+const GUARD_REPLIES = {
+  // "Is this site safe?", "my firewall blocked this", "this has porn?"
+  safety: {
+    match: /\b(firewall|blocked|flagged|virus|viruses|malware|spyware|phishing|scam|scammy|hacked|is (this|it|the)( site| page| website)? (safe|legit)|safe to (visit|use|open))\b|\b(this|it|site|page|website) (has|have|contains?|got|is) (porn|pornography|adult|nsfw)\b/,
+    body: "This is Anjali Patel's product design portfolio. There are no ads or downloads, and nothing beyond her work. Want to see her case studies?",
+  },
+  // Adult content, profanity, insults
+  inappropriate: {
+    match: /\b(porn|porno|pornography|nsfw|nudes?|naked|sex|sexy|xxx|onlyfans|horny|fuck\w*|shit\w*|bitch\w*|dick|cock|pussy|cunt|asshole|whore|slut|bastard|retard\w*|kill yourself|kys)\b/,
+    body: "I'm only here to talk about Anjali's design work. Want to see her case studies?",
+  },
+  // Weather, jokes, math, trivia
+  offTopic: {
+    match: /\b(tell me a joke|jokes?|weather|forecast|meaning of life|what time is it|what's the time|what day is it|recipes?|lottery|horoscope|zodiac|stock price|bitcoin price|who won|capital of|translate|calculate)\b|^\s*(what('s| is) )?\d+\s*[-+*x/]\s*\d+\s*\??\s*$/,
+    body: "I'm Anjali's portfolio assistant, so I'm best at questions about her design work. Ask me about her case studies, or what it's like to work with her.",
+  },
+  // Keyboard mashes and random letters (detected in app.js)
+  gibberish: {
+    body: "Hmm, I didn't quite catch that. Try asking about her work, leadership, or AI experience.",
+  },
+};
+
 const FUN_ANSWERS = [
   {
     // Education ("Where did she go to school?"). Avoids bare "school"/"education" so
@@ -503,6 +535,7 @@ const KEYWORD_PROJECTS = [
   // Companies: LitCharts and CliffsNotes are Learneo products (Course Hero was Learneo's earlier name)
   { match: /\b(learneo|course ?hero)\b/, projects: [LIT, CLIFFS] },
   { match: /\bsaas\b/, projects: [LIT, CLIFFS] },
+  { match: /\b(chat ?bots?|chat interfaces?|conversational (ui|ux|ai|design|interfaces?))\b/, projects: [LIT] },
   { match: /\b(retail|retailers?)\b/, projects: [ABC] },
   { match: /\b(portfolio|case ?stud(y|ies)|impact|metrics?|kpis?|roi|results|outcomes?)\b/, projects: "all", generic: true }, // "…with frogs" skips this
   { match: /\bdesign process\b/, projects: [LIT, ABC] },
@@ -521,6 +554,7 @@ const KEYWORD_PROJECTS = [
   { match: /\bmentor(s|ed|ing|ship)?\b/, projects: [LIT], after: LEADERSHIP_REPLY },
   { match: /\bplayer[- ]?coach\b/, projects: [LIT], after: LEADERSHIP_REPLY },
   { match: /\bstakeholders?\b/, projects: "all" },
+  { match: /\b(ux|ui|ux\/ui|ui\/ux|user experience|user interface|product design)\b/, projects: "all" }, // all her work is UX
   // Leadership (after "stakeholders" so "stakeholder management" keeps its own answer)
   { match: /\b(leadership|leader|leading|lead(ing)? (a |the )?(design )?teams?|manag(er|ers|ing|ement)|team size|direct reports?)\b/, projects: "all", after: LEADERSHIP_REPLY, intro: "Here are a few case studies where she's led design:" },
 ];

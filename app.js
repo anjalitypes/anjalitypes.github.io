@@ -609,8 +609,30 @@
   }
 
   // ── Intent routing ────────────────────────────────────────
+  // Keyboard mashes ("asdfgh", "xkcqzv", "aaaaa") or a stray letter, but not
+  // short real terms like "ux", "ai", "css", "b2b"
+  const KNOWN_SHORT = new Set(["hi", "yo", "ok", "ty", "ux", "ui", "ai", "ar", "vr", "pm", "qa", "ia", "xd", "ps", "3d", "ml", "ios", "b2b", "b2c", "dtc", "cro", "kpi", "kpis", "roi", "crm", "cms", "html", "css", "scss", "js", "ts", "sql", "svg", "nyc", "hmm", "hmmm"]);
+  function isGibberish(q) {
+    const words = q.toLowerCase().match(/[a-z0-9]+/g) || [];
+    if (!words.length) return true; // only symbols or emoji
+    if (words.length === 1 && words[0].length <= 2 && !KNOWN_SHORT.has(words[0])) return true;
+    const bad = words.filter((w) => !KNOWN_SHORT.has(w) && (
+      (w.length >= 4 && !/[aeiouy]/.test(w)) || /(.)\1{3,}/.test(w) || /asdf|sdfg|dfgh|fghj|ghjk|hjkl|qwer|wert|erty|zxcv|xcvb|cvbn/.test(w)));
+    return bad.length > 0 && bad.length >= words.length / 2;
+  }
+
+  // A one-bubble reply plus the starter chips, for questions that aren't about her work
+  async function guardReply(body) {
+    await addBot(`<div class="bubble"><p>${esc(body)}</p></div>`);
+    return setSuggestions(STARTER_SUGGESTIONS);
+  }
+
   async function respond(raw) {
     const q = raw.trim().toLowerCase().replace(/[’‘]/g, "'"); // phones type curly apostrophes
+
+    // Site-safety worries first, then anything inappropriate
+    if (GUARD_REPLIES.safety.match.test(q)) return guardReply(GUARD_REPLIES.safety.body);
+    if (GUARD_REPLIES.inappropriate.match.test(q)) return guardReply(GUARD_REPLIES.inappropriate.body);
 
     if (/\b(thanks?|thank you|thx|ty|cheers|appreciate it|much appreciated)\b/.test(q)) {
       const linkedin = PROFILE.links.find((l) => /linkedin/i.test(l.label));
@@ -629,6 +651,9 @@
       return setSuggestions(followUps(raw));
     }
 
+    // Weather, jokes, math: point back to her work
+    if (GUARD_REPLIES.offTopic.match.test(q)) return guardReply(GUARD_REPLIES.offTopic.body);
+
     // Testimonials: recs, references, reviews, or anything like "what do people say/think about her"
     const TESTIMONIAL_RE = /\b(testimonials?|reviews?|recs?|recommend(ations?|ed|s)?|references?|referrals?|endorse(ments?|d)?|vouch(es)?|feedback|kudos|praise|quotes about|word of mouth|working with)\b|\b(what|how) (do|does|did|would|will) (her )?(people|others|colleagues|coworkers|co-workers|teammates|managers|clients|engineers|pms|designers|her team|anyone)\b.*\b(say|think|feel|describe)\b|\b(say|said|think|thinks|speak|spoke) (about|of|highly of) (her|anjali)\b|\blike (to )?work(ing)? with( her| anjali)?\b|\bwhat(s|'s| is) (she|anjali) like\b/;
     if (TESTIMONIAL_RE.test(q)) {
@@ -646,7 +671,8 @@
     const hasTopic = SPECIAL_TOPICS.some((t) => t.match.test(q)) || KEYWORD_PROJECTS.some((k) => k.match.test(q));
     // "Is she a designer?", "What is she good at?", "Who is she?" also get the bio
     const ABOUT_RE = /\b(is|are) (she|anjali)( really)? (a |an )?([\w-]+ )?designer\b|\bwhat('?s| is| are) (she|anjali)( really)? (good|best|great|strong) at\b|\bwhat (are|is) (her|anjali'?s) (strengths?|skills?|specialt(y|ies)|expertise|superpowers?)\b|\bwhat (does|do) (she|anjali) (do|specialize in)\b|\b(who is|who's) (she|anjali)\b|\bwhat kind of designer\b/;
-    if (/\b(yourself|who are you|bio|background)\b/.test(q) || ((/\babout\b/.test(q) || ABOUT_RE.test(q)) && !hasTopic)) {
+    if (/\b(yourself|who are you|bio|background)\b/.test(q) || (/\babout\b/.test(q) && !hasTopic)
+      || (ABOUT_RE.test(q) && !SPECIAL_TOPICS.some((t) => t.match.test(q)))) { // "Is she a UX designer?" is still about her
       await addBot(`<div class="bubble bubble--about">${PROFILE.about.map((t) => `<p>${esc(t)}</p>`).join("")}${PROFILE.aboutImage ? `<img class="about__img" src="${esc(PROFILE.aboutImage.src)}" alt="${esc(PROFILE.aboutImage.alt)}" />` : ""}</div>
         ${timelineHTML()}
         <div class="bubble bubble--follow">Want to see her case studies?
@@ -697,8 +723,13 @@
     }
 
     if (/^(yes|yeah|yep|sure|ok|okay)\b/.test(q)) {
-      await addBot(`<div class="bubble">Here's what she's been working on — ${PROJECTS.length} projects:</div>${cardsHTML(PROJECTS)}`, { delay: 900 });
-      return setSuggestions(followUps(raw));
+      // Only a yes to "Want to see her case studies?" (or the "Yes, show me" button) shows them
+      const lastBot = [...thread.querySelectorAll(".msg--bot")].at(-1);
+      if (/^yes,? show me/.test(q) || /see her case studies\?/.test(lastBot?.innerText || "")) {
+        await addBot(`<div class="bubble">Here's what she's been working on — ${PROJECTS.length} projects:</div>${cardsHTML(PROJECTS)}`, { delay: 900 });
+        return setSuggestions(followUps(raw));
+      }
+      return guardReply("Happy to help! What would you like to know about Anjali's work?");
     }
 
     if (/\b(best|featured|highlight|top|favorite)\b/.test(q)) {
@@ -728,6 +759,9 @@
       return setSuggestions(followUps(raw));
     }
 
+    // Checked before the tag search, so a stray "k" doesn't match "kano survey"
+    if (isGibberish(raw)) return guardReply(GUARD_REPLIES.gibberish.body);
+
     // "Case studies with AI": search what narrows it, not the words asking for case studies
     const results = (KEYWORD_PROJECTS.some((k) => k.generic && k.match.test(q)) && narrowedBy(q)) || search(q);
     if (results.length) {
@@ -740,8 +774,11 @@
       return setSuggestions(followUps(raw));
     }
 
-    // No matching project: show her career overview instead of a dead end
-    await addBot(`<div class="bubble">There isn't a project that fits <strong>“${esc(raw.trim())}”</strong> yet, but here's an overview of Anjali's product design career:</div>
+    // No matching project: show her career overview instead of a dead end.
+    // Quote short, plain topics ("gaming"); anything longer just says "that".
+    const shown = raw.trim();
+    const quote = shown.length <= 24 && shown.split(/\s+/).length <= 3 ? `<strong>“${esc(shown)}”</strong>` : "that";
+    await addBot(`<div class="bubble">There isn't a project that fits ${quote} yet, but here's an overview of Anjali's product design career:</div>
       ${timelineHTML()}`);
     setSuggestions(followUps(raw));
   }
