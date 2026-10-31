@@ -308,6 +308,43 @@ const PRONUNCIATIONS = {
 // Apps Script web app URL). Empty = nothing is saved.
 const QUESTION_LOG_URL = "https://script.google.com/macros/s/AKfycbz3IrrcJMrWe10dcyVi0HdvHtvwxrSW0-e1Ia3o_sfjUuCvCCev60F34dUX2c0SZdyBYg/exec";
 
+// Industries she hasn't worked in yet: a "new space" reply plus her case studies.
+// [how it reads in the reply, what visitors might type]
+const NEW_INDUSTRIES = [
+  ["Gaming", /\b(gaming|games?|video ?games?|esports)\b/],
+  ["Media", /\b(media|publishing|news|journalism|streaming)\b/],
+  ["Social media", /\bsocial (media|networks?|apps?)\b/],
+  ["Entertainment", /\b(entertainment|music|film industry)\b/],
+  ["Travel", /\b(travel|hospitality|hotels?|airlines?|tourism)\b/],
+  ["Real estate", /\b(real estate|proptech|property)\b/],
+  ["Marketplaces", /\bmarketplaces?\b/],
+  ["Insurance", /\b(insurance|insurtech)\b/],
+  ["Government", /\b(government|govtech|civic tech|public sector)\b/],
+  ["Crypto", /\b(crypto|cryptocurrency|web3|blockchain|nfts?)\b/],
+  ["Hardware", /\b(hardware|iot|wearables?|smart home)\b/],
+  ["Automotive", /\b(automotive|cars?|mobility|transportation)\b/],
+  ["Logistics", /\b(logistics|supply chain|freight)\b/],
+  ["Food and beverage", /\b(food (tech|delivery|industry)|restaurants? industry|food and beverage)\b/],
+  ["Fashion", /\b(fashion|apparel|beauty)\b/],
+  ["Sports", /\b(sports|fitness)\b/],
+  ["Cybersecurity", /\b(cybersecurity|security industry|infosec)\b/],
+  ["Biotech", /\b(biotech|pharma|life sciences)\b/],
+  ["Legal tech", /\b(legal ?tech|law firms?|legal industry)\b/],
+  ["HR tech", /\b(hr ?tech|human resources|recruiting software)\b/],
+  ["Telecom", /\b(telecom|telecommunications)\b/],
+  ["Manufacturing", /\bmanufacturing\b/],
+  ["Agriculture", /\b(agriculture|agtech|farming)\b/],
+  ["Aerospace", /\b(aerospace|aviation|space industry)\b/],
+];
+const NEW_INDUSTRY_REPLY = (name) => `${name} would be a new space for Anjali, and she loves learning new domains! She's adapted to climate tech, edtech, e-commerce, healthcare, and nonprofits, bringing research, systems thinking, and growth design to each one. Here are a few projects that show how she works:`;
+
+// "Why should we hire her?" — shown before the testimonials
+const HIRE_PITCH = "Anjali pairs 8+ years of hands-on product design with 3+ years of leading teams, and her work has driven $20M+ in revenue. She's as comfortable shaping strategy with founders as she is perfecting details in Figma and code.";
+
+// "Is she open to work?", full-time, contract, remote, hybrid, start date.
+// Update when the current contract ends.
+const LOOKING_FOR = "Anjali's current contract role is expected to wrap up in mid-April, and she'll be open to full-time or contract roles after that. She's looking for remote or hybrid roles in New York, San Francisco, or Los Angeles, and she's drawn to mission-driven companies across a wide range of industries. Reach out to her at ap@anjali-patel.com to learn more.";
+
 // How fast replies appear: 1 = original pace, 2 = twice as fast
 const REPLY_SPEED = 1.25;
 
@@ -333,6 +370,14 @@ const VOICE = {
 const LIT = "litcharts-ai", CLIFFS = "cliffsnotes-design-system", ABC = "abc-product-page";
 
 const SPECIAL_TOPICS = [
+  {
+    id: "how she works",
+    match: /\bdesign process\b|\b(her|anjali'?s) (process|workflow|approach)\b|\bhow (does|do|would) (she|anjali) (work|approach|tackle|start|prioriti[sz]e|collaborate|partner|handle conflict|resolve conflict)\b|\bwork(s|ing)? with (engineers|engineering|developers|devs|product managers|pms|product|stakeholders)\b|\b(write|writes|writing) specs\b|\b(agile|scrum|sprints?)\b|\b(usability test(s|ing)?|user interviews?|interviews? with users|user testing)\b|\bconflict with stakeholders\b|\bhow fast\b/,
+    chip: "How she works",
+    body: "Anjali works in close partnership with product and engineering. She starts with research to understand the problem, brings engineers in early to check feasibility, and reviews both UX and UI with stakeholders before finalizing designs and prototypes for handoff. Here's how that process breaks down for large projects:",
+    image: { src: "images/design-process.webp", alt: "Anjali's product development process as a table of stages, steps, and who drives each: Preliminary Specs (product, design, and engineering), Design Process (research and analysis, UX development, cross-team feasibility discussion, UX stakeholder review, UI development, UI stakeholder review, all driven by design), Specs development, Eng Strategy, Ticket Creation, and Ticket Review" },
+    related: [LIT, ABC],
+  },
   {
     id: "why chatbot",
     match: /\bwhy\b.*\b(chat ?bots?|chat|chatting|conversational|chat[- ]based|bot)\b|\bwhy not (a |an )?(normal|regular|traditional|static|classic) (website|site|portfolio)\b/i,
@@ -477,9 +522,99 @@ const GUARD_REPLIES = {
 
 const FUN_ANSWERS = [
   {
+    // Past freelance work ("Is she open to freelance?" goes to what she's looking for)
+    match: /\bfreelanc\w*\b|\bconsult(ing|ant|ancy)\b|\bclient work\b|\bside (projects?|gigs?)\b/,
+    unless: /\b(open to|available|availability|looking for|interested in|take on)\b/,
+    body: "Yes! Anjali has freelanced as a UX design consultant, most recently creating branding and onboarding for VibrantLifeMD, a stealth startup, and a vet hospital. She also redesigned the information architecture for National Network for Youth, a national nonprofit.",
+  },
+  {
+    // Favorite book (design books go to the inspirations reply)
+    match: /\bfavou?rite (book|books|read|reads|novel|novels|author)\b|\bwhat('s| is| has) (she|anjali) (reading|been reading|read recently)\b|\b(good|recent) (book|read)\b|\bbooks? (does|would) (she|anjali) (like|love|read|recommend)\b|\breading list\b/,
+    unless: /\bdesign\b/,
+    body: "A book she enjoyed recently was Dungeon Crawler Carl. It was her first LitRPG book, and she discovered she really loved the genre.",
+  },
+  {
+    // Favorite movie
+    match: /\bfavou?rite (movie|movies|film|films|anime|show|shows)\b|\bwhat (movies|films|shows) (does|would) (she|anjali) (like|love|watch)\b|\bwhat('s| is| has) (she|anjali) (watching|been watching)\b/,
+    body: "One of her favorite movies is Nausicaä of the Valley of the Wind by Hayao Miyazaki. To her, the story and animation are impeccable.",
+  },
+  {
+    // Relocation and work authorization (checked before the location reply)
+    match: /\b(relocat\w*|move to|moving to|visas?|sponsorship|citizen(ship)?|work (authorization|permit)|authorized to work)\b/,
+    body: "Anjali is based in Brooklyn, New York, and is open to relocating to San Francisco, Los Angeles, or abroad. She's a US citizen, so she doesn't need visa sponsorship to work in the US. Email her at ap@anjali-patel.com to learn more.",
+  },
+  {
+    // Where she's based
+    match: /\bwhere (is|does) (she|anjali) (based|live|living|located)\b|\bwhere (is|'s) (she|anjali)\b|\b(based|located) (in|out of)\b|\b(location|time ?zones?)\b/,
+    body: "Anjali is based in Brooklyn, New York. As a California native, she's also open to relocating to San Francisco, Los Angeles or abroad.",
+  },
+  {
+    // Design philosophy, values, what sets her apart
+    match: /\bphilosoph(y|ies)\b|\b(design )?principles\b|\b(her|anjali'?s) values\b|\bwhat makes (her|anjali) (different|unique|special|stand out)\b|\bsets (her|anjali) apart\b|\bsuperpowers?\b|\bwhat does (she|anjali) believe\b/,
+    body: "Anjali believes great design serves both the user and the business. She grounds every decision in research, builds systems that scale, and holds a high bar for craft and accessibility.",
+  },
+  {
+    // Weaknesses
+    match: /\bweakness(es)?\b|\bareas? (of|for) (growth|improvement)\b|\bwhat (is|does) (she|anjali) (bad at|struggle with|working on improving)\b|\b(biggest )?(flaws?|shortcomings?)\b|\bwhat could (she|anjali) improve\b/,
+    body: "As a player-coach, Anjali's instinct is to jump in and help everywhere. She's learned to delegate earlier and trust her team, which has made them stronger too.",
+  },
+  {
+    // Architecture → UX: how she got into design
+    match: /\bhow did (she|anjali) (get into|become|start|end up in|break into|get started in|transition)\b|\bwhy (did (she|anjali) )?(switch|transition|move|change|pivot|leave architecture)\b|\bwhy (ux|product design)\b|\barchitecture to (ux|design|product|tech)\b|\bcareer (change|switch|pivot|path|journey|story)\b|\b(her|anjali'?s) (design )?(journey|origin story|path into)\b/,
+    body: "For Anjali, architecture and UX share the same purpose: designing spaces that make people's lives better. But in architecture, research often went unseen. In UX, she found a field where research drives real decisions, and where an A/B test can prove a design's impact in dollars. After freelancing in UX and talking with designers who loved their work, she made the switch full-time. Her background in architecture still comes through in how she thinks in systems, designs for how people move through a space, and welcomes tough critique.",
+  },
+  {
+    // Design inspirations
+    match: /\binspir(ation|ations|es|ed)\b|\b(design )?(heroes|idols|role models?)\b|\bfavou?rite (designers?|design books?|design resources?)\b|\bdesign books?\b|\bwho does (she|anjali) (look up to|admire|follow)\b/,
+    body: [
+      "Anjali's go-to design inspiration is Julie Zhuo, former VP of Product Design at Facebook. Her book The Making of a Manager and her focus on solving real people problems have shaped how Anjali designs and leads.",
+      "She also draws inspiration from Mobbin, Dribbble, and design events throughout the city. UX problems can be seen in digital and physical experiences every day!",
+    ],
+  },
+  {
+    // Pets (shows the same photo of her with Zoe as the About reply)
+    match: /\b(pets?|cats?|dogs?|kitt(y|en|ens|ies)|fosters?|fostering|animals?)\b/,
+    body: "She doesn't have pets, but she fosters cats on occasion! She's fostered two so far. Here's a picture of her with Zoe, whom she leash-trained and taught countless tricks.",
+    aboutImage: true,
+  },
+  {
+    // Feedback and critique (checked before testimonials, which also match "feedback")
+    match: /\b(handle|handles|handling|take|takes|taking|receive|receives|respond to|deal with|react to|open to) (feedback|criticism|critiques?|crits?)\b|\bhow (is|does) (she|anjali) (with|at) (feedback|criticism|critiques?)\b/,
+    body: "Feedback is part of the process for Anjali. Architecture school trained her through tough critiques, so she listens openly, asks questions, and iterates quickly.",
+  },
+  {
+    // Years of experience
+    match: /\byears? of experience\b|\bhow (many|much) (years|experience)\b|\bhow long has (she|anjali) been (a |an )?(designer|designing|in design|in ux)\b|\bhow experienced\b/,
+    body: "Anjali has 8+ years of product design experience, including 3+ years leading teams.",
+  },
+  {
+    // Tools (not "AI tools" or "internal tools", which have their own replies)
+    match: /\b(tools?|tool ?kit|toolkit|apps? does she use|design stack)\b|\b(sketch|adobe ?xd|framer|webflow|notion|javascript|jira|confluence|full ?story|google analytics|ga4|usertesting|maze|qualtrics|asana)\b/,
+    unless: /\b(ai|claude|chat ?gpt|gpt|internal|admin)\b/,
+    body: "Here are the tools Anjali works with:",
+    list: [
+      "Design: Figma, Sketch, Adobe, Framer",
+      "Code and prototyping: HTML/CSS, React, JavaScript, CodePen, Storybook, GitHub",
+      "Research: UserTesting, User Interviews, Maze, Qualtrics, Hotjar",
+      "Analytics: Amplitude, FullStory, Google Analytics",
+      "Collaboration: Miro, Notion, Jira, Confluence, Asana",
+      "AI: Claude, ChatGPT, Lovable, Cursor",
+    ],
+  },
+  {
+    // Coding
+    match: /\bcan (she|anjali) (code|program)\b|\bdoes (she|anjali) (code|program|write code|know how to code)\b|\b(coding|programming|front[- ]?end) (skills|experience|background)\b|\bis (she|anjali) technical\b/,
+    body: "Yes! Anjali writes HTML and CSS, prototypes interactions in CodePen, and vibe-coded this portfolio with Claude Code.",
+  },
+  {
+    // Compensation
+    match: /\b(salary|salaries|compensation|pay range|pay expectations?|hourly|day rate|her rates?|rate card)\b|\bhow much (does|would|will) (she|anjali) (charge|cost|make|want|ask for)\b/,
+    body: "Anjali's happy to discuss compensation directly. Reach out to her at ap@anjali-patel.com.",
+  },
+  {
     // Education ("Where did she go to school?"). Avoids bare "school"/"education" so
     // "has she designed for schools?" or "education industry" still reach the work.
-    match: /\b(went|go|going) to (school|college|university|grad school)\b|\b(what|which) (school|schools|college|colleges|university|universities)\b|\b(grad|graduate|design|architecture) school\b|\b(college|university|universities|degrees?|studied|majored|alma mater|master'?s|bachelor'?s|graduated|mba|phd)\b|\b(her|anjali'?s) (education|schooling)\b|\beducation(al)? background\b|\bwhere did (she|anjali) (go|study|learn)\b|\bwhat did (she|anjali) study\b/,
+    match: /\b(went|go|going) to (school|college|university|grad school)\b|\b(what|which) (school|schools|college|colleges|university|universities)\b|\b(grad|graduate|design|architecture) school\b|\b(college|university|universities|degrees?|studied|majored|alma mater|master'?s|bachelor'?s|graduated|mba|phd)\b|\b(her|anjali'?s) (education|schooling)\b|\beducation(al)? background\b|\b(bootcamps?|certifications?|certificates?|certified)\b|\bwhere did (she|anjali) (go|study|learn)\b|\bwhat did (she|anjali) study\b/,
     body: [
       "Anjali holds a Master of Architecture from the University of Cincinnati and a dual bachelor's in Psychology and Urban Studies from the University of California, Irvine.",
       "Architecture taught her to design systems, psychology taught her how people think, and urban studies taught her to design for everyone. Today that shows up in her focus on systems thinking and accessibility, creating workflows, designs, and processes that work for both users and the business.",
@@ -518,6 +653,7 @@ const FUN_ANSWERS = [
     match: /\b(travel(s|ed|ing|led|ling)?|trips?|vacations?|countries|been to|visited|wanderlust)\b/,
     unless: /\b(industry|industries|experience|company|companies|tech|startups?|apps?|platforms?|booking|hospitality|work(ed)?|clients?|projects?|case stud(y|ies))\b/, // "travel industry experience" isn't a fun question
     body: "She loves to travel, she's been to 30 countries so far, that's 12% of the world! A life goal of hers is to visit every country in the world one day.",
+    image: { src: "images/travel-map.svg", darkSrc: "images/travel-map-dark.svg", alt: "World map with lavender pins on the countries Anjali has visited across Asia, Oceania, Africa, Europe, and the Americas" },
   },
 ];
 
@@ -533,12 +669,15 @@ const LEADERSHIP_REPLY = {
 };
 const KEYWORD_PROJECTS = [
   // Companies: LitCharts and CliffsNotes are Learneo products (Course Hero was Learneo's earlier name)
+  { match: /\blit ?charts\b/, projects: [LIT, CLIFFS] },
+  { match: /\bcliffs ?notes\b/, projects: [CLIFFS] },
   { match: /\b(learneo|course ?hero)\b/, projects: [LIT, CLIFFS] },
+  { match: /\b(a\/b|ab|split) tests?\b|\ba\/b testing\b|\bexperiments?\b/, projects: [ABC] },
+  { match: /\b(revenue|how much money)\b|\bmeasur(e|es|ing) (success|impact)\b|\bsuccess metrics\b/, projects: "all", intro: "Over 8 years, Anjali's work has driven $20M+ in revenue. Here are a few case studies with measurable results:" },
   { match: /\bsaas\b/, projects: [LIT, CLIFFS] },
   { match: /\b(chat ?bots?|chat interfaces?|conversational (ui|ux|ai|design|interfaces?))\b/, projects: [LIT] },
   { match: /\b(retail|retailers?)\b/, projects: [ABC] },
   { match: /\b(portfolio|case ?stud(y|ies)|impact|metrics?|kpis?|roi|results|outcomes?)\b/, projects: "all", generic: true }, // "…with frogs" skips this
-  { match: /\bdesign process\b/, projects: [LIT, ABC] },
   { match: /\b(conversions?|growth)\b/, projects: [LIT, ABC] },
   { match: /\b(accessib(le|ility)|a11y|wcag)\b/, projects: "all" },
   { match: /\bresponsive\b/, projects: "all" },
@@ -556,7 +695,7 @@ const KEYWORD_PROJECTS = [
   { match: /\bstakeholders?\b/, projects: "all" },
   { match: /\b(ux|ui|ux\/ui|ui\/ux|user experience|user interface|product design)\b/, projects: "all" }, // all her work is UX
   // Leadership (after "stakeholders" so "stakeholder management" keeps its own answer)
-  { match: /\b(leadership|leader|leading|lead(ing)? (a |the )?(design )?teams?|manag(er|ers|ing|ement)|team size|direct reports?)\b/, projects: "all", after: LEADERSHIP_REPLY, intro: "Here are a few case studies where she's led design:" },
+  { match: /\b(leadership|leader|leading|lead(ing)? (a |the )?(design )?teams?|manag(e|ed|er|ers|ing|ement)|team size|direct reports?|hired|hiring (designers|a team)|present(ed|s|ing)? to (executives|execs|leadership|the ceo|c-suite)|executives?)\b/, projects: "all", after: LEADERSHIP_REPLY, intro: "Here are a few case studies where she's led design:" },
 ];
 
 const STARTER_SUGGESTIONS = [

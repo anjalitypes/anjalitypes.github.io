@@ -621,6 +621,9 @@
     return bad.length > 0 && bad.length >= words.length / 2;
   }
 
+  // Images with a dark-mode version (the travel map) follow the light/dark theme
+  const themedSrc = (img) => (img.darkSrc && document.documentElement.dataset.theme === "dark" ? img.darkSrc : img.src);
+
   // A one-bubble reply plus the starter chips, for questions that aren't about her work
   async function guardReply(body) {
     await addBot(`<div class="bubble"><p>${esc(body)}</p></div>`);
@@ -647,7 +650,7 @@
     // Fun personal questions (favorite song, food, color): a quick casual answer
     const fun = FUN_ANSWERS.find((f) => f.match.test(q) && !(f.unless && f.unless.test(q)));
     if (fun) {
-      await addBot(`<div class="bubble">${[].concat(fun.body).map((t) => `<p>${esc(t)}</p>`).join("")}${fun.list ? `<ul class="bubble__list">${fun.list.map((t) => `<li>${esc(t)}</li>`).join("")}</ul>` : ""}</div>`);
+      await addBot(`<div class="bubble">${[].concat(fun.body).map((t) => `<p>${esc(t).replace(esc(PROFILE.email), `<a href="mailto:${esc(PROFILE.email)}">${esc(PROFILE.email)}</a>`)}</p>`).join("")}${fun.list ? `<ul class="bubble__list">${fun.list.map((t) => `<li>${esc(t)}</li>`).join("")}</ul>` : ""}${fun.aboutImage && PROFILE.aboutImage ? `<img class="about__img" src="${esc(PROFILE.aboutImage.src)}" alt="${esc(PROFILE.aboutImage.alt)}" />` : ""}</div>${fun.image ? `<figure class="reply-img"><img src="${esc(themedSrc(fun.image))}"${fun.image.darkSrc ? ` data-light="${esc(fun.image.src)}" data-dark="${esc(fun.image.darkSrc)}"` : ""} alt="${esc(fun.image.alt)}" /></figure>` : ""}`);
       return setSuggestions(followUps(raw));
     }
 
@@ -655,16 +658,21 @@
     if (GUARD_REPLIES.offTopic.match.test(q)) return guardReply(GUARD_REPLIES.offTopic.body);
 
     // Testimonials: recs, references, reviews, or anything like "what do people say/think about her"
-    const TESTIMONIAL_RE = /\b(testimonials?|reviews?|recs?|recommend(ations?|ed|s)?|references?|referrals?|endorse(ments?|d)?|vouch(es)?|feedback|kudos|praise|quotes about|word of mouth|working with)\b|\b(what|how) (do|does|did|would|will) (her )?(people|others|colleagues|coworkers|co-workers|teammates|managers|clients|engineers|pms|designers|her team|anyone)\b.*\b(say|think|feel|describe)\b|\b(say|said|think|thinks|speak|spoke) (about|of|highly of) (her|anjali)\b|\blike (to )?work(ing)? with( her| anjali)?\b|\bwhat(s|'s| is) (she|anjali) like\b/;
+    const TESTIMONIAL_RE = /\b(testimonials?|reviews?|recs?|recommend(ations?|ed|s)?|references?|referrals?|endorse(ments?|d)?|vouch(es)?|feedback|kudos|praise|quotes about|word of mouth|working with|team player|collaborative)\b|\b(what|how) (do|does|did|would|will) (her )?(people|others|colleagues|coworkers|co-workers|teammates|managers|clients|engineers|pms|designers|her team|anyone)\b.*\b(say|think|feel|describe)\b|\b(say|said|think|thinks|speak|spoke) (about|of|highly of) (her|anjali)\b|\blike (to )?work(ing)? with( her| anjali)?\b|\bwhat(s|'s| is) (she|anjali) like\b/;
+    // "Why should we hire her?": the pitch, then what people say about her
+    if (/\bwhy (should|would|do) (we|i|you|anyone|someone|a company) (hire|choose|pick|consider) (her|anjali)\b|\bwhy hire (her|anjali)\b|\bwhy (her|anjali)\??$|\bwhat (does|would|can) (she|anjali) bring\b|\bwhat value (does|would|can) (she|anjali)\b|\bconvince me\b|\b(sell|pitch) (me )?(on )?(her|anjali)\b/.test(q)) {
+      await addBot(`<div class="bubble"><p>${esc(HIRE_PITCH)}</p></div><div class="bubble">Here's what people who've worked with Anjali have to say:</div>${quotesHTML()}`, { delay: 800 });
+      return setSuggestions(followUps(raw));
+    }
     if (TESTIMONIAL_RE.test(q)) {
       await addBot(`<div class="bubble">Here's what people who've worked with Anjali have to say:</div>${quotesHTML()}`, { delay: 800 });
       return setSuggestions(followUps(raw));
     }
 
     // Availability: her work history, then how to reach her
-    if (/\b(open to (work|new (roles|opportunities)|opportunities)|availab(le|ility)|looking for (a )?(new )?(role|job|work))\b/.test(q)) {
-      await addBot(`${timelineHTML()}
-        <div class="bubble"><p>Reach out to Anjali to learn more: <a href="mailto:${esc(PROFILE.email)}">${esc(PROFILE.email)}</a></p></div>`);
+    const LOOKING_FOR_RE = /\b(open to (work|new (roles|opportunities)|opportunities|contract|freelance|remote|hybrid|full[- ]?time|part[- ]?time)|availab(le|ility)|looking for (a )?(new )?(role|job|work|position|opportunit(y|ies))|full[- ]?time|part[- ]?time|contract (work|roles?|positions?|to hire)|remote|hybrid|on[- ]?site|in[- ]office|start date|notice period|when can (she|anjali) start|on the market|job (hunting|searching|search))\b|\bwhat (role|roles|kind of (role|company|companies)|type of (role|company)|companies) (is|does|would) (she|anjali)\b|\bwhat (is|are) (she|anjali) looking for\b/;
+    if (LOOKING_FOR_RE.test(q)) {
+      await addBot(`<div class="bubble"><p>${esc(LOOKING_FOR).replace(esc(PROFILE.email), `<a href="mailto:${esc(PROFILE.email)}">${esc(PROFILE.email)}</a>`)}</p></div>`);
       return setSuggestions(followUps(raw));
     }
 
@@ -681,7 +689,8 @@
       return setSuggestions(followUps(raw));
     }
 
-    if (/\b(resume|résumé|cv)\b|\bcurrent(ly)? (role|job|position|title|company|employer)\b/.test(q)) {
+    const WORK_HISTORY_RE = /\bwhere (does|is) (she|anjali) (work|working)( now)?\b|\bwhere (has|did) (she|anjali) work(ed)?\b|\b(last|previous|past|most recent) (job|role|company|employer|position)s?\b|\bwhat('s| is) her (job )?title\b|\bis (she|anjali) senior\b|\b(work|career|job|employment) history\b/;
+    if (/\b(resume|résumé|cv)\b|\bcurrent(ly)? (role|job|position|title|company|employer)\b/.test(q) || WORK_HISTORY_RE.test(q)) {
       if (PROFILE.resume) {
         await addBot(`<div class="bubble">Here's Anjali's resume — open it up for a closer look or download a copy.</div>${resumeCardHTML()}`);
       } else {
@@ -695,7 +704,7 @@
       return setSuggestions(followUps(raw));
     }
 
-    if (/\b(contact|email|reach|hire|touch|linkedin)\b/.test(q)) {
+    if (/\b(contact|email|reach|hire|touch|linkedin|phone|calls?|schedule|calendly|meeting)\b/.test(q)) {
       await addBot(`<div class="bubble"><p>The best way to reach Anjali is <a href="mailto:${esc(PROFILE.email)}">${esc(PROFILE.email)}</a>.</p>
         <div class="linkrow">${PROFILE.links.map((l) => /resume/i.test(l.label)
           ? `<button type="button" class="btn btn--ghost btn--sm" data-view-resume>Resume</button>`
@@ -722,6 +731,13 @@
       return setSuggestions(followUps(raw));
     }
 
+    // An industry she hasn't worked in yet: what transfers, plus her case studies
+    const industry = NEW_INDUSTRIES.find(([, re]) => re.test(q));
+    if (industry) {
+      await addBot(`<div class="bubble">${esc(NEW_INDUSTRY_REPLY(industry[0]))}</div>${cardsHTML(PROJECTS)}`, { delay: 900 });
+      return setSuggestions(followUps(raw));
+    }
+
     if (/^(yes|yeah|yep|sure|ok|okay)\b/.test(q)) {
       // Only a yes to "Want to see her case studies?" (or the "Yes, show me" button) shows them
       const lastBot = [...thread.querySelectorAll(".msg--bot")].at(-1);
@@ -732,7 +748,7 @@
       return guardReply("Happy to help! What would you like to know about Anjali's work?");
     }
 
-    if (/\b(best|featured|highlight|top|favorite)\b/.test(q)) {
+    if (/\b(best|featured|highlights?|top|proud|favou?rite (projects?|case stud(y|ies)|work|pieces?))\b/.test(q)) {
       const list = PROJECTS.filter((p) => p.featured);
       await addBot(`<div class="bubble">Here are a few she's most proud of:</div>${cardsHTML(list)}`, { delay: 900 });
       return setSuggestions(followUps(raw));
@@ -1199,6 +1215,7 @@
     const theme = document.documentElement.dataset.theme === "dark" ? "light" : "dark";
     document.documentElement.dataset.theme = theme;
     try { localStorage.setItem("theme", theme); } catch {}
+    document.querySelectorAll("img[data-dark]").forEach((img) => { img.src = img.dataset[theme]; });
     syncThemeButton();
   });
   syncThemeButton();
