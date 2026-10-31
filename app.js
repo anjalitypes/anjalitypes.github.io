@@ -729,7 +729,7 @@
         <figcaption><span><strong>${esc(topic.quote.name)}</strong><span>${esc(topic.quote.title)}</span></span></figcaption>
       </figure></div></div>` : "";
       await addBot(`<div class="bubble"><p>${linked(topic.body)}</p></div>${imgs(topic)}${quote}
-        ${topic.cards ? cardsHTML(PROJECTS.filter((p) => topic.cards.includes(p.id))) : ""}
+        ${topic.cards ? cardsHTML(topic.cards.map((id) => PROJECTS.find((p) => p.id === id))) : ""}
         ${topic.more ? `<div class="bubble"><p>${esc(topic.more.body)}</p></div>${imgs(topic.more)}` : ""}
         ${topic.cards ? "" : relatedHTML(topic)}`, { delay: 800 });
       return setSuggestions(followUps(raw));

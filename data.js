@@ -374,6 +374,20 @@ const LIT = "litcharts-ai", CLIFFS = "cliffsnotes-design-system", ABC = "abc-pro
 
 const SPECIAL_TOPICS = [
   {
+    id: "accessibility",
+    match: /\baccessib(le|ility)\b|\ba11y\b|\bwcag\b|\bscreen ?readers?\b|\binclusive design\b|\bcolou?r contrast\b/i,
+    chip: "Accessibility",
+    body: "Yes! Accessibility is part of how Anjali designs, not a final check. At LitCharts and CliffsNotes, she built accessibility into the design system, from contrast-checked color tokens to WCAG-compliant components. Even this portfolio is contrast-checked, has image descriptions, and can be read aloud.",
+    cards: [CLIFFS, LIT, ABC], // the CliffsNotes design system first
+  },
+  {
+    id: "design systems",
+    match: /\bdesign ?systems?\b|\bcomponent (librar(y|ies)|systems?)\b|\b(design )?tokens?\b|\bui kits?\b|\bpattern librar(y|ies)\b|\bstorybook\b/i,
+    chip: "Design systems",
+    body: "Absolutely, design systems are one of Anjali's specialties. She's built three from the ground up and contributed to a fourth at Everyday Electric. At LitCharts, she led the migration from Sketch to Figma and built a system with tokens, variables, components, and documentation, then adapted it into CliffsNotes' design system, cutting build time by 20–30%. She also built the abc carpet & home design system as their first product design hire.",
+    cards: [CLIFFS, LIT], // CliffsNotes system first, then the LitCharts component system
+  },
+  {
     id: "how she works",
     match: /\bdesign process\b|\b(her|anjali'?s) (process|workflow|approach)\b|\bhow (does|do|would) (she|anjali) (work|approach|tackle|start|prioriti[sz]e|collaborate|partner|handle conflict|resolve conflict)\b|\bwork(s|ing)? with (engineers|engineering|developers|devs|product managers|pms|product|stakeholders)\b|\b(write|writes|writing) specs\b|\b(agile|scrum|sprints?)\b|\b(usability test(s|ing)?|user interviews?|interviews? with users|user testing)\b|\bconflict with stakeholders\b|\bhow fast\b/,
     chip: "How she works",
@@ -577,7 +591,7 @@ const FUN_ANSWERS = [
   },
   {
     // Site help: accessibility, read aloud, dark mode
-    match: /\bis (this|the) (site|website|page|portfolio) accessible\b|\bscreen readers?\b|\b(site|website) accessibility\b/,
+    match: /\bis (this|the) (site|website|page|portfolio) accessible\b|\b(site|website) accessibility\b/,
     body: "Yes! Colors are contrast-checked, every image has a description, and each reply has a Listen button to hear it read aloud.",
   },
   {
