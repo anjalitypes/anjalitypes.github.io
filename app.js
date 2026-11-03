@@ -631,7 +631,8 @@
   }
 
   async function respond(raw) {
-    const q = raw.trim().toLowerCase().replace(/[’‘]/g, "'"); // phones type curly apostrophes
+    const q = raw.trim().toLowerCase().replace(/[’‘]/g, "'") // phones type curly apostrophes
+      .replace(/\bfav(e|s|es|ourite|ourites)?\b/g, "favorite"); // "fav color?", "fave food", "favourite"
 
     // Filler like "lol", "hmm", "123", "test": a friendly nudge instead of a search
     if (/^(lol+|lmao|haha+|hehe+|hm+|test(ing)?|\d+|idk|meh|wow|cool|nice|neat)[.!?]*$/.test(q)) return guardReply("Happy to help! What would you like to know about Anjali's work?");
@@ -653,7 +654,7 @@
     // Fun personal questions (favorite song, food, color): a quick casual answer
     const fun = FUN_ANSWERS.find((f) => f.match.test(q) && !(f.unless && f.unless.test(q)));
     if (fun) {
-      await addBot(`<div class="bubble">${[].concat(fun.body).map((t) => `<p>${esc(t).replace(esc(PROFILE.email), `<a href="mailto:${esc(PROFILE.email)}">${esc(PROFILE.email)}</a>`)}</p>`).join("")}${fun.list ? `<ul class="bubble__list">${fun.list.map((t) => `<li>${esc(t)}</li>`).join("")}</ul>` : ""}${fun.aboutImage && PROFILE.aboutImage ? `<img class="about__img" src="${esc(PROFILE.aboutImage.src)}" alt="${esc(PROFILE.aboutImage.alt)}" />` : ""}</div>${fun.image ? `<figure class="reply-img"><img src="${esc(themedSrc(fun.image))}"${fun.image.darkSrc ? ` data-light="${esc(fun.image.src)}" data-dark="${esc(fun.image.darkSrc)}"` : ""} alt="${esc(fun.image.alt)}" /></figure>` : ""}`);
+      await addBot(`<div class="bubble">${[].concat(fun.body).map((t) => `<p>${esc(t).replace(esc(PROFILE.email), `<a href="mailto:${esc(PROFILE.email)}">${esc(PROFILE.email)}</a>`)}</p>`).join("")}${fun.list ? `<ul class="bubble__list">${fun.list.map((t) => `<li>${esc(t)}</li>`).join("")}</ul>` : ""}${fun.aboutImage && PROFILE.aboutImage ? `<img class="about__img" src="${esc(PROFILE.aboutImage.src)}" alt="${esc(PROFILE.aboutImage.alt)}" />` : ""}</div>${fun.timeline ? timelineHTML() : ""}${fun.image ? `<figure class="reply-img"><img src="${esc(themedSrc(fun.image))}"${fun.image.darkSrc ? ` data-light="${esc(fun.image.src)}" data-dark="${esc(fun.image.darkSrc)}"` : ""} alt="${esc(fun.image.alt)}" /></figure>` : ""}`);
       return setSuggestions(followUps(raw));
     }
 

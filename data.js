@@ -665,8 +665,10 @@ const FUN_ANSWERS = [
   },
   {
     // Years of experience
-    match: /\byears? of experience\b|\bhow (many|much) (years|experience)\b|\bhow long has (she|anjali) been (a |an )?(designer|designing|in design|in ux)\b|\bhow experienced\b/,
-    body: "Anjali has 8+ years of product design experience, including 3+ years leading teams.",
+    match: /\byears? of (work )?(exp|epx)\w*\b|\b(total|overall|how (many|much|long))\b.*\b(years|(work )?(exp|epx)\w*)\b|\bhow long has (she|anjali) been (a |an )?(designer|designing|in design|in ux|working)\b|\bhow experienced\b/,
+    unless: /\b(with|in|at|doing|using)\b(?!.*\b(total|overall)\b)/, // "experience with AI / in fintech" goes to that topic
+    body: "Anjali has 8+ years of product design experience, including 3+ years leading teams. Here's a look at her recent work experience:",
+    timeline: true,
   },
   {
     // Tools (not "AI tools" or "internal tools", which have their own replies)
